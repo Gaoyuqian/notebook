@@ -35,13 +35,26 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.main-container {
+    min-width: 100%;
+    min-height: 100%;
+}
+
 .footer {
     position: fixed;
     bottom: 0;
     left: 0;
 }
 
-.div {
+.footer-div {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+}
+
+.banner-div {
     position: relative;
     top: 0;
     left: 0;
