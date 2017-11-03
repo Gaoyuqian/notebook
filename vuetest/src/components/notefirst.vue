@@ -20,7 +20,7 @@ export default {
     data() {
         return {
             bannerTitle: ['昨天', '今天'],
-            footerTitle: ['记账', '统计']
+            footerTitle: ['统计', '统计']
         }
     },
     mounted() {
@@ -38,6 +38,8 @@ export default {
 .main-container {
     min-width: 100%;
     min-height: 100%;
+    position: relative;
+    padding-top: 100px;
 }
 
 .footer {
@@ -55,6 +57,7 @@ export default {
 }
 
 .banner-div {
+    z-index: 100;
     position: relative;
     top: 0;
     left: 0;

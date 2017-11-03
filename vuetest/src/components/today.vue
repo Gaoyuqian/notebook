@@ -1,44 +1,56 @@
 <template>
     <div class='main-container'>
-        <div class='box-select' v-show='!form.main'>
-            <div v-for='item in classArray' :class='[item,"content"]' @click='itemClick(item)'></div>
-        </div>
         <transition name="custom-classes-transition" enter-active-class="animated slideInRight" leave-active-class="animated slideOutRight">
-            <div class='form-main' v-show='form.main'>
-                <div class='form-for-eat form-box' v-show='form.eat'>
-                    <label for="" class='eat-label form-label'>123</label>
-                    <input type="text" class='eat-input form-input' placeholder="" maxlength="10">
-                </div>
-                <div class='form-for-use form-box' v-show='form.use'>use</div>
-                <div class='form-for-clothes form-box' v-show='form.clothes'>clothes</div>
-                <div class='form-for-walk form-box' v-show='form.walk'>walk</div>
+            <div class='box-select' v-if='!mainShow'>
+                <div v-for='item in classArray' :class='[item,"content"]' @click='itemClick(item)'></div>
             </div>
+        </transition>
+
+        <transition name="custom-classes-transition" enter-active-class="animated slideInLeft" leave-active-class="animated slideOutLeft">
+            <edit :checkSelect='form' v-if='form.eat' @hidden='back'></edit>
+        </transition>
+        <transition name="custom-classes-transition" enter-active-class="animated slideInLeft" leave-active-class="animated slideOutLeft">
+            <edit :checkSelect='form' v-if='form.use' @hidden='back'></edit>
+        </transition>
+        <transition name="custom-classes-transition" enter-active-class="animated slideInLeft" leave-active-class="animated slideOutLeft">
+            <edit :checkSelect='form' v-if='form.clothes' @hidden='back'></edit>
+        </transition>
+        <transition name="custom-classes-transition" enter-active-class="animated slideInLeft" leave-active-class="animated slideOutLeft">
+            <edit :checkSelect='form' v-if='form.walk' @hidden='back'></edit>
         </transition>
     </div>
 </template>
 
 <script>
-import 'animate.css'
+import 'animate.css';
+import edit from './children/edit';
 export default {
     data() {
         return {
             classArray: ['eat', 'use', 'clothes', 'walk'],
             form: {
-                main: false,
                 eat: false,
                 use: false,
                 clothes: false,
                 walk: false,
-            }
+            },
+            mainShow: false,
         }
     },
+    components: { edit },
     methods: {
+        back: function() {
+            this.mainShow = false;
+            this.changeBooleanForObject(this.form, false);
+        },
         itemClick: function(item) {
+            this.changeBooleanForObject(this.form, false);
+            this.mainShow = true;
             switch (item) {
-                case 'eat': this.changeBooleanForObject(this.form, false); this.changeBooleanForObject(this.form, true, ['eat', 'main']); break;
-                case 'use': this.changeBooleanForObject(this.form, false); this.changeBooleanForObject(this.form, true, ['use', 'main']); break;
-                case 'clothes': this.changeBooleanForObject(this.form, false); this.changeBooleanForObject(this.form, true, ['clothes', 'main']); break;
-                case 'walk': this.changeBooleanForObject(this.form, false); this.changeBooleanForObject(this.form, true, ['walk', 'main']); break;
+                case 'eat': this.changeBooleanForObject(this.form, true, 'eat'); break;
+                case 'use': this.changeBooleanForObject(this.form, true, 'use'); break;
+                case 'clothes': this.changeBooleanForObject(this.form, true, 'clothes'); break;
+                case 'walk': this.changeBooleanForObject(this.form, true, 'walk'); break;
             }
         },
         changeBooleanForObject: function(obj, boolean, arr) {//批量处理对象中的key 使之变为其他boolean
@@ -67,31 +79,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-label {
-    color: black;
-    font-size: 60px;
-}
-
-.form-input {
-    background: rgba(255, 255, 255, 0);
-    color: pink;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    height: 90px;
-    width: 50%;
-    border-bottom: 1px solid black; // border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-box>* {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .content {
     width: 330px;
     height: 330px;
@@ -101,23 +88,10 @@ export default {
 
 .box-select {
     width: 100%;
-    margin-top: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-}
-
-// label,
-// input {
-//     flex: 1;
-//     display: flex;
-//     align-items: center;
-//     font-size: 28px;
-// }
-::-webkit-input-placeholder {
-    color: pink;
-    font-size: 28px;
 }
 </style>
 
