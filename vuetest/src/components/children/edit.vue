@@ -12,125 +12,140 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            money: '',
-            text: '',
-            dataReport: {},
-            dataArray: [],
-            count: '',
-        }
-    },
-    props: ['checkSelect'],
+  data() {
+    return {
+      money: "",
+      text: "",
+      username: ""
+    };
+  },
+  props: ["checkSelect"],
 
-    mounted() {
-        this.dataArray = JSON.parse(localStorage.getItem('data')) || [];
-        this.count = parseInt(localStorage.getItem('count')) || 1;
-        console.log(this.dataArray, this.count);
+  mounted() {
+    this.username = sessionStorage.getItem("username");
+  },
+  methods: {
+    submitEat: function() {
+      if (!this.money) {
+        return;
+      }
+      const dataForQueryList = {
+        money: this.money,
+        text: this.text,
+        username: this.username,
+        datetime: this.getToday(),
+        type: this.getTrueItem(this.checkSelect)
+      };
+      console.log(dataForQueryList);
+      this.$http.post("http://127.0.0.1:9999/querylist",dataForQueryList).then(res => {
+        res.body.resCode === "0"
+          ? (() => {
+              console.log(res.body.resMsg);
+              alert(res.body.resMsg);
+              //   this.$router.push("/index/today");
+              this.back();
+            })()
+          : (() => {
+              alert(JSON.stringify(res.body.resMsg));
+            })();
+      });
     },
-    methods: {
-        submitEat: function() {
-            if (!this.money) {
-                return;
-            }
-            //赋值
-            this.dataReport.date = this.getToday();
-            this.dataReport.money = this.money;
-            this.dataReport.text = this.text;
-            this.dataReport.type = this.getTrueItem(this.checkSelect);
-            this.dataReport.index = this.count++;
-            //over 赋值
-            this.back();
-            this.dataArray.push(this.dataReport);
-            localStorage.setItem('data', JSON.stringify(this.dataArray));
-            localStorage.setItem('count', parseInt(this.count));
-            console.log(this.dataReport, this.dataArray);
-        },
-        back: function() {
-            this.money = this.text = '';
-            this.$emit('hidden');
-        },
-        getToday: function() {
-            var date = new Date();
-            const year = '年';
-            const month = '月';
-            const day = '日';
-            return date.getFullYear() + '年' + (date.getMonth() + 1) + '月' + date.getDate() + '日';
-        },
-        getTrueItem: function(obj) {
-            if (Object.prototype.toString.call(obj) === '[object Object]') {
-                for (let item in obj) {
-                    return obj[item] ? item : '';
-                }
-            }
+    back: function() {
+      this.money = this.text = "";
+      this.$emit("hidden");
+    },
+    getToday: function() {
+      var date = new Date();
+      const year = "年";
+      const month = "月";
+      const day = "日";
+      return (
+        date.getFullYear() +
+        "年" +
+        (date.getMonth() + 1) +
+        "月" +
+        date.getDate() +
+        "日"
+      );
+    },
+    getTrueItem: function(obj) {
+      let trueItem = "";
+      if (Object.prototype.toString.call(obj) === "[object Object]") {
+        for (let item in obj) {
+          trueItem = obj[item] ? item : trueItem;
+          // if (obj[item]) {
+          //     trueItem = item;
+          // }
         }
-
-    },
-}
+      }
+      return trueItem;
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .form-button {
-    width: 180px;
-    background: skyblue;
-    height: 180px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    margin: 100px;
+  width: 180px;
+  background: skyblue;
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: 100px;
 }
 
 ::-webkit-input-placeholder {
-    color: pink;
-    font-size: 28px;
+  color: pink;
+  font-size: 28px;
 }
 
 .form-textarea {
-    border: 1px solid #888888;
-    margin: 10px; // width: 100%;
-    color: pink;
-    font-size: 60px;
-    position: relative;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
+  border: 1px solid #888888;
+  margin: 10px; // width: 100%;
+  color: pink;
+  font-size: 60px;
+  position: relative;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
-.form-box>* {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.form-box > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-box {
-    background: white;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .form-input {
-    font-weight: 800;
-    font-size: 32px;
-    background: rgba(255, 255, 255, 0);
-    color: pink;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    height: 90px;
-    width: 50%;
-    border-bottom: 1px solid black; // border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  font-weight: 800;
+  font-size: 32px;
+  background: rgba(255, 255, 255, 0);
+  color: pink;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  height: 90px;
+  width: 50%;
+  border-bottom: 1px solid black; // border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .form-label {
-    color: black;
-    font-size: 60px;
-    margin-top: 60px;
+  color: black;
+  font-size: 60px;
+  margin-top: 60px;
 }
 </style>
 
