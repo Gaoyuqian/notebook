@@ -2,6 +2,7 @@
     <div class="main-content-index">
         <div class="enter-zhuce enter" @click='goPage(0)'>注册</div>
         <div class="enter-login enter" @click='goPage(1)'>登录</div>
+        <div class="version">version 1.0.0</div>
     </div>
 </template>
 <script>
@@ -28,6 +29,13 @@ export default {
   height: 100%;
   width: 100%;
   background: url("../assets/WechatIMG24340.png") no-repeat;
+  .version {
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 40px;
+  }
   img {
     width: 100%;
     height: 100%;

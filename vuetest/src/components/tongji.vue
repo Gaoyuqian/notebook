@@ -1,6 +1,6 @@
 <template>
     <div class='main-content'>
-        <div class="list" v-for='(key,val) in formatDataList'>
+        <div class="list" v-for='(key,val) in formatDataList'  v-if='!dataIsNull(formatDataList)'>
             <div class="list-chilren">
                 <div class="list-title">
                     <div class="date">{{val}}</div>
@@ -17,6 +17,9 @@
                 </div>
             </div>
         </div>
+        <div class="no-list" v-if='dataIsNull(formatDataList)'>
+          啥也没记呢还
+        </div>
     </div>
 </template>
 <script>
@@ -32,12 +35,14 @@ export default {
         res.body.resCode === "0"
           ? (() => {
               this.formatDataList = res.body.data;
+              console.log(Object.keys(this.formatDataList));
             })()
           : (() => {
               alert(JSON.stringify(res.body.resMsg));
             })();
       });
     // 需要一个二维数组
+    // 缺少条件判断为空
   },
   data() {
     return {
@@ -52,6 +57,17 @@ export default {
     };
   },
   methods: {
+    dataIsNull: function(obj) {
+      const key = Object.keys(obj);
+      console.log(obj, key);
+      if (key.length === "0") {
+        return true;
+      } else if (this.formatDataList[key[0]] === "") {
+        return true;
+      } else {
+        return false;
+      }
+    },
     getToday: function() {
       var date = new Date();
       const year = "年";

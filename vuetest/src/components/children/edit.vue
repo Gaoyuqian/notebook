@@ -1,6 +1,6 @@
 <template>
     <div class='form-box'>
-        <label for="" class='eat-label form-label'>123</label>
+        <label for="" class='eat-label form-label'>cost</label>
         <input type="num" class='eat-input form-input' placeholder="" maxlength="10" v-model='money'>
         <label for="" class='eat-label form-label'>备注</label>
         <textarea name="" id="" multiline class='form-textarea' v-model='text'></textarea>
@@ -37,18 +37,20 @@ export default {
         type: this.getTrueItem(this.checkSelect)
       };
       console.log(dataForQueryList);
-      this.$http.post("http://127.0.0.1:9999/querylist",dataForQueryList).then(res => {
-        res.body.resCode === "0"
-          ? (() => {
-              console.log(res.body.resMsg);
-              alert(res.body.resMsg);
-              //   this.$router.push("/index/today");
-              this.back();
-            })()
-          : (() => {
-              alert(JSON.stringify(res.body.resMsg));
-            })();
-      });
+      this.$http
+        .post("http://127.0.0.1:9999/querylist", dataForQueryList)
+        .then(res => {
+          res.body.resCode === "0"
+            ? (() => {
+                console.log(res.body.resMsg);
+                alert(res.body.resMsg);
+                //   this.$router.push("/index/today");
+                this.back();
+              })()
+            : (() => {
+                alert(JSON.stringify(res.body.resMsg));
+              })();
+        });
     },
     back: function() {
       this.money = this.text = "";
@@ -85,14 +87,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form-button {
-  width: 180px;
+  width: 130px;
   background: skyblue;
-  height: 180px;
+  height: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%;
-  margin: 100px;
+  border-radius: 20px;
+  margin: 50px;
 }
 
 ::-webkit-input-placeholder {

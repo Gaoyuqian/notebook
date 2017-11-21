@@ -26,13 +26,11 @@ export default {
   mounted() {},
   methods: {
     jumpPage: function(a) {
-      console.log(a);
       const urlObj = {
         记录: "./today",
         今天都干了啥: "./tongji",
         总统计: "./tongjitotal"
       };
-      console.log(urlObj[a]);
       this.$router.push(urlObj[a]);
     }
   }
@@ -40,6 +38,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.test {
+  height: 100px;
+  position: absolute;
+  width: 100%;
+}
 .main-container {
   padding-top: 100px;
 }
