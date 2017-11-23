@@ -32,23 +32,26 @@ export default {
       aaa: true,
       bbb: false,
       open: "开启蓝牙",
-      text: "开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙开启蓝牙"
+      text: "点击了按钮"
     };
   },
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
-      this.$refs.alert.alertShow = true;
-      this.$refs.alert.alertInfo = this.open;
-      this.$refs.alert.duringAlert(10000);
+      this.showAlert(this.open,10000);
     }
   },
   methods: {
     clickHandle: function(a) {
-      console.log(a);
+      this.showAlert(this.text,1000);      
     },
     clickHandleRadiu: function() {
       this.aaa = !this.aaa;
+    },
+    showAlert: function(text,time) {
+      this.$refs.alert.alertShow = true;
+      this.$refs.alert.alertInfo = text;
+      this.$refs.alert.duringAlert(time);
     }
   },
   mounted() {}
