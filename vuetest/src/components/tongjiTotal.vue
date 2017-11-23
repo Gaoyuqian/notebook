@@ -23,11 +23,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
-  background: #bbe;
+  background:rgb(232,122,144);
   color: #fff;
 }
 .info-box {
-  background: rgb(150, 222, 232);
+  background: rgb(219, 77, 109);
   // background: skyblue;
   width: 100%;
   display: flex;

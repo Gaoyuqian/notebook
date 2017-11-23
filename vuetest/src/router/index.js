@@ -8,6 +8,8 @@ import tongji from '@/components/tongji'
 import zhuce from '@/components/zhuce'
 import login from '@/components/login'
 import tongjitotal from '@/components/tongjiTotal'
+import test from '@/Venus/test'
+
 
 
 
@@ -18,6 +20,10 @@ export default new Router({
     {
       path:'/',
       component:firstPage,
+    },
+    {
+      path:'/test',
+      component:test,
     },
     {
       path: '/index',

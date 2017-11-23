@@ -1,6 +1,6 @@
 <template>
     <div class='main-content'>
-        <div class="list" v-for='(key,val) in formatDataList'  v-if='!dataIsNull(formatDataList)'>
+        <div class="list" v-for='(key,val) in formatDataList' v-if='!dataIsNull(formatDataList)'>
             <div class="list-chilren">
                 <div class="list-title">
                     <div class="date">{{val}}</div>
@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-  mounted() {
+  created() {
     const dataForQueryList = {
       username: sessionStorage.getItem("username"),
       datetime: this.getToday()
@@ -35,7 +35,7 @@ export default {
         res.body.resCode === "0"
           ? (() => {
               this.formatDataList = res.body.data;
-              console.log(Object.keys(this.formatDataList));
+              // console.log(this.dataIsNull(this.formatDataList));
             })()
           : (() => {
               alert(JSON.stringify(res.body.resMsg));
@@ -59,14 +59,10 @@ export default {
   methods: {
     dataIsNull: function(obj) {
       const key = Object.keys(obj);
-      console.log(obj, key);
-      if (key.length === "0") {
-        return true;
-      } else if (this.formatDataList[key[0]] === "") {
-        return true;
-      } else {
-        return false;
+      if(this.formatDataList[key]&&this.formatDataList[key][0]){
+        return false
       }
+      return true
     },
     getToday: function() {
       var date = new Date();
