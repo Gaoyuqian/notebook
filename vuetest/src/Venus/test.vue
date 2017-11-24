@@ -38,17 +38,18 @@ export default {
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
-      this.showAlert(this.open,10000);
+      // this.$message({message:this.text,canclose:true});
+      this.showAlert(this.open, 10000);
     }
   },
   methods: {
     clickHandle: function(a) {
-      this.showAlert(this.text,1000);      
+      this.showAlert(this.text, 1000);
     },
     clickHandleRadiu: function() {
       this.aaa = !this.aaa;
     },
-    showAlert: function(text,time) {
+    showAlert: function(text, time) {
       this.$refs.alert.alertShow = true;
       this.$refs.alert.alertInfo = text;
       this.$refs.alert.duringAlert(time);

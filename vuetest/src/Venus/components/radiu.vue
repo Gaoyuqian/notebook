@@ -54,7 +54,6 @@ export default {
   },
   mounted() {
     this.enter_animation = this.disabled;
-    console.log(this.value);
   }
 };
 </script>
@@ -73,7 +72,7 @@ export default {
   width: 3rem;
   border-radius: 1rem;
   position: relative;
-  border: 2px solid #888;
+  border: 4px solid #888;
   display: flex;
   justify-content: center;
   box-sizing: border-box;

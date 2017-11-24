@@ -8,7 +8,9 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
 
-
+// Vue.prototype.$message = function(obj){
+//   console.log(obj);  
+// }
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

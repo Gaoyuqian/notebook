@@ -33,6 +33,7 @@ export default {
       e.stopPropagation();
     },
     duringAlert: function(time) {
+      time && clearTimeout(time);
       var time = setTimeout(() => {
         this.alertShow = false;
         this.alertInfo = "";

@@ -2,13 +2,13 @@
 <!--大中小吧,-->
 
 <template>
-  <button :disabled='disabled' :class="[cls]" @click='clickHandle'><slot></slot></button>
+  <button :disabled='disabled' :class="[cls]" @click='clickHandle'><span class='v-btn-span'><slot></slot></span></button>
 </template>
 <script>
 export default {
   methods: {
     clickHandle: function(evt) {
-        this.$emit('click',evt);
+      this.$emit("click", evt);
     }
   },
   props: {
@@ -37,29 +37,21 @@ export default {
   data() {
     return {};
   },
-  mounted() {
-    console.log(
-      this.radius,
-      this.disabled,
-      this.type,
-      this.cls,
-      this.$slots.default
-    );
-  }
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
 .v-btn {
   height: 2rem;
-  display: flex;
-  align-items: center;
+  display: block;
   border: none;
   padding: 0;
   margin: 0;
   background: rgba(232, 122, 144, 1);
   color: #fff;
-  justify-content: center;
   box-sizing: border-box;
+  position: relative;
+  text-align: center;
 }
 .v-btn[disabled] {
   background: #888;
