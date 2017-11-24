@@ -65,7 +65,7 @@ export default {
   padding: 0 40px;
 }
 .v-rad-cli-bg {
-  background: rgba(176, 224, 230, 1);
+  background: rgba(176, 224, 230, 1) !important;
 }
 .v-rad {
   height: 1.5rem;
@@ -76,6 +76,7 @@ export default {
   display: flex;
   justify-content: center;
   box-sizing: border-box;
+  background:rgba(255, 255, 255, 1);;
   .v-rad-cli {
     display: inline-block;
     width: 50%;

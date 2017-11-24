@@ -16,6 +16,21 @@
         <radiu v-model='aaa' @click="clickHandleRadiu">{{open}}</radiu>
         <radiu v-model='aaa' @click="clickHandleRadiu">{{open}}</radiu>
     </div>
+    <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
+    </div>
+     <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
+    </div> <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
+    </div> <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
+    </div>
+
       <alertInfo canclose ref='alert'></alertInfo>
 </div>   
 </template>
@@ -24,21 +39,22 @@
 import btna from "./components/button";
 import radiu from "./components/radiu";
 import alertInfo from "./components/alertInfo";
+import inputInfo from "./components/input";
 
 export default {
-  components: { btna, radiu, alertInfo },
+  components: { btna, radiu, alertInfo, inputInfo },
   data() {
     return {
       aaa: true,
       bbb: false,
       open: "开启蓝牙",
-      text: "点击了按钮"
+      text: "点击了按钮",
+      textinfo: "sadfas"
     };
   },
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
-      // this.$message({message:this.text,canclose:true});
       this.showAlert(this.open, 10000);
     }
   },
@@ -61,6 +77,9 @@ export default {
 <style lang="scss" scoped>
 .a {
   margin: 20px 10px;
+}
+.main {
+  background: rgba(111, 222, 111, 1);
 }
 </style>
 

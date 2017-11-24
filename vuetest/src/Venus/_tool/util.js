@@ -1,5 +1,10 @@
 export default{
-    remove:function (arr,inx){
-        console.log('123');
-    }
+     taozi:function(last,day){
+         day--;
+         if(day==--1){
+             console.log(last);
+              return;
+            }
+             return taozi((last+1)*2,day)
+        }
 }
