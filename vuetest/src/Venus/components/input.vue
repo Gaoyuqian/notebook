@@ -11,12 +11,13 @@
   white-space: nowrap;
   align-items: center;
   font-size: 32px;
+  padding: 0 20px;
   .v-input-label {
-    padding: 0 10px;
   }
 }
 .v-input-box-underline {
-  border-bottom: 1px solid #000;
+  border: none;
+  border-bottom: 2px solid #888;
 }
 .v-input {
   width: 100%;
@@ -34,11 +35,15 @@
 .v-input-right {
   text-align: right;
 }
+.v-input-box-isnull {
+  border-color: red;
+}
 </style>
 
 <script>
 //暂不支持前面插入图片吧 以后支持
-// 校验考虑支持，下一版在做
+//校验考虑支持，下一版在做
+//必填选填判断
 export default {
   props: {
     underline: { type: Boolean, default: false },
@@ -61,13 +66,21 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      isNull: !!this.value
+    };
   },
-  watch: {},
+  watch: {
+    value: function() {
+      // if(!!可选){return}
+      this.isNull = !!this.value;
+    }
+  },
   computed: {
     boxCls() {
       var boxCls = ["v-input-box"];
       this.underline && boxCls.push(`v-input-box-underline`);
+      !this.isNull && boxCls.push(`v-input-box-isnull`);//增加选填判断
       return boxCls;
     },
     cls() {

@@ -18,19 +18,26 @@
     </div>
     <div class="a">
       <!-- <span>{{textinfo}}</span> -->
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
      <div class="a">
       <!-- <span>{{textinfo}}</span> -->
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
-    </div> <div class="a">
-      <!-- <span>{{textinfo}}</span> -->
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
-    </div> <div class="a">
-      <!-- <span>{{textinfo}}</span> -->
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' begin='right' ></inputInfo>
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
-
+      <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>
+       <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>   <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>   <div class="a">
+      <!-- <span>{{textinfo}}</span> -->
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>
       <alertInfo canclose ref='alert'></alertInfo>
 </div>   
 </template>
@@ -79,7 +86,7 @@ export default {
   margin: 20px 10px;
 }
 .main {
-  background: rgba(111, 222, 111, 1);
+  // background: rgba(111, 222, 111, 1);
 }
 </style>
 
