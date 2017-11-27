@@ -1,7 +1,8 @@
 <template>
 <div :class='[boxCls]'>
     <label :class='[labCls]' for='v-input' v-if='label'>{{label}}</label>
-  <input :class='[cls]' :maxlength="max" :type='type' :value='value' @input='changeValue' :placeholder="placeholder">    
+  <input :class='[cls]' :maxlength="max" :type='type' :value='value' @input='changeValue' :placeholder="placeholder">
+  <alertInfo canclose ref='alert'></alertInfo>
 </div>
 </template>
 <style lang="scss" scoped>
@@ -43,8 +44,12 @@
 <script>
 //暂不支持前面插入图片吧 以后支持
 //校验考虑支持，下一版在做
+//做校验需要在校验成功之后 调用alertinfo组件显示信息
 //必填选填判断
+import alertInfo from "../components/alertInfo";
+import util from "../_tool/util";
 export default {
+  components: { alertInfo },
   props: {
     underline: { type: Boolean, default: false },
     begin: { type: String, default: "left" },
@@ -63,11 +68,16 @@ export default {
     placeholder: {
       type: String,
       default: ""
+    },
+    verify: {
+      type: Boolean,
+      defalut: false
     }
   },
   data() {
     return {
-      isNull: !!this.value
+      isNull: !!this.value,
+      notTel: false
     };
   },
   watch: {
@@ -80,7 +90,7 @@ export default {
     boxCls() {
       var boxCls = ["v-input-box"];
       this.underline && boxCls.push(`v-input-box-underline`);
-      !this.isNull && boxCls.push(`v-input-box-isnull`);//增加选填判断
+      (!this.isNull || this.notTel) && boxCls.push(`v-input-box-isnull`); //增加选填判断
       return boxCls;
     },
     cls() {
@@ -95,10 +105,23 @@ export default {
   },
   methods: {
     changeValue: function(evt) {
+      let _target = evt.target.value;
       if (this.type === "num") {
-        evt.target.value = evt.target.value.replace(/[^\d]/g, "");
+        _target = _target.replace(/[^\d]/g, "");
       }
-      this.$emit("input", evt.target.value);
+      if (this.type === "tel") {
+        this.notTel = false;
+        if (parseInt(_target.length) >= 11 && !util.checkMobile(_target)) {
+          this.notTel = true;
+          this.showAlert("请输入正确的手机号", 3000);
+        }
+      }
+      this.$emit("input", _target);
+    },
+    showAlert: function(text, time) {
+      this.$refs.alert.alertShow = true;
+      this.$refs.alert.alertInfo = text;
+      this.$refs.alert.duringAlert(time);
     }
   }
 };

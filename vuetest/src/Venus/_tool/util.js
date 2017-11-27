@@ -1,10 +1,10 @@
 export default{
-     taozi:function(last,day){
-         day--;
-         if(day==--1){
-             console.log(last);
-              return;
-            }
-             return taozi((last+1)*2,day)
+    checkMobile: function (value) {
+        let phoneReg = /^(1[3-9]{1}\d{9})$/
+        if (phoneReg.test(value)) {
+          return true
+        } else {
+          return false
         }
+      },
 }
