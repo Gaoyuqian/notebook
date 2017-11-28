@@ -22,6 +22,15 @@
     <div class="a">
       <inputInfo type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
+     <!-- <div class="a"> -->
+       <!-- <select name="" id="">
+         <option value="1">asdfa</option>
+         <option value="1">asdfa</option>
+         <option value="1">asdfa</option>
+         <option value="1">asdfa</option>
+         <option value="1">asdfa</option>         
+       </select> -->
+    <!-- </div> -->
      <div class="a">
       <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
@@ -31,6 +40,15 @@
        <div class="a">
       <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>  
+     <div class="a">
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>  
+     <div class="a">
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>  
+     <div class="a">
+      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+    </div>   
     <!-- alert -->
       <message :msgShow='aaa'>我是一个消息体</message>
       <alertInfo canclose ref='alert'></alertInfo>
