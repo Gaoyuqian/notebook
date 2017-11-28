@@ -71,7 +71,11 @@ export default {
     },
     verify: {
       type: Boolean,
-      defalut: false
+      default: false
+    },
+    options: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -83,6 +87,7 @@ export default {
   watch: {
     value: function() {
       // if(!!可选){return}
+      if (this.options) return;
       this.isNull = !!this.value;
     }
   },
@@ -90,7 +95,8 @@ export default {
     boxCls() {
       var boxCls = ["v-input-box"];
       this.underline && boxCls.push(`v-input-box-underline`);
-      (!this.isNull || this.notTel) && boxCls.push(`v-input-box-isnull`); //增加选填判断
+      if (!this.options) (!this.isNull || this.notTel) && boxCls.push(`v-input-box-isnull`); //增加选填判断
+
       return boxCls;
     },
     cls() {

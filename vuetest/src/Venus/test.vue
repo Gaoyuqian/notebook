@@ -23,7 +23,7 @@
       <inputInfo type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
      <div class="a">
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <div class="a">
       <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
@@ -32,7 +32,9 @@
       <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>  
     <!-- alert -->
+      <message :msgShow='aaa'>我是一个消息体</message>
       <alertInfo canclose ref='alert'></alertInfo>
+      <picker></picker>
 </div>   
 </template>
 
@@ -41,9 +43,11 @@ import btna from "./components/button";
 import radiu from "./components/radiu";
 import alertInfo from "./components/alertInfo";
 import inputInfo from "./components/input";
+import message from "./components/message";
+import picker from "./components/picker";
 
 export default {
-  components: { btna, radiu, alertInfo, inputInfo },
+  components: { btna, radiu, alertInfo, inputInfo, message, picker },
   data() {
     return {
       aaa: true,
@@ -56,7 +60,7 @@ export default {
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
-      this.showAlert(this.open, 10000);
+      // this.showAlert(this.open, 10000);
     }
   },
   methods: {
