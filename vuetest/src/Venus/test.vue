@@ -22,15 +22,22 @@
     <div class="a">
       <inputInfo type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
-     <!-- <div class="a"> -->
-       <!-- <select name="" id="">
+     <div class="a"> 
+       <select name="" id="">
          <option value="1">asdfa</option>
          <option value="1">asdfa</option>
          <option value="1">asdfa</option>
          <option value="1">asdfa</option>
+
          <option value="1">asdfa</option>         
-       </select> -->
-    <!-- </div> -->
+         <option value="1">asdfa</option>         
+         <option value="1">asdfa</option>         
+         <option value="1">asdfa</option>         
+         <option value="1">asdfa</option>         
+         <option value="1">asdfa</option>         
+         <option value="1">asdfa</option>         
+       </select>
+    </div>
      <div class="a">
       <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
