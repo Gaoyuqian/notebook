@@ -115,7 +115,7 @@ export default {
       if (this.type === "num") {
         _target = _target.replace(/[^\d]/g, "");
       }
-      if (this.type === "tel") {
+      if (this.type === "tel") {//改成mobile吧
         this.notTel = false;
         if (parseInt(_target.length) >= 11 && !util.checkMobile(_target)) {
           this.notTel = true;

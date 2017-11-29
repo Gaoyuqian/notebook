@@ -37,7 +37,6 @@
 .v-picker-body {
   width: 100%;
   height: 420px;
-  transform: translateY(-22px);
 }
 .content {
   margin: 30px 0;
@@ -100,21 +99,18 @@ export default {
       evt.preventDefault();
     },
     touchmove: function(evt) {
-      console.log(evt);
       this.endPoint.x = evt.changedTouches[0].clientX;
       this.endPoint.y = evt.changedTouches[0].clientY;
       this.distance = parseInt(this.endPoint.y - this.startPoint.y);
-      console.log(this.distance);
       this.animated(this.distance > 0 ? true : false);
       evt.preventDefault();
     },
     touchend: function(evt) {
       this.distance_copy += this.distance;
       this.distance = 0;
-      console.log(this.distance_copy, this.distance, "123");
+      // console.log(this.distance_copy, this.distance, "123");
     },
     animated: function(type) {
-      console.log(type);
       //上是false 下是true
       // 每个块的高度是 35px
       // 获取根节点font-size
@@ -127,15 +123,16 @@ export default {
       this.offsetY = parseInt(
         this.parentsEle.style.transform.replace(/\(|\)/g, "")
       );
-      if (!type) {
-        console.log(this.distance_copy, this.distance, "asdfs");
-        var totalDistance = this.distance + this.distance_copy;
-        this.parentsEle.style.transform = `translateY(${totalDistance}px)`;
-      } else {
-        var totalDistance = this.distance + this.distance_copy;
-        this.parentsEle.style.transform = `translateY(${totalDistance}px)`;
-      }
-      //判断最大和最小偏移量！！！！！！
+      var totalDistance = this.distance + this.distance_copy;
+      this.parentsEle.style.transform = `translateY(${totalDistance}px)`;
+      /*
+        0.将接收一个数组，作为滑动的数据源。
+        1.初始化状态时，第一个元素应该位于整个body的中间部分，也就是会有一个默认的translateY
+        2.滑动的时候，会有一个滑动界限，也就是如果超出这个界限，将停止滑动
+        3.滑动时以块为单位
+        4.惯性滑动
+        5.选择后记录当前位置？方便下次初始化时，定位到上次滑动的位置
+      */
     }
   }
 };
