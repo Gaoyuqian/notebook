@@ -59,7 +59,8 @@
     <!-- alert -->
       <message :msgShow='aaa'>我是一个消息体</message>
       <alertInfo canclose ref='alert'></alertInfo>
-      <picker></picker>
+      <picker :data='pickertest' v-model='pickerdata'></picker>
+      <div>{{pickerdata}}</div>
 </div>   
 </template>
 
@@ -79,7 +80,13 @@ export default {
       bbb: false,
       open: "开启蓝牙",
       text: "点击了按钮",
-      textinfo: "sadfas"
+      textinfo: "sadfas",
+      pickertest: [
+        { data: ["1", 2, 3, 4, 5, 6], default: 5 },
+        { data: ["1", 2, 3, 4, 5, 6], default: 5 },
+        { data: ["1", 2, 3, 4, 5, 6], default: 5 }
+      ],
+      pickerdata: ""
     };
   },
   watch: {

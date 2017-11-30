@@ -1,11 +1,6 @@
 <template>
    <div class="v-picker-body" @touchend.stop='touchend' @touchstart.stop='touchstart' @touchmove.stop='touchmove'>
-      <div class="content">1</div>
-      <div class="content">2</div>
-      <div class="content">3</div>
-      <div class="content">4</div>
-      <div class="content">5</div>
-      <div class="content">6</div>
+      <div class="content" v-for='key in data.data'>{{key}}</div>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -13,59 +8,11 @@
   width: 100%;
   height: 420px;
 }
-.v-pick-body-box {
-  width: 100%;
-  display: flex;
-}
-.v-picker-sign {
-  width: 100%;
-  height: 70px;
-  background: #888;
-  opacity: 0.7;
-  position: absolute;
-  top: 50%;
-  left: 0%;
-  transform: translate(0, 50%);
-}
 .content {
   font-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.v-picker-relative {
-  position: relative;
-  padding-top: 80px;
-}
-.v-picker-box {
-  width: 100%;
-  height: 500px;
-  position: relative;
-  bottom: 0;
-  left: 0;
-}
-.v-picker-container {
-  overflow: hidden;
-  background: #fff;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
-.v-picker-title {
-  z-index: 99;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 30px;
-  background: #fff;
-  border-top: 1px solid #999;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  border-bottom: 1px solid #999;
 }
 </style>
 <script>
@@ -74,10 +21,8 @@ export default {
     return {
       startPoint: { x: "", y: "" },
       endPoint: { x: "", y: "" },
-      parentsEle: "",
       bodyEle: "",
       distance: 0,
-      // offsetY: 0,
       lastDistance: 0,
       totalDistance: 0,
       selectIndex: 0,
@@ -86,11 +31,13 @@ export default {
   },
   props: {
     part: {
-      boolean: String || Number,
       default: 6
-    }
+    },
+    default: {},
+    data: {}
   },
   mounted() {
+    console.log(this.data.default);
     if (!this.parentsEle) {
       this.parentsEle = document.querySelectorAll(".v-picker-body");
     }
@@ -105,8 +52,10 @@ export default {
       for (var i of this.bodyEle) {
         i.style.height = `${this.partHeight}px`;
       }
-      console.log(this.partHeight, this.$el.clientHeight);
-      this.lastDistance = this.$el.clientHeight / 2;
+      this.lastDistance =
+        this.$el.clientHeight / 2 -
+        this.partHeight *
+          parseInt(this.getIndex(this.data.data, this.data.default));
       const lock = async () => {
         await this.animated();
       };
@@ -114,6 +63,9 @@ export default {
     }, 0);
   },
   methods: {
+    getIndex: function(arr, data) {
+      return arr.indexOf(data);
+    },
     touchstart: function(evt) {
       this.startPoint.x = evt.changedTouches[0].clientX;
       this.startPoint.y = evt.changedTouches[0].clientY;
@@ -131,15 +83,9 @@ export default {
       if (this.totalDistance >= this.$el.clientHeight / 2) {
         //超出上限
         this.totalDistance = this.lastDistance = this.$el.clientHeight / 2;
-        console.log(
-          true,
-          this.totalDistance,
-          this.lastDistance,
-          this.$el.clientHeight / 2
-        );
       } else if (
         this.totalDistance <=
-        this.$el.clientHeight / 2 - this.$el.scrollHeight
+        this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight
       ) {
         //超出下限
         this.totalDistance = this.lastDistance =
@@ -148,7 +94,6 @@ export default {
         //判断在哪个节点
         this.lastDistance += this.distance;
       }
-
       //最后校准
       this.selectIndex = Math.round(
         Math.abs(
@@ -157,16 +102,15 @@ export default {
       );
       this.totalDistance =
         -this.selectIndex * this.partHeight + this.$el.clientHeight / 2;
-      console.log(
-        this.totalDistance,
-        this.selectIndex,
-        this.partHeight,
-        this.$el.clientHeight / 2
-      );
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
       this.$el.style.transition = "transform 0.16s";
       this.distance = 0;
+      this.getData();
       evt.preventDefault();
+    },
+    getData: function() {
+      //告诉父组件第几个元素被选中了
+      this.$emit("input", this.data.data[this.selectIndex]);
     },
     animated: function(type) {
       //上是false 下是true

@@ -1,20 +1,53 @@
 <template>
-  <div class='v-picker-box' @touchend.stop='defaultEvent' @touchstart.stop='defaultEvent' @touchmove.stop='defaultEvent'>
+  <div class='v-picker-box'>
       <div class="v-picker-container">  
         <div class="v-picker-relative">
           <div class="v-picker-sign"></div>
           <div class="v-picker-title">
             <div class="v-picker-cancel">取消</div>
-            <div class="v-picker-submit">完成</div>
+            <div class="v-picker-submit" @click='submitData()'>完成</div>
           </div>
           <div class="v-pick-body-box">
-            <bodyaaa></bodyaaa>
-            <bodyaaa></bodyaaa>          
+            <pickbody v-for='key in data' :data='key' v-model='key.default' :key='keys'></pickbody>
+            <!-- 最好传一个对象，次一点传一个数组，也可以传一个字符串，我们会对字符串进行处理，并看成单一的index 条件     -->
+            <!-- 两种picker 一种联动picker 一种datepicker 目前属于datepicker -->
           </div>
         </div>
     </div>
   </div>
 </template>
+<script>
+import pickbody from "../components/pickerbody";
+export default {
+  data() {
+    return {
+      keys: "1",
+      dataBack: []
+    };
+  },
+  components: { pickbody },
+  props: {
+    data: { default: "" }
+  },
+  methods: {
+    defaultEvent: function(evt) {
+      evt.preventDefault();
+    },
+    submitData: function() {
+      for (let i of this.data) {
+        this.dataBack.push(i.default);
+      }
+      this.$emit("input", this.dataBack);
+      this.dataBack = [];
+    }
+  },
+  mounted() {
+    for (let i of this.data) {
+      if (!i.default) i.default = 0;
+    }
+  }
+};
+</script>
 <style lang="scss" scoped>
 .v-pick-body-box {
   width: 100%;
@@ -32,7 +65,7 @@
 }
 .v-picker-relative {
   position: relative;
-  padding-top: 80px;
+  padding-top: 70px;
 }
 .v-picker-box {
   width: 100%;
@@ -61,23 +94,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: 70px;
   border-bottom: 1px solid #999;
 }
 </style>
-<script>
-import bodyaaa from "../components/pickerbody";
-export default {
-  data() {
-    return {};
-  },
-  components: { bodyaaa },
-  props: {},
-  methods: {
-    defaultEvent: function(evt) {
-      evt.preventDefault();
-    }
-  },
-  mounted() {}
-};
-</script>
