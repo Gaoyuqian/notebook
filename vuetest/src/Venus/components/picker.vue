@@ -35,7 +35,7 @@ export default {
     },
     submitData: function() {
       for (let i of this.data) {
-        this.dataBack.push(i.default);
+        this.dataBack.push(i.data[i.default]);
       }
       this.$emit("input", this.dataBack);
       this.dataBack = [];
@@ -43,7 +43,7 @@ export default {
   },
   mounted() {
     for (let i of this.data) {
-      if (!i.default) i.default = 0;
+      if (!i.default) i.default = this.data.data[0];
     }
   }
 };

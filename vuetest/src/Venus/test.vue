@@ -60,6 +60,7 @@
       <message :msgShow='aaa'>我是一个消息体</message>
       <alertInfo canclose ref='alert'></alertInfo>
       <picker :data='pickertest' v-model='pickerdata'></picker>
+      <!-- 希望获得的default为索引值 -->
       <div>{{pickerdata}}</div>
 </div>   
 </template>
@@ -82,7 +83,7 @@ export default {
       text: "点击了按钮",
       textinfo: "sadfas",
       pickertest: [
-        { data: ["1", 2, 3, 4, 5, 6], default: 5 },
+        { data: ["1", '哈哈哈', 3, 4, 5, 6], default: 1 },
         { data: ["1", 2, 3, 4, 5, 6], default: 5 },
         { data: ["1", 2, 3, 4, 5, 6], default: 5 }
       ],

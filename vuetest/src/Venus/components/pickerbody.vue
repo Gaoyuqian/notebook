@@ -53,9 +53,8 @@ export default {
         i.style.height = `${this.partHeight}px`;
       }
       this.lastDistance =
-        this.$el.clientHeight / 2 -
-        this.partHeight *
-          parseInt(this.getIndex(this.data.data, this.data.default));
+        this.$el.clientHeight / 2 - this.partHeight * this.data.default;
+      // parseInt(this.getIndex(this.data.data, this.data.default));
       const lock = async () => {
         await this.animated();
       };
@@ -69,7 +68,6 @@ export default {
     touchstart: function(evt) {
       this.startPoint.x = evt.changedTouches[0].clientX;
       this.startPoint.y = evt.changedTouches[0].clientY;
-      // this.$el.style.transition = "transform 0.16s";
       evt.preventDefault();
     },
     touchmove: function(evt) {
@@ -110,7 +108,7 @@ export default {
     },
     getData: function() {
       //告诉父组件第几个元素被选中了
-      this.$emit("input", this.data.data[this.selectIndex]);
+      this.$emit("input", this.selectIndex);
     },
     animated: function(type) {
       //上是false 下是true
