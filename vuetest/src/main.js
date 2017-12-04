@@ -5,8 +5,10 @@ import App from './App'
 import router from './router'
 import '@/assets/sass/app.scss'
 import VueResource from 'vue-resource'
-import alt from './Venus/components/alertInfo'
+import alert from './Venus/components/alertInfo'
 import msg from './Venus/components/message'
+import picker from './Venus/components/picker'
+
 Vue.use(VueResource)
 
 
@@ -14,21 +16,22 @@ Vue.use(VueResource)
 //   console.log(obj);  
 // }
 Vue.config.productionTip = false;
-Vue.prototype.$message = function(obj){
-  const info = Vue.extend(msg);  
-  var message = new info({data:obj});
+function myMounted(name,obj,_this){
+  let message = new name({data:obj});
   message.$mount(document.createElement('div'))  
-  message.$parent = this
-  this.$el.appendChild(message.$el)
+  message.$parent = _this
+  _this.$el.appendChild(message.$el)
+}
+Vue.prototype.$message = function(obj){
+  myMounted(Vue.extend(msg),obj,this)
 }
 
 Vue.prototype.$alert = function(obj){
-  console.log('this')
-  const alert = Vue.extend(alt);  
-  var message = new alert({data:obj});
-  message.$mount(document.createElement('div'))  
-  message.$parent = this
-  this.$el.appendChild(message.$el)
+  myMounted(Vue.extend(alert),obj,this)  
+}
+Vue.prototype.$picker = function(obj){
+  myMounted(Vue.extend(picker),obj,this)  
+  
 }
 
 /* eslint-disable no-new */
