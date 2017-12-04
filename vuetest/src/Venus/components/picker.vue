@@ -1,7 +1,7 @@
 <template>
   <!-- <div class='v-picker-box'> -->
     <transition name='silder'>
-      <div v-if='showcopy' class="v-picker-container">  
+      <div v-show='showcopy' class="v-picker-container">  
         <div class="v-picker-relative">
           <div class="v-picker-sign"></div>
           <div class="v-picker-title">
@@ -25,14 +25,15 @@ export default {
     return {
       keys: "1",
       dataBack: [],
-      showcopy: this.show
+      showcopy: false
     };
   },
   components: { pickbody },
   props: {
     data: { default: "" },
-    show: { type: Boolean }
+    show: { type: Boolean, default: false }
   },
+  //陷入误区了感觉， pick的显隐问题 bug
   methods: {
     defaultEvent: function(evt) {
       evt.preventDefault();
@@ -40,14 +41,19 @@ export default {
     submitData: function() {
       for (let i of this.data) {
         this.dataBack.push(i.data[i.default]);
-        console.log(i.data[i.default], i.default);
       }
-      this.showcopy = false;
       this.$emit("input", this.dataBack);
       this.dataBack = [];
     }
   },
-  mounted() {}
+  watch: {
+    show: () => {
+      this.showcopy = this.show;
+    }
+  },
+  mounted() {
+    // this.showcopy = this.show;
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -15,8 +15,8 @@
         <!--单个的radiu 只负责改变v-model的布尔值-->
         <!--应该没有需求会两个按钮同时控制一个变量  已完成目标--> 
         <!-- <radiu class='1' @click="clickHandleRadiu"></radiu> -->
-        <radiu v-model='aaa' @click="clickHandleRadiu">{{open}}</radiu>
-        <radiu v-model='aaa' @click="clickHandleRadiu">{{open}}</radiu>
+        <radiu v-model='aaa' >{{open}}</radiu>
+        <!-- <radiu v-model='aaa' @click="clickHandleRadiu">{{open}}</radiu> -->
     </div>
     <!-- input -->
     <div class="a">
@@ -72,9 +72,6 @@ export default {
       this.ccc = !this.ccc;
       this.$message({ text: "这是消息体", type: "warn" });
     },
-    clickHandleRadiu: function() {
-      this.aaa = !this.aaa;
-    }
   },
   mounted() {}
 };
