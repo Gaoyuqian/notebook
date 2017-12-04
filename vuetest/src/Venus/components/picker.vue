@@ -1,6 +1,7 @@
 <template>
-  <div class='v-picker-box'>
-      <div class="v-picker-container">  
+  <!-- <div class='v-picker-box'> -->
+    <transition name='silder'>
+      <div v-if='showcopy' class="v-picker-container">  
         <div class="v-picker-relative">
           <div class="v-picker-sign"></div>
           <div class="v-picker-title">
@@ -14,7 +15,8 @@
           </div>
         </div>
     </div>
-  </div>
+  </transition>    
+  <!-- </div> -->
 </template>
 <script>
 import pickbody from "../components/pickerbody";
@@ -22,12 +24,14 @@ export default {
   data() {
     return {
       keys: "1",
-      dataBack: []
+      dataBack: [],
+      showcopy: this.show
     };
   },
   components: { pickbody },
   props: {
-    data: { default: "" }
+    data: { default: "" },
+    show: { type: Boolean }
   },
   methods: {
     defaultEvent: function(evt) {
@@ -36,19 +40,29 @@ export default {
     submitData: function() {
       for (let i of this.data) {
         this.dataBack.push(i.data[i.default]);
+        console.log(i.data[i.default], i.default);
       }
+      this.showcopy = false;
       this.$emit("input", this.dataBack);
       this.dataBack = [];
     }
   },
-  mounted() {
-    for (let i of this.data) {
-      if (!i.default) i.default = this.data.data[0];
-    }
-  }
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
+.silder-enter-active,
+.silder-leave-active {
+  transition: bottom 1.5s;
+}
+.silder-enter,
+.silder-leave-to {
+  bottom: -500px !important;
+}
+.silder-enter-to,
+.silder-leave {
+  bottom: 0px !important;
+}
 .v-pick-body-box {
   width: 100%;
   display: flex;

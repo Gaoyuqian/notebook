@@ -2,7 +2,6 @@
 <div :class='[boxCls]'>
     <label :class='[labCls]' for='v-input' v-if='label'>{{label}}</label>
   <input :class='[cls]' :maxlength="max" :type='type' :value='value' @input='changeValue' :placeholder="placeholder">
-  <alertInfo canclose ref='alert'></alertInfo>
 </div>
 </template>
 <style lang="scss" scoped>
@@ -86,7 +85,6 @@ export default {
   },
   watch: {
     value: function() {
-      // if(!!可选){return}
       if (this.options) return;
       this.isNull = !!this.value;
     }
@@ -119,16 +117,11 @@ export default {
         this.notTel = false;
         if (parseInt(_target.length) >= 11 && !util.checkMobile(_target)) {
           this.notTel = true;
-          this.showAlert("请输入正确的手机号", 3000);
+          // this.showAlert("请输入正确的手机号", 3000);
         }
       }
       this.$emit("input", _target);
     },
-    showAlert: function(text, time) {
-      this.$refs.alert.alertShow = true;
-      this.$refs.alert.alertInfo = text;
-      this.$refs.alert.duringAlert(time);
-    }
   }
 };
 </script>

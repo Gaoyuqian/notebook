@@ -22,46 +22,14 @@
     <div class="a">
       <inputInfo type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
-     <div class="a"> 
-       <select name="" id="">
-         <option value="1">asdfa</option>
-         <option value="1">asdfa</option>
-         <option value="1">asdfa</option>
-         <option value="1">asdfa</option>
-
-         <option value="1">asdfa</option>         
-         <option value="1">asdfa</option>         
-         <option value="1">asdfa</option>         
-         <option value="1">asdfa</option>         
-         <option value="1">asdfa</option>         
-         <option value="1">asdfa</option>         
-         <option value="1">asdfa</option>         
-       </select>
-    </div>
      <div class="a">
       <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <div class="a">
       <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
-       <div class="a">
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
-    </div>  
-     <div class="a">
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
-    </div>  
-     <div class="a">
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
-    </div>  
-     <div class="a">
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
-    </div>   
-    <!-- alert -->
-      <message :msgShow='aaa'>我是一个消息体</message>
-      <alertInfo canclose ref='alert'></alertInfo>
-      <picker :data='pickertest' v-model='pickerdata'></picker>
+      <picker :show='ccc' :data='pickertest' v-model='pickerdata'></picker>
       <!-- 希望获得的default为索引值 -->
-      <div>{{pickerdata}}</div>
 </div>   
 </template>
 
@@ -72,7 +40,6 @@ import alertInfo from "./components/alertInfo";
 import inputInfo from "./components/input";
 import message from "./components/message";
 import picker from "./components/picker";
-
 export default {
   components: { btna, radiu, alertInfo, inputInfo, message, picker },
   data() {
@@ -82,10 +49,11 @@ export default {
       open: "开启蓝牙",
       text: "点击了按钮",
       textinfo: "sadfas",
+      ccc: false,
       pickertest: [
-        { data: ["1", '哈哈哈', 3, 4, 5, 6], default: 1 },
-        { data: ["1", 2, 3, 4, 5, 6], default: 5 },
-        { data: ["1", 2, 3, 4, 5, 6], default: 5 }
+        { data: ["1", "哈哈哈", 3, 4, 5, 6], default: "1" },
+        { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
+        { data: ["1", 2, 3, 4, 5, 6], default: "1" }
       ],
       pickerdata: ""
     };
@@ -93,20 +61,19 @@ export default {
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
-      // this.showAlert(this.open, 10000);
+      this.$alert({ alertInfo: this.open, canclose: true });
+    },
+    pickerdata: function(newVal) {
+      console.log(newVal);
     }
   },
   methods: {
     clickHandle: function(a) {
-      this.showAlert(this.text, 1000);
+      this.ccc = !this.ccc;
+      this.$message({ text: "这是消息体", type: "warn" });
     },
     clickHandleRadiu: function() {
       this.aaa = !this.aaa;
-    },
-    showAlert: function(text, time) {
-      this.$refs.alert.alertShow = true;
-      this.$refs.alert.alertInfo = text;
-      this.$refs.alert.duringAlert(time);
     }
   },
   mounted() {}
@@ -117,7 +84,6 @@ export default {
   margin: 20px 10px;
 }
 .main {
-  // background: rgba(111, 222, 111, 1);
 }
 </style>
 

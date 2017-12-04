@@ -37,7 +37,6 @@ export default {
     data: {}
   },
   mounted() {
-    console.log(this.data.default);
     if (!this.parentsEle) {
       this.parentsEle = document.querySelectorAll(".v-picker-body");
     }
@@ -53,8 +52,9 @@ export default {
         i.style.height = `${this.partHeight}px`;
       }
       this.lastDistance =
-        this.$el.clientHeight / 2 - this.partHeight * this.data.default;
-      // parseInt(this.getIndex(this.data.data, this.data.default));
+        this.$el.clientHeight / 2 - this.partHeight * (this.data.default || 0);
+        //普通picker已去掉default的index  如果有特殊需求可以修改入参的数据结构
+        //{data:[],default:'index'}
       const lock = async () => {
         await this.animated();
       };

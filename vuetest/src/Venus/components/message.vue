@@ -1,33 +1,27 @@
 <template>
 <transition name="fade">
-<div :class='[cls]' v-if='showFlag'>
-    <slot></slot>
+<div :class='[cls]' v-if='msgShow'>
+ {{text}}
 </div>
 </transition>
-
 </template>
-<!-- 通知组件   -->
 <script>
 export default {
   data() {
     return {
-      showFlag: this.msgShow,
-      time:'',
+      time: "",
+      msgShow: false,
+      text: "",
+      type: ""
     };
   },
-  props: {
-    msgShow: {
-      type: Boolean,
-      default: false
-    }
-  },
-  watch: {
-    msgShow: function() {
-      this.showFlag = this.msgShow;
+  props: {},
+  methods: {
+    closed() {
       clearTimeout(this.time);
-      if (this.showFlag && this.msgShow) {
+      if (this.msgShow) {
         this.time = setTimeout(() => {
-          this.showFlag = false;
+          this.msgShow = false;
         }, 3000);
       }
     }
@@ -36,19 +30,31 @@ export default {
     cls: function() {
       var cls = [];
       cls.push("v-msg");
+      ["warn", "error", "info", "default"].forEach(i => {
+        if (i === this.type) cls.push(`v-msg-${this.type}`);
+      });
       return cls;
     }
   },
   mounted() {
-    if (this.showFlag && this.msgShow) {
-       this.time = setTimeout(() => {
-        this.showFlag = false;
-      }, 3000);
-    }
+    this.msgShow = true;
+    this.closed();
   }
 };
 </script>
 <style lang="scss" scoped>
+.v-msg-error {
+  background: #fee !important;
+  color: #fa5555 !important;
+}
+.v-msg-warn {
+  background: oldlace !important;
+  color: #eb9e05 !important;
+}
+.v-msg-info {
+  background: #edf2fc !important;
+  color: #878d99 !important;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: top 0.5s;

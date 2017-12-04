@@ -11,16 +11,11 @@
 </template>
 <script>
 export default {
-  props: {
-    canclose: {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
     return {
-      alertInfo: { type: String },
-      alertShow: false
+      alertInfo: "",
+      alertShow: false,
+      canclose: false
     };
   },
   methods: {
@@ -40,7 +35,10 @@ export default {
       }, time);
     }
   },
-  computed: {}
+  mounted() {
+    this.alertShow = true;
+    this.duringAlert(3000);
+  }
 };
 </script>
 <style lang="scss" scoped>
