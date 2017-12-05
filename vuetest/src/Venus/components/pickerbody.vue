@@ -51,7 +51,9 @@ export default {
         i.style.height = `${this.partHeight}px`;
       }
       this.lastDistance =
-        this.$el.clientHeight / 2 - this.partHeight * (this.data.default || 0);
+        this.$el.clientHeight / 2 -
+        this.partHeight * (this.data.default || 0) -
+        this.partHeight / 2;
       const lock = async () => {
         await this.animated();
       };
@@ -96,7 +98,9 @@ export default {
         )
       );
       this.totalDistance =
-        -this.selectIndex * this.partHeight + this.$el.clientHeight / 2;
+        -this.selectIndex * this.partHeight +
+        this.$el.clientHeight / 2 -
+        this.partHeight / 2;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
       this.$el.style.transition = "transform 0.16s";
       this.distance = 0;

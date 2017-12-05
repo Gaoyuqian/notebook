@@ -1,7 +1,7 @@
 <template>
   <!-- <div class='v-picker-box'> -->
     <transition name='silder'>
-      <div v-if='show.show' class="v-picker-container">  
+      <div v-if='show.show' class="v-picker-container" @touchend.stop='defaultEvent' @touchstart.stop='defaultEvent' @touchmove.stop='defaultEvent'>  
         <div class="v-picker-relative">
           <div class="v-picker-sign"></div>
           <div class="v-picker-title">
@@ -79,7 +79,7 @@ export default {
   position: absolute;
   top: 50%;
   left: 0%;
-  transform: translate(0, 50%);
+  // transform: translate(0, 50%);
 }
 .v-picker-relative {
   position: relative;
