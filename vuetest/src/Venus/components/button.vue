@@ -30,7 +30,7 @@ export default {
       !this.radius
         ? cls.push(`v-btn-border-none`)
         : cls.push(`v-btn-border-${this.radius}`);
-
+        
       return cls;
     }
   },

@@ -1,6 +1,6 @@
 <template>
    <div class="v-picker-body" @touchend.stop='touchend' @touchstart.stop='touchstart' @touchmove.stop='touchmove'>
-      <div class="content" v-for='key in data.data'>{{key}}</div>
+      <div :class="[cls]" v-for='key in data.data'>{{key}}</div>
     </div>
 </template>
 <style lang="scss" scoped>
@@ -36,6 +36,14 @@ export default {
     default: {},
     data: {}
   },
+  computed: {
+    cls() {
+      var cls = [];
+      cls.push("content");
+      cls.push(`${this.selectIndex}`);
+      return cls;
+    }
+  },
   mounted() {
     setTimeout(() => {
       if (!this.parentsEle) {
@@ -59,6 +67,12 @@ export default {
       };
       lock();
     }, 0);
+  },
+  watch: {
+    selectIndex: function() {
+      //如果该节点的前三个节点和后三个节点都有节点 那就改变他们的类名 改变css样式
+      console.log(this.$el.children[this.selectIndex]);
+    }
   },
   methods: {
     getIndex: function(arr, data) {
@@ -113,6 +127,11 @@ export default {
     animated: function(type) {
       this.totalDistance = this.distance + this.lastDistance;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
+      this.selectIndex = Math.round(
+        Math.abs(
+          (this.totalDistance - this.$el.clientHeight / 2) / this.partHeight
+        )
+      );
       /*
         0.将接收一个数组，作为滑动的数据源。
         1.初始化状态时，第一个元素应该位于整个body的中间部分，也就是会有一个默认的translateY,ok
