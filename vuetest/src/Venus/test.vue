@@ -29,7 +29,7 @@
       <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <picker :show='ccc' :data='pickertest' v-model='pickerdata'></picker>
-      <!-- 希望获得的default为索引值 -->
+    <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
 </div>   
 </template>
 
@@ -53,32 +53,21 @@ export default {
       pickertest: [
         { data: ["1", "哈哈哈", 3, 4, 5, 6], default: "1" },
         { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
-        { data: ["1", 2, 3, 4, 5, 6], default: "1" },
+        { data: ["1", 2, 3, 4, 5, 6], default: "1" }
       ],
       pickerdata: ""
+      
     };
   },
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
       this.$alert({ alertInfo: this.open, canclose: true });
-    },
-    pickerdata: function(newVal) {
-      console.log(this.ccc);
-      // this.ccc = false;
-      console.log(this.pickertest);
     }
   },
   methods: {
     clickHandle: function(a) {
-      console.log(!this.ccc.show);
       this.ccc.show = !this.ccc.show;
-      // this.ccc = !this.ccc;
-      // this.$message({ text: "这是消息体", type: "warn" });
-      // this.$picker({
-      //   data: this.pickertest,
-      //   show: !this.ccc
-      // });
     }
   },
   mounted() {}
