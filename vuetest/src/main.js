@@ -16,21 +16,21 @@ Vue.use(VueResource)
 //   console.log(obj);  
 // }
 Vue.config.productionTip = false;
-function myMounted(name,obj,_this){
+ Vue.prototype.$myMounted=function(name,obj){
   let message = new name({data:obj});
   message.$mount(document.createElement('div'))  
-  message.$parent = _this
-  _this.$el.appendChild(message.$el)
+  message.$parent = this
+  this.$el.appendChild(message.$el)
 }
 Vue.prototype.$message = function(obj){
-  myMounted(Vue.extend(msg),obj,this)
+  this.$myMounted(Vue.extend(msg),obj)
 }
 
 Vue.prototype.$alert = function(obj){
-  myMounted(Vue.extend(alert),obj,this)  
+  this.$myMounted(Vue.extend(alert),obj)
 }
 Vue.prototype.$picker = function(obj){
-  myMounted(Vue.extend(picker),obj,this)  
+  this.$myMounted(Vue.extend(picker),obj)  
   
 }
 

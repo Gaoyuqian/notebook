@@ -37,14 +37,13 @@ export default {
     data: {}
   },
   mounted() {
-    if (!this.parentsEle) {
-      this.parentsEle = document.querySelectorAll(".v-picker-body");
-    }
-    if (!this.bodyEle) {
-      this.bodyEle = document.querySelectorAll(".content");
-    }
-
     setTimeout(() => {
+      if (!this.parentsEle) {
+        this.parentsEle = document.querySelectorAll(".v-picker-body");
+      }
+      if (!this.bodyEle) {
+        this.bodyEle = document.querySelectorAll(".content");
+      }
       if (!this.partHeight) {
         this.partHeight = this.$el.clientHeight / parseInt(this.part);
       }
@@ -53,8 +52,6 @@ export default {
       }
       this.lastDistance =
         this.$el.clientHeight / 2 - this.partHeight * (this.data.default || 0);
-        //普通picker已去掉default的index  如果有特殊需求可以修改入参的数据结构
-        //{data:[],default:'index'}
       const lock = async () => {
         await this.animated();
       };
@@ -107,12 +104,9 @@ export default {
       evt.preventDefault();
     },
     getData: function() {
-      //告诉父组件第几个元素被选中了
       this.$emit("input", this.selectIndex);
     },
     animated: function(type) {
-      //上是false 下是true
-      //每个块的高度是 35px
       this.totalDistance = this.distance + this.lastDistance;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
       /*

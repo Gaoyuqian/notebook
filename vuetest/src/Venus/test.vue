@@ -49,11 +49,11 @@ export default {
       open: "开启蓝牙",
       text: "点击了按钮",
       textinfo: "sadfas",
-      ccc: false,
+      ccc: { show: false },
       pickertest: [
         { data: ["1", "哈哈哈", 3, 4, 5, 6], default: "1" },
         { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
-        { data: ["1", 2, 3, 4, 5, 6], default: "1" }
+        { data: ["1", 2, 3, 4, 5, 6], default: "1" },
       ],
       pickerdata: ""
     };
@@ -64,14 +64,22 @@ export default {
       this.$alert({ alertInfo: this.open, canclose: true });
     },
     pickerdata: function(newVal) {
-      console.log(newVal);
+      console.log(this.ccc);
+      // this.ccc = false;
+      console.log(this.pickertest);
     }
   },
   methods: {
     clickHandle: function(a) {
-      this.ccc = !this.ccc;
-      this.$message({ text: "这是消息体", type: "warn" });
-    },
+      console.log(!this.ccc.show);
+      this.ccc.show = !this.ccc.show;
+      // this.ccc = !this.ccc;
+      // this.$message({ text: "这是消息体", type: "warn" });
+      // this.$picker({
+      //   data: this.pickertest,
+      //   show: !this.ccc
+      // });
+    }
   },
   mounted() {}
 };

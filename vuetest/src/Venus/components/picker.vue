@@ -1,7 +1,7 @@
 <template>
   <!-- <div class='v-picker-box'> -->
     <transition name='silder'>
-      <div v-show='showcopy' class="v-picker-container">  
+      <div v-if='show.show' class="v-picker-container">  
         <div class="v-picker-relative">
           <div class="v-picker-sign"></div>
           <div class="v-picker-title">
@@ -25,15 +25,18 @@ export default {
     return {
       keys: "1",
       dataBack: [],
-      showcopy: false
     };
   },
   components: { pickbody },
   props: {
     data: { default: "" },
-    show: { type: Boolean, default: false }
+    show: { default: "" }
   },
-  //陷入误区了感觉， pick的显隐问题 bug
+  //pick的显隐问题
+  //联动picker 可以使用全局方法来保证显隐性
+  //datepicker会增加一个 组件内部的触发方式，暴露给用户的则只有一个触发按钮和数据承载框。
+  //picker能不能做成和datepicker一样的触发方式 让用户使用自己的点击按钮进行触发
+  //  无法改单一的变量，但是可以改对象内部的变量！
   methods: {
     defaultEvent: function(evt) {
       evt.preventDefault();
@@ -42,18 +45,13 @@ export default {
       for (let i of this.data) {
         this.dataBack.push(i.data[i.default]);
       }
+      this.show.show = false;
       this.$emit("input", this.dataBack);
       this.dataBack = [];
     }
   },
-  watch: {
-    show: () => {
-      this.showcopy = this.show;
-    }
-  },
-  mounted() {
-    // this.showcopy = this.show;
-  }
+  watch: {},
+  mounted() {}
 };
 </script>
 <style lang="scss" scoped>
