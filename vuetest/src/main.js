@@ -11,10 +11,6 @@ import picker from './Venus/components/picker'
 
 Vue.use(VueResource)
 
-
-// Vue.prototype.$message = function(obj){
-//   console.log(obj);  
-// }
 Vue.config.productionTip = false;
  Vue.prototype.$myMounted=function(name,obj){
   let message = new name({data:obj});

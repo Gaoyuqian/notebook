@@ -51,7 +51,7 @@ export default {
       textinfo: "sadfas",
       ccc: { show: false },
       pickertest: [
-        { data: ["1", "哈哈哈", 3, 4, 5, 6], default: "1" },
+        { data: ["哈哈哈", "哈哈哈","哈哈哈","哈哈哈","哈哈哈","哈哈哈","哈哈哈"], default: "1" },
         { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
         { data: ["1", 2, 3, 4, 5, 6], default: "1" }
       ],

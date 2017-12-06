@@ -9,10 +9,29 @@
   height: 420px;
 }
 .content {
-  font-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.prev-1 {
+  font-size: 35px;
+  color: #888;
+}
+.prev-2 {
+  font-size: 30px;
+  color: #777;
+}
+.prev-3 {
+  font-size: 25px;
+  color: #666;
+}
+.prev-3 {
+  font-size: 20px;
+  color: #555;
+}
+.prev-0 {
+  font-size: 45px;
+  color: #000;
 }
 </style>
 <script>
@@ -40,7 +59,6 @@ export default {
     cls() {
       var cls = [];
       cls.push("content");
-      cls.push(`${this.selectIndex}`);
       return cls;
     }
   },
@@ -70,8 +88,18 @@ export default {
   },
   watch: {
     selectIndex: function() {
-      //如果该节点的前三个节点和后三个节点都有节点 那就改变他们的类名 改变css样式
-      console.log(this.$el.children[this.selectIndex]);
+      for (let i of this.$el.children) {
+        i.classList.remove(`prev-1`, `prev-2`, `prev-3`, `prev-4`, `prev-0`);
+      }
+      this.$el.children[this.selectIndex].classList.add(`prev-0`);
+      [1, 2, 3, 4].forEach(i => {
+        if (this.$el.children[this.selectIndex + i]) {
+          this.$el.children[this.selectIndex + i].classList.add(`prev-${i}`);
+        }
+        if (this.$el.children[this.selectIndex - i]) {
+          this.$el.children[this.selectIndex - i].classList.add(`prev-${i}`);
+        }
+      });
     }
   },
   methods: {
@@ -106,8 +134,8 @@ export default {
         this.lastDistance += this.distance;
       }
       //最后校准
-      this.selectIndex = Math.round(
-        Math.abs(
+      this.selectIndex = Math.abs(
+        Math.round(
           (this.totalDistance - this.$el.clientHeight / 2) / this.partHeight
         )
       );
@@ -127,8 +155,8 @@ export default {
     animated: function(type) {
       this.totalDistance = this.distance + this.lastDistance;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
-      this.selectIndex = Math.round(
-        Math.abs(
+      this.selectIndex = Math.abs(
+        Math.round(
           (this.totalDistance - this.$el.clientHeight / 2) / this.partHeight
         )
       );
