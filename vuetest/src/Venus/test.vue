@@ -51,18 +51,23 @@ export default {
       textinfo: "sadfas",
       ccc: { show: false },
       pickertest: [
-        { data: ["哈哈哈", "哈哈哈","哈哈哈","哈哈哈","哈哈哈","哈哈哈","哈哈哈"], default: "1" },
+        {
+          data: ["哈哈哈", "哈哈哈", "哈哈哈", "哈哈哈", "哈哈哈", "哈哈哈", "哈哈哈"],
+          default: "1"
+        },
         { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
         { data: ["1", 2, 3, 4, 5, 6], default: "1" }
       ],
       pickerdata: ""
-      
     };
   },
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
       this.$alert({ alertInfo: this.open, canclose: true });
+    },
+    pickerdata: function(newVal) {
+      console.log(newVal);
     }
   },
   methods: {

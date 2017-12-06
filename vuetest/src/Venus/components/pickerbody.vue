@@ -12,6 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  // font-size: 35px;
+  // color: #000;
 }
 .prev-1 {
   font-size: 35px;
@@ -86,22 +88,7 @@ export default {
       lock();
     }, 0);
   },
-  watch: {
-    selectIndex: function() {
-      for (let i of this.$el.children) {
-        i.classList.remove(`prev-1`, `prev-2`, `prev-3`, `prev-4`, `prev-0`);
-      }
-      this.$el.children[this.selectIndex].classList.add(`prev-0`);
-      [1, 2, 3, 4].forEach(i => {
-        if (this.$el.children[this.selectIndex + i]) {
-          this.$el.children[this.selectIndex + i].classList.add(`prev-${i}`);
-        }
-        if (this.$el.children[this.selectIndex - i]) {
-          this.$el.children[this.selectIndex - i].classList.add(`prev-${i}`);
-        }
-      });
-    }
-  },
+  watch: {},
   methods: {
     getIndex: function(arr, data) {
       return arr.indexOf(data);
@@ -160,6 +147,18 @@ export default {
           (this.totalDistance - this.$el.clientHeight / 2) / this.partHeight
         )
       );
+      for (let i of this.$el.children) {
+        i.classList.remove(`prev-1`, `prev-2`, `prev-3`, `prev-4`, `prev-0`);
+      }
+      this.$el.children[this.selectIndex].classList.add(`prev-0`);
+      [1, 2, 3, 4].forEach(i => {
+        if (this.$el.children[this.selectIndex + i]) {
+          this.$el.children[this.selectIndex + i].classList.add(`prev-${i}`);
+        }
+        if (this.$el.children[this.selectIndex - i]) {
+          this.$el.children[this.selectIndex - i].classList.add(`prev-${i}`);
+        }
+      });
       /*
         0.将接收一个数组，作为滑动的数据源。
         1.初始化状态时，第一个元素应该位于整个body的中间部分，也就是会有一个默认的translateY,ok
