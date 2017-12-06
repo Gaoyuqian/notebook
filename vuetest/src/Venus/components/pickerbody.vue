@@ -12,27 +12,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // font-size: 35px;
-  // color: #000;
+  font-size: 25px;
+  color: #555;
 }
 .prev-1 {
   font-size: 35px;
   color: #888;
 }
 .prev-2 {
-  font-size: 30px;
+  font-size: 32px;
   color: #777;
 }
 .prev-3 {
-  font-size: 25px;
+  font-size: 28px;
   color: #666;
 }
 .prev-3 {
-  font-size: 20px;
+  font-size: 25px;
   color: #555;
 }
 .prev-0 {
-  font-size: 45px;
+  font-size: 38px;
   color: #000;
 }
 </style>
@@ -131,7 +131,7 @@ export default {
         this.$el.clientHeight / 2 -
         this.partHeight / 2;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
-      this.$el.style.transition = "transform 0.16s";
+      // this.$el.style.transition = "all 0.16s";
       this.distance = 0;
       this.getData();
       evt.preventDefault();
