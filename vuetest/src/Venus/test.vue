@@ -52,7 +52,22 @@ export default {
       ccc: { show: false },
       pickertest: [
         {
-          data: ["新疆", "黑龙江", "北京", "哈哈哈", "乌鲁木齐", "石家庄", "天津","新疆", "黑龙江", "北京", "哈哈哈", "乌鲁木齐", "石家庄", "天津"],
+          data: [
+            "新疆",
+            "黑龙江",
+            "北京",
+            "哈哈哈",
+            "乌鲁木齐",
+            "石家庄",
+            "天津",
+            "新疆",
+            "黑龙江",
+            "北京",
+            "哈哈哈",
+            "乌鲁木齐",
+            "石家庄",
+            "天津"
+          ],
           default: "1"
         },
         { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
@@ -64,7 +79,7 @@ export default {
   watch: {
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
-      this.$alert({ alertInfo: this.open, canclose: true });
+      this.$alert({ text: this.open, canclose: true });
     },
     pickerdata: function(newVal) {
       console.log(newVal);
@@ -72,7 +87,8 @@ export default {
   },
   methods: {
     clickHandle: function(a) {
-      this.ccc.show = !this.ccc.show;
+      // this.ccc.show = !this.ccc.show;
+      this.$message({text:'消息体',type:'error'});
     }
   },
   mounted() {}

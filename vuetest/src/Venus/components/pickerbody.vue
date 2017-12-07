@@ -90,22 +90,19 @@ export default {
   },
   watch: {},
   methods: {
-    getIndex: function(arr, data) {
-      return arr.indexOf(data);
-    },
-    touchstart: function(evt) {
+    touchstart(evt) {
       this.startPoint.x = evt.changedTouches[0].clientX;
       this.startPoint.y = evt.changedTouches[0].clientY;
       evt.preventDefault();
     },
-    touchmove: function(evt) {
+    touchmove(evt) {
       this.endPoint.x = evt.changedTouches[0].clientX;
       this.endPoint.y = evt.changedTouches[0].clientY;
       this.distance = parseInt(this.endPoint.y - this.startPoint.y);
       this.animated(this.distance > 0);
       evt.preventDefault();
     },
-    touchend: function(evt) {
+    touchend(evt) {
       if (this.isOverFlow() === "up" || this.isOverFlow() === "down") {
         if (this.isOverFlow() === "up") {
           this.totalDistance = this.lastDistance = this.$el.clientHeight / 2;
@@ -132,7 +129,7 @@ export default {
       this.getData();
       evt.preventDefault();
     },
-    getData: function() {
+    getData() {
       this.$emit("input", this.selectIndex);
     },
     isOverFlow() {
@@ -151,7 +148,7 @@ export default {
       num = Math.abs(num);
       return num > 1.7777 ? parseInt(num) : parseInt(num) + 1;
     },
-    animated: function(type) {
+    animated(type) {
       this.$el.style.transition = "";
       this.totalDistance = this.distance + this.lastDistance;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;

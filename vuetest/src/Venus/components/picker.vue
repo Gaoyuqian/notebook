@@ -33,10 +33,10 @@ export default {
     show: { default: "" }
   },
   methods: {
-    defaultEvent: function(evt) {
+    defaultEvent(evt) {
       evt.preventDefault();
     },
-    submitData: function() {
+    submitData() {
       for (let i of this.data) {
         this.dataBack.push(i.data[i.default]);
       }

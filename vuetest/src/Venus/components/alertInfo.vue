@@ -1,20 +1,23 @@
 <template>
 <transition name="fade">
-<div class='v-alert-box' v-if='alertShow'>
+<div class='v-alert-box' v-if='show'>
     <div class='v-alert-mask'  @click='stopClick'></div>
     <div class='v-alert-main' @click='closeAlert' >
        <div class='v-alert-image'></div>
-       <div class='v-alert-text'>{{alertInfo}}</div>
+       <div class='v-alert-text'>{{text}}</div>
     </div>
 </div>
 </transition>
 </template>
 <script>
+/*
+  this.$alert({text:String,canclose:Boolean})
+ */
 export default {
   data() {
     return {
-      alertInfo: "",
-      alertShow: false,
+      text: "",
+      show: false,
       canclose: false
     };
   },
@@ -30,13 +33,13 @@ export default {
     duringAlert: function(time) {
       time && clearTimeout(time);
       var time = setTimeout(() => {
-        this.alertShow = false;
-        this.alertInfo = "";
+        this.show = false;
+        this.text = "";
       }, time);
     }
   },
   mounted() {
-    this.alertShow = true;
+    this.show = true;
     this.duringAlert(3000);
   }
 };

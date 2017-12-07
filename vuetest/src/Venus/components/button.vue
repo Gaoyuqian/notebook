@@ -1,5 +1,4 @@
 <!--button components-->
-<!--大中小吧,-->
 
 <template>
   <button :disabled='disabled' :class="[cls]" @click='clickHandle'><span class='v-btn-span'><slot></slot></span></button>

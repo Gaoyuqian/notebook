@@ -6,10 +6,13 @@
 </transition>
 </template>
 <script>
+/*
+  @method this.$message({'text':String,'type':String})
+ */
 export default {
   data() {
     return {
-      time: "",
+      // time: "",
       msgShow: false,
       text: "",
       type: ""
@@ -18,9 +21,9 @@ export default {
   props: {},
   methods: {
     closed() {
-      clearTimeout(this.time);
+      if (time) clearTimeout(time);
       if (this.msgShow) {
-        this.time = setTimeout(() => {
+        var time = setTimeout(() => {
           this.msgShow = false;
         }, 3000);
       }
