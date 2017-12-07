@@ -10,14 +10,15 @@
           </div>
           <div class="v-pick-body-box">
             <pickbody v-for='key in data' :data='key' v-model='key.default' :key='keys'></pickbody>
-            <!-- 最好传一个对象，次一点传一个数组，也可以传一个字符串，我们会对字符串进行处理，并看成单一的index 条件     -->
-            <!-- 两种picker 一种联动picker 一种datepicker 目前属于datepicker -->
           </div>
         </div>
     </div>
   </transition>    
 </template>
 <script>
+/* @param array [{data:Object,default:String}]  */
+/* @param object {show:Boolean}  */
+/* @return [param1,param2,param3....,paramN] {show:false} */
 import pickbody from "../components/pickerbody";
 export default {
   data() {
@@ -31,7 +32,6 @@ export default {
     data: { default: "" },
     show: { default: "" }
   },
-  //pick的显隐问题
   methods: {
     defaultEvent: function(evt) {
       evt.preventDefault();
@@ -72,7 +72,6 @@ export default {
   position: absolute;
   top: 50%;
   left: 0%;
-  // transform: translate(0, 50%);
 }
 .v-picker-relative {
   position: relative;

@@ -137,13 +137,11 @@ export default {
     },
     isOverFlow() {
       if (this.totalDistance >= this.$el.clientHeight / 2) {
-        //超出上限
         return "up";
       } else if (
         this.totalDistance <=
         this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight
       ) {
-        //超出下限
         return "down";
       } else {
         return "notOverFlow";
@@ -182,7 +180,6 @@ export default {
           this.$el.children[this.selectIndex - i].classList.add(`prev-${i}`);
         }
       });
-
       /*
         0.将接收一个数组，作为滑动的数据源。
         1.初始化状态时，第一个元素应该位于整个body的中间部分，也就是会有一个默认的translateY,ok
@@ -192,7 +189,7 @@ export default {
         5.选择后记录当前位置？方便下次初始化时，定位到上次滑动的位置。在touchend时计算当前选中目标
         6.类圆筒型
         7,亟待解决   滑动到超过上限或者下限时  当前prev-0位置错误！！！ 已改
-        8.取范围的时候，有点不太准确
+        8.取范围的时候，有点不太准确 目前已解决
       */
     }
   }
