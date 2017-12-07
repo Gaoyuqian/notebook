@@ -102,22 +102,18 @@ export default {
       this.endPoint.x = evt.changedTouches[0].clientX;
       this.endPoint.y = evt.changedTouches[0].clientY;
       this.distance = parseInt(this.endPoint.y - this.startPoint.y);
-      this.animated(this.distance > 0 ? true : false);
+      this.animated(this.distance > 0);
       evt.preventDefault();
     },
     touchend: function(evt) {
-      if (this.totalDistance >= this.$el.clientHeight / 2) {
-        //超出上限
-        this.totalDistance = this.lastDistance = this.$el.clientHeight / 2;
-      } else if (
-        this.totalDistance <=
-        this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight
-      ) {
-        //超出下限
-        this.totalDistance = this.lastDistance =
-          this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight;
-      } else {
-        //判断在哪个节点
+      if (this.isOverFlow() === "up" || this.isOverFlow() === "down") {
+        if (this.isOverFlow() === "up") {
+          this.totalDistance = this.lastDistance = this.$el.clientHeight / 2;
+        } else {
+          this.totalDistance = this.lastDistance =
+            this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight;
+        }
+      } else if (this.isOverFlow() === "notOverFlow") {
         this.lastDistance += this.distance;
       }
       //最后校准
@@ -139,14 +135,40 @@ export default {
     getData: function() {
       this.$emit("input", this.selectIndex);
     },
+    isOverFlow() {
+      if (this.totalDistance >= this.$el.clientHeight / 2) {
+        //超出上限
+        return "up";
+      } else if (
+        this.totalDistance <=
+        this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight
+      ) {
+        //超出下限
+        return "down";
+      } else {
+        return "notOverFlow";
+      }
+    },
+    round(num) {
+      num = Math.abs(num);
+      return num > 1.7777 ? parseInt(num) : parseInt(num) + 1;
+    },
     animated: function(type) {
       this.totalDistance = this.distance + this.lastDistance;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
-      this.selectIndex = Math.abs(
-        Math.round(
-          (this.totalDistance - this.$el.clientHeight / 2) / this.partHeight
-        )
-      );
+      if (this.isOverFlow() === "up" || this.isOverFlow() === "down") {
+        if (this.isOverFlow() === "up") {
+          this.selectIndex = 0;
+        } else {
+          this.selectIndex = this.$el.children.length - 1;
+        }
+      } else if (this.isOverFlow() === "notOverFlow") {
+        this.selectIndex = Math.abs(
+          Math.round(
+            (this.totalDistance - this.$el.clientHeight / 2) / this.partHeight
+          )
+        );
+      }
       for (let i of this.$el.children) {
         i.classList.remove(`prev-1`, `prev-2`, `prev-3`, `prev-4`, `prev-0`);
       }
@@ -159,6 +181,7 @@ export default {
           this.$el.children[this.selectIndex - i].classList.add(`prev-${i}`);
         }
       });
+
       /*
         0.将接收一个数组，作为滑动的数据源。
         1.初始化状态时，第一个元素应该位于整个body的中间部分，也就是会有一个默认的translateY,ok
@@ -167,6 +190,8 @@ export default {
         4.惯性滑动 浏览器会自己解决 通过触发多次touch事件解决
         5.选择后记录当前位置？方便下次初始化时，定位到上次滑动的位置。在touchend时计算当前选中目标
         6.类圆筒型
+        7,亟待解决   滑动到超过上限或者下限时  当前prev-0位置错误！！！ 已改
+        8.取范围的时候，有点不太准确
       */
     }
   }
