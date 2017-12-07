@@ -127,7 +127,7 @@ export default {
         this.$el.clientHeight / 2 -
         this.partHeight / 2;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
-      // this.$el.style.transition = "all 0.16s";
+      this.$el.style.transition = "all .5s";
       this.distance = 0;
       this.getData();
       evt.preventDefault();
@@ -154,6 +154,7 @@ export default {
       return num > 1.7777 ? parseInt(num) : parseInt(num) + 1;
     },
     animated: function(type) {
+      this.$el.style.transition = "";
       this.totalDistance = this.distance + this.lastDistance;
       this.$el.style.transform = `translateY(${this.totalDistance}px)`;
       if (this.isOverFlow() === "up" || this.isOverFlow() === "down") {
