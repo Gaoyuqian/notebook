@@ -7,7 +7,7 @@ import '@/assets/sass/app.scss'
 import VueResource from 'vue-resource'
 import alert from './Venus/components/alertInfo'
 import msg from './Venus/components/message'
-import picker from './Venus/components/picker'
+import picker from './Venus/components/picker/picker'
 
 Vue.use(VueResource)
 

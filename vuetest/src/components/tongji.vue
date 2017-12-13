@@ -30,6 +30,7 @@ export default {
       datetime: this.getToday()
     };
     this.$http
+    ///christmas/sendCode
       .post("http://127.0.0.1:9999/querylist_by_singledate", dataForQueryList)
       .then(res => {
         res.body.resCode === "0"

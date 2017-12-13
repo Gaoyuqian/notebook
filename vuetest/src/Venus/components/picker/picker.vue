@@ -19,7 +19,7 @@
 /* @param array [{data:Object,default:String}]  */
 /* @param object {show:Boolean}  */
 /* @return [param1,param2,param3....,paramN] {show:false} */
-import pickbody from "../components/pickerbody";
+import pickbody from "../picker/pickerbody";
 export default {
   data() {
     return {

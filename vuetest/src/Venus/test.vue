@@ -29,6 +29,10 @@
       <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <picker :show='ccc' :data='pickertest' v-model='pickerdata'></picker>
+        <model v-model='modelShow' marginTop='20'>
+            <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
+            <btna @click="clickHandle('大号按钮')" size='half' radius='small'>大号按钮</btna>                                
+        </model>
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
 </div>   
 </template>
@@ -39,9 +43,11 @@ import radiu from "./components/radiu";
 import alertInfo from "./components/alertInfo";
 import inputInfo from "./components/input";
 import message from "./components/message";
-import picker from "./components/picker";
+import picker from "./components/picker/picker";
+import model from "./components/modelPanel";
+
 export default {
-  components: { btna, radiu, alertInfo, inputInfo, message, picker },
+  components: { model, btna, radiu, alertInfo, inputInfo, message, picker },
   data() {
     return {
       aaa: true,
@@ -50,6 +56,7 @@ export default {
       text: "点击了按钮",
       textinfo: "sadfas",
       ccc: { show: false },
+      modelShow: false,
       pickertest: [
         {
           data: [
@@ -83,12 +90,16 @@ export default {
     },
     pickerdata: function(newVal) {
       console.log(newVal);
+    },
+    modelShow(newVal) {
+      console.log(newVal);
     }
   },
   methods: {
     clickHandle: function(a) {
       // this.ccc.show = !this.ccc.show;
-      this.$message({text:'消息体',type:'error'});
+      this.$message({ text: "消息体", type: "error" });
+      this.modelShow = !this.modelShow;
     }
   },
   mounted() {}
