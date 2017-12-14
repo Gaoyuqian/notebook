@@ -2,7 +2,11 @@
 <transition name="fade">
   <div :class='[cls]' v-show='value' @click.stop='close' >
       <div :class='[cls_body]' >
+          <div class="v-model-title" v-if='title'>{{title}}</div>        
           <slot></slot>
+          <div class="v-model-footer">
+              <slot name='footer'></slot>            
+          </div>
       </div>
   </div>
   </transition>
@@ -34,11 +38,11 @@ export default {
   },
   watch: {},
   mounted() {
-    for (let i of this.$el.children[0].children) {
+    for (let i of document.querySelectorAll(".v-model-body")[0].children) {
+      console.log(i);
       i.style.marginTop = `${this.marginTop}px`;
-      i.style.marginBottom = `${this.marginTop}px`;
+      i.style.marginBottom = `${this.marginBottom}px`;
     }
-    // console.log(this.value);
   },
   props: {
     value: {
@@ -47,6 +51,14 @@ export default {
     },
     marginTop: {
       default: "10",
+      type: String
+    },
+    marginBottom: {
+      default: "10",
+      type: String
+    },
+    title: {
+      default: "11",
       type: String
     }
   }
@@ -70,6 +82,18 @@ export default {
     height: 100%;
   }
 }
+.v-model-title {
+  text-align: left;
+}
+.v-model-footer {
+  width: 100%;
+  text-align: right;
+  // display: flex;
+  // justify-content: flex-end;
+}
+.v-model-footer div{
+  background-color: red;
+}
 .v-model-panel {
   width: 100%;
   display: flex;
@@ -79,6 +103,7 @@ export default {
   top: 0;
   left: 0;
   height: 100%;
+  background: rgba(0, 0, 0, 0.7);
 }
 .v-model-body {
   background: #fff;

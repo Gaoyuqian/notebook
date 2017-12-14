@@ -17,7 +17,8 @@ export default {
     },
     size: { type: String, default: "full" },
     disabled: Boolean,
-    radius: { type: String, default: "none" }
+    radius: { type: String, default: "none" },
+    inline: { type: Boolean, default: false }
   },
   computed: {
     cls() {
@@ -26,10 +27,13 @@ export default {
       if (this.disabled) {
         cls.push(`v-btn-disabled`);
       }
+      if (this.inline) {
+        cls.push(`v-btn-inline`);
+      }
       !this.radius
         ? cls.push(`v-btn-border-none`)
         : cls.push(`v-btn-border-${this.radius}`);
-        
+
       return cls;
     }
   },
@@ -55,9 +59,14 @@ export default {
 .v-btn[disabled] {
   background: #888;
 }
-
+.v-btn-inline {
+  display: inline;
+}
 .v-btn-full {
   width: 100%;
+}
+.v-btn-mini {
+  width: 20%;
 }
 .v-btn-half {
   width: 50%;

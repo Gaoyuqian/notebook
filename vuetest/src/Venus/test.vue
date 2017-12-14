@@ -31,7 +31,10 @@
       <picker :show='ccc' :data='pickertest' v-model='pickerdata'></picker>
         <model v-model='modelShow' marginTop='20'>
             <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
-            <btna @click="clickHandle('大号按钮')" size='half' radius='small'>大号按钮</btna>                                
+            <div slot='footer'>
+              <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>确定</btna>     
+              <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>取消</btna>                                      
+            </div>                        
         </model>
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
 </div>   
