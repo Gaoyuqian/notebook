@@ -1,5 +1,5 @@
 <template>
-<div :class='[boxCls]'>
+<div :class='[boxCls]' >
     <label :class='[labCls]' for='v-input' v-if='label'>{{label}}</label>
   <input :class='[cls]' :maxlength="max" :type='type' :value='value' @input='changeValue' :placeholder="placeholder">
 </div>
@@ -77,6 +77,11 @@ export default {
       default: false
     }
   },
+  mounted() {
+    console.log(this._events.focus, this);
+    //绑定事件
+    this.bindEvent("focus");
+  },
   data() {
     return {
       isNull: !!this.value,
@@ -93,7 +98,8 @@ export default {
     boxCls() {
       var boxCls = ["v-input-box"];
       this.underline && boxCls.push(`v-input-box-underline`);
-      if (!this.options) (!this.isNull || this.notTel) && boxCls.push(`v-input-box-isnull`); //增加选填判断
+      if (!this.options)
+        (!this.isNull || this.notTel) && boxCls.push(`v-input-box-isnull`); //增加选填判断
 
       return boxCls;
     },
@@ -108,12 +114,21 @@ export default {
     }
   },
   methods: {
+    bindEvent(event) {
+      console.log(this.$el);
+      this.$el.addeventlistener(event, this.beginEventHandel(event), false);
+    },
+    beginEventHandel(evt) {
+      console.log(evt);
+      this.$emit(evt);
+    },
     changeValue: function(evt) {
       let _target = evt.target.value;
       if (this.type === "num") {
         _target = _target.replace(/[^\d]/g, "");
       }
-      if (this.type === "tel") {//改成mobile吧
+      if (this.type === "tel") {
+        //改成mobile吧
         this.notTel = false;
         if (parseInt(_target.length) >= 11 && !util.checkMobile(_target)) {
           this.notTel = true;
@@ -121,7 +136,7 @@ export default {
         }
       }
       this.$emit("input", _target);
-    },
+    }
   }
 };
 </script>

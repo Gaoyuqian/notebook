@@ -20,7 +20,7 @@
     </div>
     <!-- input -->
     <div class="a">
-      <inputInfo type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <inputInfo type='tel' label='家庭地址' @focus="clickHandle" v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
      <div class="a">
       <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
