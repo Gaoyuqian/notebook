@@ -101,7 +101,7 @@ export default {
   methods: {
     clickHandle: function(a) {
       // this.ccc.show = !this.ccc.show;
-      this.$message({ text: "消息体", type: "error" });
+      // this.$message({ text: "消息体", type: "error" });
       this.modelShow = !this.modelShow;
     }
   },

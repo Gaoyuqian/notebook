@@ -39,7 +39,6 @@ export default {
   watch: {},
   mounted() {
     for (let i of document.querySelectorAll(".v-model-body")[0].children) {
-      console.log(i);
       i.style.marginTop = `${this.marginTop}px`;
       i.style.marginBottom = `${this.marginBottom}px`;
     }

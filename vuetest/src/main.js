@@ -27,7 +27,6 @@ Vue.prototype.$alert = function(obj){
 }
 Vue.prototype.$picker = function(obj){
   this.$myMounted(Vue.extend(picker),obj)  
-  
 }
 
 /* eslint-disable no-new */
