@@ -20,13 +20,13 @@
     </div>
     <!-- input -->
     <div class="a">
-      <inputInfo type='tel' label='家庭地址' @focus="clickHandle" v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <inputInfo type='tel' label='家庭地址' @focus="ccc.show=true"  @blur="ccc.show=false" v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
      <div class="a">
       <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <div class="a">
-      <inputInfo type='num' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <inputInfo type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <picker :show='ccc' :data='pickertest' v-model='pickerdata'></picker>
         <model v-model='modelShow' marginTop='20'>
@@ -100,9 +100,9 @@ export default {
   },
   methods: {
     clickHandle: function(a) {
-      // this.ccc.show = !this.ccc.show;
+      this.ccc.show = !this.ccc.show;
       // this.$message({ text: "消息体", type: "error" });
-      this.modelShow = !this.modelShow;
+      // this.modelShow = !this.modelShow;
     }
   },
   mounted() {}

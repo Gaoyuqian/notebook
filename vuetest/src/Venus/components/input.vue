@@ -1,7 +1,7 @@
 <template>
 <div :class='[boxCls]' >
-    <label :class='[labCls]' for='v-input' v-if='label'>{{label}}</label>
-  <input :class='[cls]' :maxlength="max" :type='type' :value='value' @input='changeValue' :placeholder="placeholder">
+    <label :class='[labCls]' for='v-input'  v-if='label'>{{label}}</label>
+  <input :class='[cls]' :maxlength="max" @focus='beginEventHandel("focus")' @blur='beginEventHandel("blur")' :type='type' :value='value' @input='changeValue' :placeholder="placeholder">
 </div>
 </template>
 <style lang="scss" scoped>
@@ -78,9 +78,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this._events.focus, this);
-    //绑定事件
-    this.bindEvent("focus");
   },
   data() {
     return {
@@ -114,12 +111,7 @@ export default {
     }
   },
   methods: {
-    bindEvent(event) {
-      console.log(this.$el);
-      this.$el.addeventlistener(event, this.beginEventHandel(event), false);
-    },
     beginEventHandel(evt) {
-      console.log(evt);
       this.$emit(evt);
     },
     changeValue: function(evt) {
