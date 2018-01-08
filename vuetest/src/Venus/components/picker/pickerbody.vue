@@ -27,7 +27,7 @@
   font-size: 28px;
   color: #666;
 }
-.prev-3 {
+.prev-4 {
   font-size: 25px;
   color: #555;
 }
@@ -140,9 +140,8 @@ export default {
         this.$el.clientHeight / 2 - this.$el.scrollHeight + this.partHeight
       ) {
         return "down";
-      } else {
-        return "notOverFlow";
       }
+      return "notOverFlow";
     },
     round(num) {
       num = Math.abs(num);

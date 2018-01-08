@@ -1,25 +1,25 @@
 <template>
-  <!-- <div class='v-picker-box'> -->
-    <transition name='silder'>
-      <div v-if='show.show' class="v-picker-container"  @touchmove.stop='defaultEvent'>  
-        <div class="v-picker-relative">
-          <div class="v-picker-sign"></div>
-          <div class="v-picker-title">
-            <div class="v-picker-cancel">取消</div>
-            <div class="v-picker-submit" @click='submitData()'>完成</div>
-          </div>
-          <div class="v-pick-body-box">
-            <pickbody v-for='key in data' :data='key' v-model='key.default' :key='keys'></pickbody>
+      <popupsss ref='popup'>
+        <div class="v-picker-container"  @touchmove.stop='defaultEvent'>  
+          <div class="v-picker-relative">
+            <div class="v-picker-sign"></div>
+            <div class="v-picker-title">
+              <div class="v-picker-cancel">取消</div>
+              <div class="v-picker-submit" @click='submitData()'>完成</div>
+            </div>
+            <div class="v-pick-body-box">
+              <pickbody v-for='key in data' :data='key' v-model='key.default' :key='keys'></pickbody>
+            </div>
           </div>
         </div>
-    </div>
-  </transition>    
+      </popupsss>
 </template>
 <script>
-/* @param array [{data:Object,default:String}]  */
-/* @param object {show:Boolean}  */
-/* @return [param1,param2,param3....,paramN] {show:false} */
+/* @param array [{data:Object,default:String}]  data */
+/* @param Boolean show=True||False  show  */
+/* @return [param1,param2,param3....,paramN] {show:false}  model */
 import pickbody from "../picker/pickerbody";
+import popupsss from "../popup";
 export default {
   data() {
     return {
@@ -27,20 +27,29 @@ export default {
       dataBack: []
     };
   },
-  components: { pickbody },
+  watch: {
+    show(newVal) {
+      this.$refs.popup.show();
+    }
+  },
+  mounted() {
+    this.popup = !this.popup ? this.$refs.popup : this.popup;
+  },
+  components: { pickbody, popupsss },
   props: {
     data: { default: "" },
     show: { default: "" }
   },
+  mounted() {},
   methods: {
     defaultEvent(evt) {
       evt.preventDefault();
     },
     submitData() {
+      this.$refs.popup.close();
       for (let i of this.data) {
         this.dataBack.push(i.data[i.default]);
       }
-      this.show.show = false;
       this.$emit("input", this.dataBack);
       this.dataBack = [];
     }
@@ -88,7 +97,7 @@ export default {
   overflow: hidden;
   background: #fff;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
 }

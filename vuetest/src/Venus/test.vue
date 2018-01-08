@@ -28,7 +28,8 @@
       <div class="a">
       <inputInfo type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
-      <picker :show='ccc' :data='pickertest' v-model='pickerdata'></picker>
+      <picker :show='showTest' :data='pickertest' v-model='pickerdata'></picker>
+      <!-- <datepicker></datepicker> -->
         <model v-model='modelShow' marginTop='20'>
             <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
             <div slot='footer'>
@@ -37,6 +38,34 @@
             </div>                        
         </model>
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
+
+
+    <!--
+      控制显示和隐藏的方法
+      添加一个父组件 只负责控制显示状态  子组件触发点击事件后 触发父组件的关闭状态
+      父组件根据model的boolean控制显隐状态  父组件接收到自组件的事件后  触发input事件更改显隐性
+      子组件的数据通过事件逐级冒泡传值
+
+
+  方案1
+      ！！！picker控制popup的显隐性，
+      ！！！popup代替picker产生显隐性
+      显隐性动画
+  方案2
+      popup为picker的父组件
+      picker传值给popup popup传给root???
+
+      root通过v-model控制popup的显隐性
+      
+
+
+
+
+      picker直接传值给父组件 不通过popup 
+
+      QQQ:
+        由于popup和picker并不是同一个组件且无法直接控制该组件的显隐性
+    -->
 </div>   
 </template>
 
@@ -47,10 +76,20 @@ import alertInfo from "./components/alertInfo";
 import inputInfo from "./components/input";
 import message from "./components/message";
 import picker from "./components/picker/picker";
+import datepicker from "./components/datePicker/datepickerbox";
 import model from "./components/modelPanel";
 
 export default {
-  components: { model, btna, radiu, alertInfo, inputInfo, message, picker },
+  components: {
+    model,
+    btna,
+    radiu,
+    alertInfo,
+    inputInfo,
+    message,
+    picker,
+    datepicker
+  },
   data() {
     return {
       aaa: true,
@@ -58,8 +97,8 @@ export default {
       open: "开启蓝牙",
       text: "点击了按钮",
       textinfo: "sadfas",
-      ccc: { show: false },
       modelShow: false,
+      showTest: false,
       pickertest: [
         {
           data: [
@@ -100,7 +139,8 @@ export default {
   },
   methods: {
     clickHandle: function(a) {
-      this.ccc.show = !this.ccc.show;
+      this.showTest = !this.showTest;
+      // this.ccc.show = !this.ccc.show;
       // this.$message({ text: "消息体", type: "error" });
       // this.modelShow = !this.modelShow;
     }
