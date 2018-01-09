@@ -12,24 +12,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 25px;
+  font-size: 35px;
   color: #555;
 }
 .prev-1 {
-  font-size: 35px;
   color: #888;
+  transform: rotateX(-25deg);
 }
 .prev-2 {
-  font-size: 32px;
   color: #777;
+  transform: rotateX(-50deg);
+  
 }
 .prev-3 {
-  font-size: 28px;
   color: #666;
+  transform: rotateX(-75deg);
+  
 }
 .prev-4 {
-  font-size: 25px;
+  font-size: 35px;
   color: #555;
+  transform: rotateX(-100deg);
+  
 }
 .prev-0 {
   font-size: 38px;

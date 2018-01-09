@@ -4,7 +4,7 @@
           <div class="v-picker-relative">
             <div class="v-picker-sign"></div>
             <div class="v-picker-title">
-              <div class="v-picker-cancel">取消</div>
+              <div class="v-picker-cancel" @click='cancel()'>取消</div>
               <div class="v-picker-submit" @click='submitData()'>完成</div>
             </div>
             <div class="v-pick-body-box">
@@ -43,6 +43,9 @@ export default {
   },
   mounted() {},
   methods: {
+    cancel() {
+      this.$refs.popup.close();
+    },
     defaultEvent(evt) {
       evt.preventDefault();
     },

@@ -1,4 +1,5 @@
 <template>
+  <popup ref='popup'>
     <div class="v-date-picker-main">
         <div class="v-date-picker-relative">
             <div class="v-date-picker-title">
@@ -10,16 +11,31 @@
             </div>
         </div>  
     </div>
+  </popup>
 </template>
 <script>
-export default {};
+import popup from "../popup";
+export default {
+  watch: {
+    show(newVal) {
+      this.$refs.popup.show();
+    }
+  },
+  mounted() {
+    this.popup = !this.popup ? this.$refs.popup : this.popup;
+  },
+  props: {
+    show: { default: "" }
+  },
+  components: { popup }
+};
 </script>
 <style lang="scss" scoped>
 .v-date-picker-main {
   overflow: hidden;
   background: #fff;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   .v-date-picker-relative {
