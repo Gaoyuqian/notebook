@@ -28,8 +28,8 @@
       <div class="a">
       <inputInfo type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
-      <picker :show='showTest' :data='pickertest' v-model='pickerdata'></picker>
-      <!-- <datepicker></datepicker> -->
+      <!-- <picker :show='showTest' :data='pickertest' v-model='pickerdata'></picker> -->
+      <datepicker :show='showTest'></datepicker>
         <model v-model='modelShow' marginTop='20'>
             <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
             <div slot='footer'>
@@ -57,10 +57,6 @@
 
       root通过v-model控制popup的显隐性
       
-
-
-
-
       picker直接传值给父组件 不通过popup 
 
       QQQ:
@@ -98,7 +94,7 @@ export default {
       text: "点击了按钮",
       textinfo: "sadfas",
       modelShow: false,
-      showTest: false,
+      showTest: true,
       pickertest: [
         {
           data: [
@@ -150,9 +146,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .a {
-  margin: 20px 10px;
-}
-.main {
+  margin: 0px 10px 20px;
 }
 </style>
 

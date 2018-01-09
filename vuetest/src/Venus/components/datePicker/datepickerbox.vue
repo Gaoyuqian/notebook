@@ -6,20 +6,7 @@
                 <div class="v-submit">完成</div>
             </div>
             <div class="v-date-picker-body">
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
-                    123</br>
+           
             </div>
         </div>  
     </div>

@@ -1,5 +1,5 @@
 <template>
-      <popupsss ref='popup'>
+      <popup ref='popup'>
         <div class="v-picker-container"  @touchmove.stop='defaultEvent'>  
           <div class="v-picker-relative">
             <div class="v-picker-sign"></div>
@@ -12,15 +12,17 @@
             </div>
           </div>
         </div>
-      </popupsss>
+      </popup>
 </template>
 <script>
+// 不考虑show的值 只考虑是否变化 保证变化的唯一性
 /* @param array [{data:Object,default:String}]  data */
 /* @param Boolean show=True||False  show  */
 /* @return [param1,param2,param3....,paramN] {show:false}  model */
 import pickbody from "../picker/pickerbody";
-import popupsss from "../popup";
+import popup from "../popup";
 export default {
+  components: { pickbody, popup },
   data() {
     return {
       keys: "1",
@@ -35,7 +37,6 @@ export default {
   mounted() {
     this.popup = !this.popup ? this.$refs.popup : this.popup;
   },
-  components: { pickbody, popupsss },
   props: {
     data: { default: "" },
     show: { default: "" }
