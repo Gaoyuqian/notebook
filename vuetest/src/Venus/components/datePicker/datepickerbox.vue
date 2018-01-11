@@ -48,12 +48,12 @@ export default {
       this.endPoint.y = evt.changedTouches[0].clientY;
       /* 获取事件距离 */
       this.distance += this.endPoint.y - this.startPoint.y;
-      // this.distance = this.overBorder(this.distance).val;
-      // if (this.overBorder(this.distance + 30).position == "up") {
-      //   this.distance = this.overBorder(this.distance).val;
-      // } else if (this.overBorder(this.distance - 30).position == "down") {
-      //   this.distance = this.overBorder(this.distance).val;
-      // }
+      if (this.overBorder(this.distance).position == "up") {
+        //边界判断
+        this.distance = this.overBorder(this.distance).val + 30;
+      } else if (this.overBorder(this.distance).position == "down") {
+        this.distance = this.overBorder(this.distance).val - 30;
+      }
       /* 根据距离计算相对垂直位移 */
       this.path.style.transform = `translateY(${this.distance}px)`;
       this.path.style.transition = "all .2s";
@@ -61,12 +61,13 @@ export default {
     touchend(evt) {
       /* 主要用来校对 */
       if (this.overBorder(this.distance).position == "up") {
+        //出界回调
         this.distance = this.overBorder(this.distance).val;
       } else if (this.overBorder(this.distance).position == "down") {
         this.distance = this.overBorder(this.distance).val;
       }
       this.path.style.transform = `translateY(${this.distance}px)`;
-      // this.path.style.transition = "all .16s";
+      this.path.style.transition = "all .2s";
     },
 
     overBorder(distance) {
@@ -132,10 +133,9 @@ export default {
   .v-date-picker-line {
     width: 100%;
     height: 60px;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-    // background: rgba(2, 2, 2, 0.2);
-
+    // border-top: 1px solid #000;
+    // border-bottom: 1px solid #000;
+    background: rgba(2, 2, 2, 0.2);
     position: absolute;
     top: 50%;
     left: 0;
