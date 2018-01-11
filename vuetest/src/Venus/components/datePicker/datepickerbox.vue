@@ -4,7 +4,7 @@
         <div class="v-date-picker-relative">
             <div class="v-date-picker-title">
                 <div class="v-cancel">取消</div>
-                <div class="v-submit">完成</div>
+                <div class="v-submit" @click='submit'>完成</div>
             </div>
             <div class="v-date-picker-body">
               <div class="v-date-picker-box" @touchstart.stop='touchstart' @touchmove.stop='touchmove' @touchend.stop='touchend'>
@@ -51,22 +51,22 @@ export default {
         this.distance += this.endPoint.y - this.startPoint.y;
       }
       /* 根据距离计算相对垂直位移 */
-      this.path.style.transform = `translateY(${this.distance}px)`;
-      this.path.style.transition = "all .2s";
+      this.animation(this.animateTime);
     },
     touchend(evt) {
       /* 主要用来校对 */
-      if (this.overBorder(this.distance).position == "up") {
-        //出界回调
-        this.distance = this.overBorder(this.distance).val;
-      } else if (this.overBorder(this.distance).position == "down") {
+      if (this.overBorder(this.distance).position != "none") {
         this.distance = this.overBorder(this.distance).val;
       }
       this.moveTrim();
-      this.path.style.transform = `translateY(${this.distance}px)`;
-      this.path.style.transition = "all .2s";
+      this.animation(this.animateTime);
     },
 
+    submit() {
+      const reData = {
+
+      };
+    },
     overBorder(distance) {
       const Client = document.querySelector(".v-date-picker-scroll");
       const Cheight = Client.clientHeight; // clientheight = 300
@@ -82,9 +82,24 @@ export default {
     // end微调函数
 
     toRem() {},
+    animation(time) {
+      this.path.style.transform = `translateY(${this.distance}px)`;
+      this.path.style.transition = `all ${time}s`;
+    },
     moveTrim() {
+      const Client = document.querySelector(".v-date-picker-scroll");
+      const Cheight = Client.clientHeight; // clientheight = 300
+      const Iheight = //itemheight
+        Cheight / document.querySelectorAll(".v-date-picker-scroll div").length;
+      // 没停留在点上要移动到附近的点上
       const dis = this.distance;
-      console.log(dis);
+      if (dis % Iheight != 0) {
+        //没在点上
+        const YS = dis % Iheight;
+        if (YS < Iheight / 2) {
+          this.distance = dis - dis % Iheight;
+        }
+      }
     }
   },
   data() {
@@ -93,7 +108,8 @@ export default {
       startPoint: { x: "", y: "" },
       endPoint: { x: "", y: "" },
       distance: 0,
-      scrollLock: false
+      scrollLock: false,
+      animateTime: 0.16
     };
   },
   watch: {
@@ -191,6 +207,8 @@ export default {
     width: 100%;
     height: 100px;
     border-bottom: 1px solid #999;
+    font-weight: 800;
+    color: red;
   }
 }
 </style>
