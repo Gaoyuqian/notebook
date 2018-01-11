@@ -64,41 +64,35 @@ export default {
 
     submit() {
       const reData = {
-
+        index: Math.abs(this.distance) / this.Iheight,
+        num: Math.abs(this.distance) / this.Iheight + 1
+        // text:    /* arr[index] */
       };
+      console.log(reData);
     },
     overBorder(distance) {
-      const Client = document.querySelector(".v-date-picker-scroll");
-      const Cheight = Client.clientHeight; // clientheight = 300
-      const Iheight = //itemheight
-        Cheight / document.querySelectorAll(".v-date-picker-scroll div").length;
-      if (distance > Iheight) {
+      if (distance > this.Iheight) {
         return { val: 0, position: "up" };
-      } else if (distance < -Cheight) {
-        return { val: -Cheight + Iheight, position: "down" };
+      } else if (distance < -this.Cheight) {
+        return { val: -this.Cheight + this.Iheight, position: "down" };
       }
       return { val: distance, position: "none" };
     },
     // end微调函数
-
-    toRem() {},
     animation(time) {
       this.path.style.transform = `translateY(${this.distance}px)`;
       this.path.style.transition = `all ${time}s`;
     },
     moveTrim() {
-      const Client = document.querySelector(".v-date-picker-scroll");
-      const Cheight = Client.clientHeight; // clientheight = 300
-      const Iheight = //itemheight
-        Cheight / document.querySelectorAll(".v-date-picker-scroll div").length;
       // 没停留在点上要移动到附近的点上
-      const dis = this.distance;
-      if (dis % Iheight != 0) {
+      const dis = Math.abs(this.distance);
+      if (dis % this.Iheight != 0) {
         //没在点上
-        const YS = dis % Iheight;
-        if (YS < Iheight / 2) {
-          this.distance = dis - dis % Iheight;
-        }
+        const YS = dis % this.Iheight;
+        this.distance =
+          YS < this.Iheight / 2
+            ? -(dis - dis % this.Iheight)
+            : -(dis + (this.Iheight - dis % this.Iheight));
       }
     }
   },
@@ -109,15 +103,26 @@ export default {
       endPoint: { x: "", y: "" },
       distance: 0,
       scrollLock: false,
-      animateTime: 0.16
+      animateTime: 0.16,
+      Client: "",
+      Cheight: "",
+      Iheight: ""
     };
   },
   watch: {
     show(newVal) {
       this.$refs.popup.show();
+      setTimeout(() => {
+        this.Client = document.querySelector(".v-date-picker-scroll");
+        this.Cheight = this.Client.clientHeight; // clientheight = 300
+        this.Iheight = //itemheight
+          this.Cheight /
+          document.querySelectorAll(".v-date-picker-scroll div").length;
+      });
     }
   },
   mounted() {
+    console.log(this);
     this.popup = !this.popup ? this.$refs.popup : this.popup;
   },
   props: {
