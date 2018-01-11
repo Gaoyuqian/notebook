@@ -18,7 +18,7 @@
                   <div>5</div>
                   <div>到大地方撒1</div>
                   <div>到大地方撒2</div>
-                  <div>到大地方撒3</div>
+                  <div>到大地方撒3</div>                  
                   <div>到大地方撒4</div>
                   <div>到大地方撒5</div>                  
                 </div>  
@@ -47,12 +47,8 @@ export default {
       this.endPoint.x = evt.changedTouches[0].clientX;
       this.endPoint.y = evt.changedTouches[0].clientY;
       /* 获取事件距离 */
-      this.distance += this.endPoint.y - this.startPoint.y;
-      if (this.overBorder(this.distance).position == "up") {
-        //边界判断
-        this.distance = this.overBorder(this.distance).val + 30;
-      } else if (this.overBorder(this.distance).position == "down") {
-        this.distance = this.overBorder(this.distance).val - 30;
+      if (this.overBorder(this.distance).position == "none") {
+        this.distance += this.endPoint.y - this.startPoint.y;
       }
       /* 根据距离计算相对垂直位移 */
       this.path.style.transform = `translateY(${this.distance}px)`;
@@ -66,6 +62,7 @@ export default {
       } else if (this.overBorder(this.distance).position == "down") {
         this.distance = this.overBorder(this.distance).val;
       }
+      this.moveTrim();
       this.path.style.transform = `translateY(${this.distance}px)`;
       this.path.style.transition = "all .2s";
     },
@@ -75,17 +72,19 @@ export default {
       const Cheight = Client.clientHeight; // clientheight = 300
       const Iheight = //itemheight
         Cheight / document.querySelectorAll(".v-date-picker-scroll div").length;
-      if (distance > Iheight * 2) {
-        return { val: Iheight * 2, position: "up" };
-      } else if (distance < Cheight * -1 + Iheight * 3) {
-        return { val: Cheight * -1 + Iheight * 3, position: "down" };
-      } else {
-        return { val: distance, position: "none" };
+      if (distance > Iheight) {
+        return { val: 0, position: "up" };
+      } else if (distance < -Cheight) {
+        return { val: -Cheight + Iheight, position: "down" };
       }
+      return { val: distance, position: "none" };
     },
-    round(num) {
-      num = Math.abs(num);
-      return num > 1.7777 ? parseInt(num) : parseInt(num) + 1;
+    // end微调函数
+
+    toRem() {},
+    moveTrim() {
+      const dis = this.distance;
+      console.log(dis);
     }
   },
   data() {
@@ -150,6 +149,7 @@ export default {
       height: 300px;
       overflow: hidden;
       .v-date-picker-scroll {
+        margin-top: 120px;
         div {
           display: flex;
           justify-content: center;
