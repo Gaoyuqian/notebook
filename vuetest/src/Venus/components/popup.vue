@@ -19,7 +19,7 @@
 }
 .silder-enter,
 .silder-leave-to {
-  bottom: -500px !important;
+  bottom: -700px !important;
 }
 .silder-enter-to,
 .silder-leave {

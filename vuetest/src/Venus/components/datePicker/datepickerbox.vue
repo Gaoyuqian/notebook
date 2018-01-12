@@ -6,31 +6,25 @@
                 <div class="v-cancel">取消</div>
                 <div class="v-submit" @click='submit'>完成</div>
             </div>
-            <div class="v-date-picker-body">
+            <div class="box">
+               <pickerbody :data='data'></pickerbody>       
+              <pickerbody :data='data'></pickerbody>   
+            </div>
+            <!-- <div class="v-date-picker-body">
               <div class="v-date-picker-box" @touchstart.stop='touchstart' @touchmove.stop='touchmove' @touchend.stop='touchend'>
               <div class="v-date-picker-line"></div>    
-              <div class="v-date-picker-mask"></div>                                        
-                <div class="v-date-picker-scroll">
-                  <div>1</div>
-                  <div>2</div>
-                  <div>3</div>
-                  <div>4</div>
-                  <div>5</div>
-                  <div>到大地方撒1</div>
-                  <div>到大地方撒2</div>
-                  <div>到大地方撒3</div>                  
-                  <div>到大地方撒4</div>
-                  <div>到大地方撒5</div>                  
-                </div>  
-              </div>            
-            </div>
+              <div class="v-date-picker-mask"></div>     -->                                  
+              <!-- </div>             -->
+            <!-- </div> -->
         </div>  
     </div>
   </popup>
 </template>
 <script>
 import popup from "../popup";
+import pickerbody from "./datepickerbody";
 export default {
+  //拿到type之后 生成数据
   methods: {
     touchstart(evt) {
       /* 获取事件起点 */
@@ -69,11 +63,12 @@ export default {
         // text:    /* arr[index] */
       };
       console.log(reData);
+      this.$refs.popup.close();
     },
     overBorder(distance) {
-      if (distance > this.Iheight) {
+      if (distance >= this.Iheight) {
         return { val: 0, position: "up" };
-      } else if (distance < -this.Cheight) {
+      } else if (distance <= -this.Cheight) {
         return { val: -this.Cheight + this.Iheight, position: "down" };
       }
       return { val: distance, position: "none" };
@@ -94,7 +89,8 @@ export default {
             ? -(dis - dis % this.Iheight)
             : -(dis + (this.Iheight - dis % this.Iheight));
       }
-    }
+    },
+    setData() {}
   },
   data() {
     return {
@@ -106,32 +102,27 @@ export default {
       animateTime: 0.16,
       Client: "",
       Cheight: "",
-      Iheight: ""
+      Iheight: "",
+      data: []
     };
   },
   watch: {
     show(newVal) {
       this.$refs.popup.show();
-      setTimeout(() => {
-        this.Client = document.querySelector(".v-date-picker-scroll");
-        this.Cheight = this.Client.clientHeight; // clientheight = 300
-        this.Iheight = //itemheight
-          this.Cheight /
-          document.querySelectorAll(".v-date-picker-scroll div").length;
-      });
     }
   },
   mounted() {
-    console.log(this);
+    console.log(this.type);
     this.popup = !this.popup ? this.$refs.popup : this.popup;
   },
   props: {
+    type: { type: String },
     show: { default: "" },
     part: {
       default: 5
     }
   },
-  components: { popup }
+  components: { popup, pickerbody }
 };
 </script>
 <style lang="scss" scoped>
@@ -152,7 +143,7 @@ export default {
   }
   .v-date-picker-line {
     width: 100%;
-    height: 60px;
+    height: 80px;
     // border-top: 1px solid #000;
     // border-bottom: 1px solid #000;
     background: rgba(2, 2, 2, 0.2);
@@ -162,42 +153,34 @@ export default {
     transform: translate(0%, -50%);
     z-index: 100;
   }
-  .v-date-picker-body {
-    padding: 60px 0;
-    box-sizing: border-box;
-    .v-date-picker-box {
-      position: relative;
-      height: 300px;
-      overflow: hidden;
-      .v-date-picker-scroll {
-        margin-top: 120px;
-        div {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 30px;
-          color: #000;
-          font-weight: 800;
-          padding: 10px 0;
-          height: 60px;
-        }
-      }
-      .v-date-picker-mask {
-        z-index: 100;
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 1),
-          rgba(255, 255, 255, 0),
-          rgba(255, 255, 255, 1)
-        );
-        width: 100%;
-        height: inherit;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-    }
+  .box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
+  // .v-date-picker-body {
+  //   padding: 60px 0;
+  //   box-sizing: border-box;
+  //   .v-date-picker-box {
+  //     position: relative;
+  //     height: 360px;
+  //     overflow: hidden;
+  //     .v-date-picker-mask {
+  //       z-index: 100;
+  //       background: linear-gradient(
+  //         to bottom,
+  //         rgba(255, 255, 255, 1),
+  //         rgba(255, 255, 255, 0),
+  //         rgba(255, 255, 255, 1)
+  //       );
+  //       width: 100%;
+  //       height: inherit;
+  //       position: absolute;
+  //       top: 0;
+  //       left: 0;
+  //     }
+  //   }
+  // }
   .v-date-picker-title {
     z-index: 99;
     display: flex;
