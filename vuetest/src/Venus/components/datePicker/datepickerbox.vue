@@ -40,12 +40,9 @@ export default {
         month.push(item);
       }
       this.data.push({ month: month });
-      // this.data.month = month;
       console.log(this.data);
     },
-    setDay(month) {
-      
-    }
+    setDay(month) {}
   },
   data() {
     return {
@@ -107,8 +104,6 @@ export default {
   .v-date-picker-line {
     width: 100%;
     height: 80px;
-    // border-top: 1px solid #000;
-    // border-bottom: 1px solid #000;
     background: rgba(2, 2, 2, 0.2);
     position: absolute;
     top: 50%;
@@ -121,29 +116,6 @@ export default {
     justify-content: space-between;
     align-items: center;
   }
-  // .v-date-picker-body {
-  //   padding: 60px 0;
-  //   box-sizing: border-box;
-  //   .v-date-picker-box {
-  //     position: relative;
-  //     height: 360px;
-  //     overflow: hidden;
-  //     .v-date-picker-mask {
-  //       z-index: 100;
-  //       background: linear-gradient(
-  //         to bottom,
-  //         rgba(255, 255, 255, 1),
-  //         rgba(255, 255, 255, 0),
-  //         rgba(255, 255, 255, 1)
-  //       );
-  //       width: 100%;
-  //       height: inherit;
-  //       position: absolute;
-  //       top: 0;
-  //       left: 0;
-  //     }
-  //   }
-  // }
   .v-date-picker-title {
     z-index: 99;
     display: flex;
