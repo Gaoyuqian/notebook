@@ -7,15 +7,9 @@
                 <div class="v-submit" @click='submit'>完成</div>
             </div>
             <div class="box">
-               <pickerbody :data='data'></pickerbody>       
-              <pickerbody :data='data'></pickerbody>   
+              <!-- <div @getdate='getdate' v-for='item in data' :data='data[item]'>{{item}}</div> -->
+               <pickerbody @getdate='getdate' :key='val' v-for='(item,val) in data' :data='item' type='asdfa'></pickerbody>       
             </div>
-            <!-- <div class="v-date-picker-body">
-              <div class="v-date-picker-box" @touchstart.stop='touchstart' @touchmove.stop='touchmove' @touchend.stop='touchend'>
-              <div class="v-date-picker-line"></div>    
-              <div class="v-date-picker-mask"></div>     -->                                  
-              <!-- </div>             -->
-            <!-- </div> -->
         </div>  
     </div>
   </popup>
@@ -26,71 +20,32 @@ import pickerbody from "./datepickerbody";
 export default {
   //拿到type之后 生成数据
   methods: {
-    touchstart(evt) {
-      /* 获取事件起点 */
-      this.endPoint.x = evt.changedTouches[0].clientX;
-      this.endPoint.y = evt.changedTouches[0].clientY;
-      this.path = document.querySelector(".v-date-picker-scroll");
-      this.scrollLock = false;
-      evt.preventDefault();
+    submit() {},
+    getdate(aaa, bbb) {
+      console.log(aaa, bbb);
     },
-    touchmove(evt) {
-      /* 获取事件终点 */
-      this.startPoint.x = this.endPoint.x;
-      this.startPoint.y = this.endPoint.y;
-      this.endPoint.x = evt.changedTouches[0].clientX;
-      this.endPoint.y = evt.changedTouches[0].clientY;
-      /* 获取事件距离 */
-      if (this.overBorder(this.distance).position == "none") {
-        this.distance += this.endPoint.y - this.startPoint.y;
+    setYear(start = new Date(0).getFullYear(), now = new Date().getFullYear()) {
+      //向上兼容！！！
+      const year = [];
+      for (let item = start; item <= now; item++) {
+        year.push(item);
       }
-      /* 根据距离计算相对垂直位移 */
-      this.animation(this.animateTime);
+      this.data.push({ year: year.reverse() });
     },
-    touchend(evt) {
-      /* 主要用来校对 */
-      if (this.overBorder(this.distance).position != "none") {
-        this.distance = this.overBorder(this.distance).val;
+    setMonth() {
+      //向上兼容！！！
+      this.setYear();
+      const month = [];
+      for (let item = 1; item <= 12; item++) {
+        month.push(item);
       }
-      this.moveTrim();
-      this.animation(this.animateTime);
+      this.data.push({ month: month });
+      // this.data.month = month;
+      console.log(this.data);
     },
-
-    submit() {
-      const reData = {
-        index: Math.abs(this.distance) / this.Iheight,
-        num: Math.abs(this.distance) / this.Iheight + 1
-        // text:    /* arr[index] */
-      };
-      console.log(reData);
-      this.$refs.popup.close();
-    },
-    overBorder(distance) {
-      if (distance >= this.Iheight) {
-        return { val: 0, position: "up" };
-      } else if (distance <= -this.Cheight) {
-        return { val: -this.Cheight + this.Iheight, position: "down" };
-      }
-      return { val: distance, position: "none" };
-    },
-    // end微调函数
-    animation(time) {
-      this.path.style.transform = `translateY(${this.distance}px)`;
-      this.path.style.transition = `all ${time}s`;
-    },
-    moveTrim() {
-      // 没停留在点上要移动到附近的点上
-      const dis = Math.abs(this.distance);
-      if (dis % this.Iheight != 0) {
-        //没在点上
-        const YS = dis % this.Iheight;
-        this.distance =
-          YS < this.Iheight / 2
-            ? -(dis - dis % this.Iheight)
-            : -(dis + (this.Iheight - dis % this.Iheight));
-      }
-    },
-    setData() {}
+    setDay(month) {
+      
+    }
   },
   data() {
     return {
@@ -111,8 +66,16 @@ export default {
       this.$refs.popup.show();
     }
   },
-  mounted() {
-    console.log(this.type);
+  created() {
+    switch (this.type) {
+      case "year":
+        this.setYear();
+        break;
+      case "month":
+        this.setMonth();
+        break;
+    }
+
     this.popup = !this.popup ? this.$refs.popup : this.popup;
   },
   props: {

@@ -1,18 +1,8 @@
 <template>
       <div class="v-date-picker-body">
             <div class="v-date-picker-box"  @touchstart='touchstart' @touchmove.stop='touchmove' @touchend.stop='touchend'>
-              <div class="v-date-picker-scroll"  ref='scroll'>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>
-                    <div class="content">dsafdfa</div>        
+              <div class="v-date-picker-scroll" ref='scroll'>
+                    <div class="content" v-for='(item,val) in Mdata'>{{item}}</div>      
               </div>     
                <div class="v-date-picker-line"></div>    
               <div class="v-date-picker-mask"></div>           
@@ -31,7 +21,9 @@ export default {
       animateTime: 0.16,
       Client: "",
       Cheight: "",
-      Iheight: ""
+      Iheight: "",
+      Mdata: "",
+      Mkey: ""
     };
   },
   watch: {
@@ -45,9 +37,17 @@ export default {
     }
   },
   mounted() {
-    console.log(this.data);
+    // 挂载后执行一次submit 才能拿到日期
+    /*
+            获取日期  日期动态变化
+            初始化默认值为今天／月／年
+            box点完成返回一个对象       
+    */
+    this.Mkey = Object.keys(this.data);
+    this.Mdata = this.data[this.Mkey[0]];
+    console.log(this.Mdata);
   },
-  props: { data: { type: Array } },
+  props: { data: { type: Object } },
   methods: {
     touchstart(evt) {
       /* 获取事件起点 */
@@ -81,16 +81,20 @@ export default {
       this.moveTrim();
       this.animation(this.animateTime);
       this.scrollLock = true;
+      this.submit();
     },
 
     submit() {
+      //通过事件向上传递
       const reData = {
         index: Math.abs(this.distance) / this.Iheight,
-        num: Math.abs(this.distance) / this.Iheight + 1
-        // text:    /* arr[index] */
+        num: Math.abs(this.distance) / this.Iheight + 1,
+        text: this.Mdata[
+          Math.abs(this.distance) / this.Iheight
+        ] /* arr[index] */,
+        type: this.Mkey[0]
       };
-      console.log(reData);
-      this.$refs.popup.close();
+      this.$emit("getdate", reData, this);
     },
     overBorder(distance) {
       if (distance >= this.Iheight) {
@@ -110,12 +114,17 @@ export default {
       const dis = Math.abs(this.distance);
       if (dis % this.Iheight != 0) {
         //没在点上
-        const YS = dis % this.Iheight;
-        console.log(this.Iheight);
-        this.distance =
-          YS < this.Iheight / 2
-            ? -(dis - dis % this.Iheight)
-            : -(dis + (this.Iheight - dis % this.Iheight));
+        if (this.distance < -(this.Cheight - this.Iheight)) {
+          this.distance = -(this.Cheight - this.Iheight);
+        } else if (this.distance < 0) {
+          const YS = dis % this.Iheight;
+          this.distance =
+            YS < this.Iheight / 2
+              ? -(dis - dis % this.Iheight)
+              : -(dis + (this.Iheight - dis % this.Iheight));
+        } else {
+          this.distance = 0;
+        }
       }
     }
   }
