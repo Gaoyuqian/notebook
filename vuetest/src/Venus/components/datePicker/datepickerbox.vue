@@ -4,11 +4,11 @@
         <div class="v-date-picker-relative">
             <div class="v-date-picker-title">
                 <div class="v-cancel">取消</div>
-                <div class="v-submit" @click='submit'>完成</div>
+                <div class="v-submit"  @click='submit'>完成</div>
             </div>
             <div class="box">
               <!-- <div @getdate='getdate' v-for='item in data' :data='data[item]'>{{item}}</div> -->
-               <pickerbody @getdate='getdate' :key='val' v-for='(item,val) in data' :data='item' type='asdfa'></pickerbody>       
+               <pickerbody v-model='data' :getdata='getdata' @getdate='getdate' :key='val' v-for='(item,val) in data' :data='item' type='asdfa'></pickerbody>       
             </div>
         </div>  
     </div>
@@ -20,9 +20,13 @@ import pickerbody from "./datepickerbody";
 export default {
   //拿到type之后 生成数据
   methods: {
-    submit() {},
+    submit() {
+      this.getdata = !this.getdata;
+    },
     getdate(aaa, bbb) {
-      console.log(aaa, bbb);
+      if (aaa.type == "month") {
+        this.setDay(aaa.text);
+      }
     },
     setYear(start = new Date(0).getFullYear(), now = new Date().getFullYear()) {
       //向上兼容！！！
@@ -40,9 +44,33 @@ export default {
         month.push(item);
       }
       this.data.push({ month: month });
-      console.log(this.data);
     },
-    setDay(month) {}
+    setDay(month) {
+      const Day = [];
+      for (let item = 1; item <= this.checkMonth(month); item++) {
+        Day.push(item);
+      }
+      for (let item in this.data) {
+        if (this.data[item].day) {
+          this.data.pop();
+        }
+      }
+      this.data.push({ day: Day });
+    },
+    checkMonth(num) {
+      const first = [1, 3, 5, 7, 8, 10, 12];
+      const second = [2];
+      const three = [4, 6, 9, 11];
+      if (first.indexOf(num) != "-1") {
+        return 31;
+      }
+      if (second.indexOf(num) != "-1") {
+        return 29;
+      }
+      if (three.indexOf(num) != "-1") {
+        return 30;
+      }
+    }
   },
   data() {
     return {
@@ -55,7 +83,8 @@ export default {
       Client: "",
       Cheight: "",
       Iheight: "",
-      data: []
+      data: [],
+      getdata: false
     };
   },
   watch: {

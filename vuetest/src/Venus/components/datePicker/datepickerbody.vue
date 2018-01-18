@@ -13,7 +13,6 @@
 export default {
   data() {
     return {
-      path: "",
       startPoint: { x: "", y: "" },
       endPoint: { x: "", y: "" },
       distance: 0,
@@ -27,33 +26,38 @@ export default {
     };
   },
   watch: {
-    scrollLock(newVal) {
-      setTimeout(() => {
-        this.Client = this.$refs.scroll;
-        this.Cheight = this.Client.clientHeight; // clientheight = 300
-        this.Iheight = //itemheight
-          this.Cheight / this.$refs.scroll.children.length;
-      });
+    getdata() {
+      this.submit();
+    },
+    data() {
+      this.Mkey = Object.keys(this.data);
+      this.Mdata = this.data[this.Mkey[0]];
     }
   },
   mounted() {
     // 挂载后执行一次submit 才能拿到日期
     /*
-            获取日期  日期动态变化
+            获取日期  日期动态变化   bingo!!!
             初始化默认值为今天／月／年
             box点完成返回一个对象       
     */
     this.Mkey = Object.keys(this.data);
     this.Mdata = this.data[this.Mkey[0]];
-    console.log(this.Mdata);
+    this.$nextTick().then(() => {
+      this.Client = this.$refs.scroll;
+      this.Cheight = this.Client.clientHeight; // clientheight = 300
+      this.Iheight = //itemheight
+        this.Cheight / this.$refs.scroll.children.length;
+      // this.distance = -40;
+      this.animation(0.16);
+    });
   },
-  props: { data: { type: Object } },
+  props: { data: { type: Object }, getdata: { type: Boolean } },
   methods: {
     touchstart(evt) {
       /* 获取事件起点 */
       this.endPoint.x = evt.changedTouches[0].clientX;
       this.endPoint.y = evt.changedTouches[0].clientY;
-      this.path = this.$refs.scroll;
       if (!this.Client) {
         this.scrollLock = false;
       }
@@ -106,8 +110,8 @@ export default {
     },
     // end微调函数
     animation(time) {
-      this.path.style.transform = `translateY(${this.distance}px)`;
-      this.path.style.transition = `all ${time}s`;
+      this.Client.style.transform = `translateY(${this.distance}px)`;
+      this.Client.style.transition = `all ${time}s`;
     },
     moveTrim() {
       // 没停留在点上要移动到附近的点上
