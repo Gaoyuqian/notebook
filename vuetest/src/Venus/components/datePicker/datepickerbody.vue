@@ -30,8 +30,7 @@ export default {
       this.submit();
     },
     data() {
-      this.Mkey = Object.keys(this.data);
-      this.Mdata = this.data[this.Mkey[0]];
+      this.init();
     }
   },
   mounted() {
@@ -41,19 +40,22 @@ export default {
             初始化默认值为今天／月／年
             box点完成返回一个对象       
     */
-    this.Mkey = Object.keys(this.data);
-    this.Mdata = this.data[this.Mkey[0]];
-    this.$nextTick().then(() => {
-      this.Client = this.$refs.scroll;
-      this.Cheight = this.Client.clientHeight; // clientheight = 300
-      this.Iheight = //itemheight
-        this.Cheight / this.$refs.scroll.children.length;
-      // this.distance = -40;
-      this.animation(0.16);
-    });
+    this.init();
   },
   props: { data: { type: Object }, getdata: { type: Boolean } },
   methods: {
+    init() {
+      this.Mkey = Object.keys(this.data);
+      this.Mdata = this.data[this.Mkey[0]];
+      this.$nextTick().then(() => {
+        this.Client = this.$refs.scroll;
+        this.Cheight = this.Client.clientHeight; // clientheight = 300
+        this.Iheight = //itemheight
+          this.Cheight / this.$refs.scroll.children.length;
+        // this.distance = -40;
+        this.animation(0.16);
+      });
+    },
     touchstart(evt) {
       /* 获取事件起点 */
       this.endPoint.x = evt.changedTouches[0].clientX;

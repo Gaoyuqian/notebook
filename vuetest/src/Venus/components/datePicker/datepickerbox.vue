@@ -57,7 +57,7 @@ export default {
       }
       this.data.push({ day: Day });
     },
-    checkMonth(num) {
+    checkMonth(num = 1) {
       const first = [1, 3, 5, 7, 8, 10, 12];
       const second = [2];
       const three = [4, 6, 9, 11];
@@ -99,6 +99,10 @@ export default {
         break;
       case "month":
         this.setMonth();
+        break;
+      case "day":
+        this.setMonth();
+        this.setDay();
         break;
     }
 
