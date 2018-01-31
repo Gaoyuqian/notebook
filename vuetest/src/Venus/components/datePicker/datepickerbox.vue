@@ -21,11 +21,24 @@ export default {
   //拿到type之后 生成数据
   methods: {
     submit() {
+      this.pushDataLock = true;
+      this.callBackData = [];
       this.getdata = !this.getdata;
     },
     getdate(aaa, bbb) {
-      if (aaa.type == "month") {
+      if (aaa.type == "month" && !this.pushDataLock) {
         this.setDay(aaa.text);
+      } else if (this.pushDataLock) {
+        this.callBackData.push(aaa);
+        if (this.callBackData.length >= this.data.length) {
+          console.log(this.callBackData);
+          this.pushDataLock = false;
+          sessionStorage.setItem(
+            "v_datepickerinfo",
+            JSON.stringify(this.callBackData)
+          );
+          this.$refs.popup.close();
+        }
       }
     },
     setYear(start = new Date(0).getFullYear(), now = new Date().getFullYear()) {
@@ -84,7 +97,9 @@ export default {
       Cheight: "",
       Iheight: "",
       data: [],
-      getdata: false
+      callBackData: [],
+      getdata: false,
+      pushDataLock: false
     };
   },
   watch: {

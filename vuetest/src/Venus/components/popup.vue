@@ -38,7 +38,8 @@
 export default {
   data() {
     return {
-      showTest: false
+      showTest: false,
+      data: ""
     };
   },
   props: { value: { type: Boolean } },
@@ -49,6 +50,9 @@ export default {
     },
     close() {
       this.showTest = false;
+    },
+    getdata() {
+      
     }
   }
 };

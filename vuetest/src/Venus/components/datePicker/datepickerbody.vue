@@ -22,28 +22,82 @@ export default {
       Cheight: "",
       Iheight: "",
       Mdata: "",
-      Mkey: ""
+      Mkey: "",
+      reData: ""
     };
   },
   watch: {
     getdata() {
       this.submit();
     },
+    distance(newVal) {
+      console.log(newVal);
+    },
     data() {
-      this.init();
+      this.Mkey = Object.keys(this.data);
+      this.Mdata = this.data[this.Mkey[0]];
+      this.$nextTick().then(() => {
+        this.Client = this.$refs.scroll;
+        this.Cheight = this.Client.clientHeight; // clientheight = 300
+        this.Iheight = //itemheight
+          this.Cheight / this.$refs.scroll.children.length;
+        if (this.overBorder(this.distance).position != "none") {
+          this.distance = this.overBorder(this.distance).val;
+          this.moveTrim();
+          this.animation(this.animateTime);
+        }
+      });
     }
   },
+  created() {},
   mounted() {
     // 挂载后执行一次submit 才能拿到日期
     /*
             获取日期  日期动态变化   bingo!!!
-            初始化默认值为今天／月／年
-            box点完成返回一个对象       
+            初始化默认值为今天／月／年  bingo!!!
+            box点完成返回一个对象       bingo!!!
+
+            QQQ: 会一直跳到当前日期
+            解决方案  一个是v-show   需要解决Cheight 的问题  
+             一个是sessionStronge  拓展问题，
     */
+    if (sessionStorage.getItem("v_datepickerinfo") != "undefined") {
+      this.reData = JSON.parse(sessionStorage.getItem("v_datepickerinfo"));
+      console.log(this.reData);
+    }
     this.init();
   },
   props: { data: { type: Object }, getdata: { type: Boolean } },
   methods: {
+    setDate(time) {
+      let toYear, toMouth, toDay, disValue;
+      if (time) {
+        for (let item of time) {
+          if (item.type == this.Mkey[0]) {
+            disValue = parseInt(item.text);
+          }
+        }
+      } else {
+        toYear = time || new Date().getFullYear();
+        toMouth = time || new Date().getMonth() + 1;
+        toDay = time || new Date().getDate();
+      }
+      switch (this.Mkey[0]) {
+        case "year":
+          this.distance =
+            parseInt(-this.Mdata.indexOf(toYear || disValue)) * this.Iheight;
+          break;
+        case "month":
+          this.distance =
+            parseInt(-this.Mdata.indexOf(toMouth || disValue)) * this.Iheight;
+          break;
+        case "day":
+          this.distance =
+            parseInt(-this.Mdata.indexOf(toDay || disValue)) * this.Iheight;
+          break;
+      }
+      this.animation(0.16);
+    },
     init() {
       this.Mkey = Object.keys(this.data);
       this.Mdata = this.data[this.Mkey[0]];
@@ -52,8 +106,8 @@ export default {
         this.Cheight = this.Client.clientHeight; // clientheight = 300
         this.Iheight = //itemheight
           this.Cheight / this.$refs.scroll.children.length;
-        // this.distance = -40;
-        this.animation(0.16);
+        // !this.reData && this.setDate();
+        this.setDate(this.reData);
       });
     },
     touchstart(evt) {
@@ -92,7 +146,7 @@ export default {
 
     submit() {
       //通过事件向上传递
-      const reData = {
+      this.reData = {
         index: Math.abs(this.distance) / this.Iheight,
         num: Math.abs(this.distance) / this.Iheight + 1,
         text: this.Mdata[
@@ -100,7 +154,7 @@ export default {
         ] /* arr[index] */,
         type: this.Mkey[0]
       };
-      this.$emit("getdate", reData, this);
+      this.$emit("getdate", this.reData, this);
     },
     overBorder(distance) {
       if (distance >= this.Iheight) {
@@ -141,8 +195,6 @@ export default {
 .v-date-picker-line {
   width: 100%;
   height: 80px;
-  // border-top: 1px solid #000;
-  // border-bottom: 1px solid #000;
   background: rgba(2, 2, 2, 0.2);
   position: absolute;
   top: 50%;
