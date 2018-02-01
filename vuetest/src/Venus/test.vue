@@ -29,7 +29,7 @@
       <inputInfo type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <!-- <picker :show='showTest' :data='pickertest' v-model='pickerdata'></picker> -->
-      <datepicker v-model='dataTest' :show='showTest' type='day'></datepicker>
+      <datepicker v-model='dataTest' :show='showTest' type='year'></datepicker>
       <!-- datepicker 需要重写成css3控制的滚动效果 年后 -->
         <model v-model='modelShow' marginTop='20'>
             <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
@@ -40,8 +40,6 @@
         </model>
 
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
-
-
     <!--
       控制显示和隐藏的方法
       添加一个父组件 只负责控制显示状态  子组件触发点击事件后 触发父组件的关闭状态

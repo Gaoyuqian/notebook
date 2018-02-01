@@ -26,7 +26,7 @@ export default {
       this.getdata = !this.getdata;
     },
     getdate(aaa, bbb) {
-      if (aaa.type == "month" && !this.pushDataLock) {
+      if (aaa.type == "month" && !this.pushDataLock && this.type == "day") {
         this.setDay(aaa.text);
       } else if (this.pushDataLock) {
         this.callBackData.push(aaa);
