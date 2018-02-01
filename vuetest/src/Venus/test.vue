@@ -38,7 +38,10 @@
               <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>取消</btna>                                      
             </div>                        
         </model>
-
+    <div>
+      <lineBox line='both' type='title' size='big'>
+        我是文案</lineBox>
+    </div>
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
     <!--
       控制显示和隐藏的方法
@@ -74,6 +77,7 @@ import message from "./components/message";
 import picker from "./components/picker/picker";
 import datepicker from "./components/datePicker/datepickerbox";
 import model from "./components/modelPanel";
+import lineBox from "./components/lineBox";
 
 export default {
   components: {
@@ -84,7 +88,8 @@ export default {
     inputInfo,
     message,
     picker,
-    datepicker
+    datepicker,
+    lineBox
   },
   data() {
     return {
@@ -149,6 +154,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .a {
   margin: 0px 10px 20px;
 }

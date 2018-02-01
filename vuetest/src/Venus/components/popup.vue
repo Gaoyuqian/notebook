@@ -11,6 +11,7 @@
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 9999;
 }
 
 .silder-enter-active,
@@ -51,9 +52,7 @@ export default {
     close() {
       this.showTest = false;
     },
-    getdata() {
-      
-    }
+    getdata() {}
   }
 };
 </script>
