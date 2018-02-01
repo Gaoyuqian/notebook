@@ -31,12 +31,13 @@ export default {
       } else if (this.pushDataLock) {
         this.callBackData.push(aaa);
         if (this.callBackData.length >= this.data.length) {
-          console.log(this.callBackData);
+          // console.log(this.callBackData);
           this.pushDataLock = false;
           sessionStorage.setItem(
             "v_datepickerinfo",
             JSON.stringify(this.callBackData)
           );
+          this.$emit("input", this.callBackData);
           this.$refs.popup.close();
         }
       }

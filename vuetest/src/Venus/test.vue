@@ -29,7 +29,8 @@
       <inputInfo type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
     </div>
       <!-- <picker :show='showTest' :data='pickertest' v-model='pickerdata'></picker> -->
-      <datepicker :show='showTest' type='day'></datepicker>
+      <datepicker v-model='dataTest' :show='showTest' type='day'></datepicker>
+      <!-- datepicker 需要重写成css3控制的滚动效果 年后 -->
         <model v-model='modelShow' marginTop='20'>
             <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
             <div slot='footer'>
@@ -119,10 +120,14 @@ export default {
         { data: ["1", 2, 3, 4, 5, 6, 4, 5, 6, 4, 5, 6], default: "1" },
         { data: ["1", 2, 3, 4, 5, 6], default: "1" }
       ],
-      pickerdata: ""
+      pickerdata: "",
+      dataTest: ""
     };
   },
   watch: {
+    dataTest: function(newVal) {
+      console.log(newVal);
+    },
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
       this.$alert({ text: this.open, canclose: true });

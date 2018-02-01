@@ -31,7 +31,7 @@ export default {
       this.submit();
     },
     distance(newVal) {
-      console.log(newVal);
+      // console.log(newVal);
     },
     data() {
       this.Mkey = Object.keys(this.data);
@@ -63,7 +63,6 @@ export default {
     */
     if (sessionStorage.getItem("v_datepickerinfo") != "undefined") {
       this.reData = JSON.parse(sessionStorage.getItem("v_datepickerinfo"));
-      console.log(this.reData);
     }
     this.init();
   },
