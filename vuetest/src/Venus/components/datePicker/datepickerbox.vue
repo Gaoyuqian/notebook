@@ -3,7 +3,7 @@
     <div class="v-date-picker-main">
         <div class="v-date-picker-relative">
             <div class="v-date-picker-title">
-                <div class="v-cancel">取消</div>
+                <div class="v-cancel"  @click='cancel'>取消</div>
                 <div class="v-submit"  @click='submit'>完成</div>
             </div>
             <div class="box">
@@ -20,6 +20,9 @@ import pickerbody from "./datepickerbody";
 export default {
   //拿到type之后 生成数据
   methods: {
+    cancel() {
+      this.$refs.popup.close();
+    },
     submit() {
       this.pushDataLock = true;
       this.callBackData = [];
