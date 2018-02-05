@@ -1,7 +1,6 @@
 <template>
       <transition name='silder'>
         <div class="v-popup"  v-if='showTest'><slot></slot></div>
-        <!-- <div class="v-popup"><slot></slot></div> -->
     </transition>    
 </template>
 <style lang="scss" scoped>

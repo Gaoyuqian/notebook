@@ -39,9 +39,10 @@
             </div>                        
         </model>
     <div>
-      <lineBox line='both' type='title' size='big'>
-        我是文案</lineBox>
+      <lineBox line='both' type='title' size='middle'>我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案</lineBox>
     </div>
+    <lineBoxGroup>我是文案|文案</lineBoxGroup>
+    <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup>    
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
     <!--
       控制显示和隐藏的方法
@@ -78,6 +79,7 @@ import picker from "./components/picker/picker";
 import datepicker from "./components/datePicker/datepickerbox";
 import model from "./components/modelPanel";
 import lineBox from "./components/lineBox";
+import lineBoxGroup from "./components/lineBoxGroup";
 
 export default {
   components: {
@@ -89,7 +91,8 @@ export default {
     message,
     picker,
     datepicker,
-    lineBox
+    lineBox,
+    lineBoxGroup
   },
   data() {
     return {
@@ -97,7 +100,7 @@ export default {
       bbb: false,
       open: "开启蓝牙",
       text: "点击了按钮",
-      textinfo: "sadfas",
+      textinfo: "input文案",
       modelShow: false,
       showTest: true,
       pickertest: [
@@ -154,7 +157,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 .a {
   margin: 0px 10px 20px;
 }

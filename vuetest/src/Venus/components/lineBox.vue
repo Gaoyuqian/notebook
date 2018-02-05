@@ -8,6 +8,8 @@
 
 <script>
 export default {
+    mounted(){
+    },
   props: {
     line: { default: "none", type: String },
     type: { defaule: "title", type: String },
@@ -39,15 +41,16 @@ export default {
 
 
 <style lang="scss" scoped>
-.line-box {
+.line-box,
+.text {
   width: 100%;
   height: 80px;
   display: flex;
   justify-content: center;
   line-height: 80px;
   position: relative;
-  padding: 0 20px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .line-box-title {
   align-items: center;
@@ -83,7 +86,7 @@ export default {
   width: 100%;
   background: #888;
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   left: 0;
   transform: scaleY(0.5);
 }
