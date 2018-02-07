@@ -29,7 +29,6 @@ export default {
     },
     heightMax() {},
     compareArray(source, root) {
-        // console.log(source[0], "asdf", root[0]);
       for (let i in root) {
         if (source[i] === root[i]) {
           continue;

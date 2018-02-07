@@ -42,7 +42,11 @@
       <lineBox line='both' type='title' size='middle'>我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案</lineBox>
     </div>
     <lineBoxGroup>我是文案|文案</lineBoxGroup>
-    <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup>    
+    <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup> 
+
+    <loading size='small'></loading>
+    <loading size='middle'></loading>
+    <loading size='large'></loading>    
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
     <!--
       控制显示和隐藏的方法
@@ -80,6 +84,7 @@ import datepicker from "./components/datePicker/datepickerbox";
 import model from "./components/modelPanel";
 import lineBox from "./components/lineBox";
 import lineBoxGroup from "./components/lineBoxGroup";
+import loading from "./components/loading";
 
 export default {
   components: {
@@ -92,7 +97,8 @@ export default {
     picker,
     datepicker,
     lineBox,
-    lineBoxGroup
+    lineBoxGroup,
+    loading
   },
   data() {
     return {
