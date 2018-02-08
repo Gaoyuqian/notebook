@@ -44,9 +44,12 @@
     <lineBoxGroup>我是文案|文案</lineBoxGroup>
     <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup> 
 
-    <loading size='small'></loading>
+    <!-- <loading size='small'></loading>
     <loading size='middle'></loading>
-    <loading size='large'></loading>    
+    <loading size='large'></loading>    -->
+
+    <slide></slide>
+     
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
     <!--
       控制显示和隐藏的方法
@@ -85,6 +88,7 @@ import model from "./components/modelPanel";
 import lineBox from "./components/lineBox";
 import lineBoxGroup from "./components/lineBoxGroup";
 import loading from "./components/loading";
+import slide from "./components/slide";
 
 export default {
   components: {
@@ -98,7 +102,8 @@ export default {
     datepicker,
     lineBox,
     lineBoxGroup,
-    loading
+    loading,
+    slide
   },
   data() {
     return {

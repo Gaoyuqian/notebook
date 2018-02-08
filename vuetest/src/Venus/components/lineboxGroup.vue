@@ -24,7 +24,7 @@ export default {
     init() {
       const text = this.$slots.default[0].text;
       if (!this.compareArray(this.textArray, text.split("|"))) {
-        this.textArray = text.split("|");             
+        this.textArray = text.split("|");
       }
     },
     heightMax() {},
@@ -46,7 +46,6 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background: red;
   box-sizing: border-box;
   font-weight: 500;
   .text-box {
@@ -55,6 +54,8 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    border: 1px solid black;
+    margin-top: 4px;
     &:after {
       content: "";
       height: 100%;
