@@ -1,5 +1,5 @@
 <template>
-<div class='main'>
+<div class='main' >
   <!-- button -->
     <div class='a'>
     <btna @click="clickHandle('小号按钮')" size='half' radius='small'>小号按钮</btna>
@@ -38,11 +38,11 @@
               <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>取消</btna>                                      
             </div>                        
         </model>
-    <div>
+    <!-- <div>
       <lineBox line='both' type='title' size='middle'>我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案</lineBox>
     </div>
     <lineBoxGroup>我是文案|文案</lineBoxGroup>
-    <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup> 
+    <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup>  -->
 
     <!-- <loading size='small'></loading>
     <loading size='middle'></loading>

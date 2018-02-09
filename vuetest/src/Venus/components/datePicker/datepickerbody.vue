@@ -1,6 +1,6 @@
 <template>
       <div class="v-date-picker-body">
-            <div class="v-date-picker-box"  @touchstart='touchstart' @touchmove.stop='touchmove' @touchend.stop='touchend'>
+            <div class="v-date-picker-box"  @touchstart.stop='touchstart' @touchmove.stop='touchmove' @touchend.stop='touchend'>
               <div class="v-date-picker-scroll" ref='scroll'>
                     <div class="content" v-for='(item,val) in Mdata'>{{item}}</div>      
               </div>     
