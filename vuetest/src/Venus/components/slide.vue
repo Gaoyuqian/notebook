@@ -37,6 +37,7 @@ export default {
           this.looping();
         }
         this.index = -parseInt(this.distance / this.windowWidth);
+        //回传给父组件 当前index值 用于父组件获取事件
         console.log(`第${this.index}个`);
       });
     },
