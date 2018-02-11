@@ -1,7 +1,7 @@
 <template>
     <div class="v-slide">
-        <div class="slide-box">
-            <div class="slide-pannel" ref='item' @touchstart.stop='touchstart' @touchend.stop='touchend' @touchmove.stop='touchmove'>
+        <div class="slide-box" ref='box'>
+            <div class="slide-pannel" ref='item'>
                 <div class="slide-c">第三瓶</div>                 
                 <div class="slide-a">ad</div>
                 <div class="slide-b">dfs</div>   
@@ -21,8 +21,7 @@ export default {
       end: { endX: "", endY: "" },
       distance: 0,
       distanceCopy: 0,
-      index: 1,
-      moveLock: false
+      index: 1
     };
   },
   methods: {
@@ -31,21 +30,16 @@ export default {
       this.setWidth(this.$refs.item.children, this.windowWidth);
       this.distance = this.distanceCopy = -this.windowWidth;
       this.animation(-this.windowWidth);
+      this.$refs.item.addEventListener("touchstart", this.touchstart);
       this.$refs.item.addEventListener("transitionend", e => {
         if (this.index === 0 || this.index === this.length - 1) {
-          this.moveLock = true;
+          console.log("animationend");
           this.looping();
         }
-        this.moveLock = false;
+        this.index = -parseInt(this.distance / this.windowWidth);
+        console.log(`第${this.index}个`);
       });
     },
-
-    /*
-        主要问题
-
-        当上一个translate未结束时 进行了下一次滑动 则出界了
-    
-    */
     setWidth(dom, width) {
       if (Object.prototype.toString.call(dom) === "[object HTMLDivElement]") {
         dom.style.width = `${width}px`;
@@ -56,42 +50,53 @@ export default {
       }
     },
     touchstart(evt) {
-      evt.preventDefault();
       this.end.endX = evt.changedTouches[0].clientX;
-      //   console.log(this.start);
+      this.$refs.item.addEventListener("touchmove", this.touchmove);
+      evt && evt.preventDefault() && evt.stopPropagation();
     },
     touchend(evt) {
       //负责校对位置
+      console.log("end");
+      this.$refs.item.removeEventListener("touchmove", this.touchmove);
       this.hack(this.distance);
       this.index = -parseInt(this.distance / this.windowWidth);
-      console.log(`第${this.index}个`);
-      evt.preventDefault();
+      evt && evt.preventDefault() && evt.stopPropagation();
     },
     touchmove(evt) {
-      if (this.moveLock) {
-        return;
-      }
-      //   console.log(evt);
+      console.log("move");
+      evt && evt.preventDefault() && evt.stopPropagation();
+      this.$refs.item.addEventListener("touchend", this.touchend);
       // 老规矩  负责移动动画
       this.start.startX = this.end.endX;
       this.end.endX = evt.changedTouches[0].clientX;
       this.distance += this.end.endX - this.start.startX;
-      //   this.outdoor();
-      this.animation(this.distance);
-      //   if (Math.abs(this.distance) >= this.windowWidth) {
-      //     return;
-      //   }
-      evt.preventDefault();
+      if (this.over(evt.changedTouches[0].clientX, this.$refs.box)) {
+        this.$refs.item.removeEventListener("touchend", this.touchend);
+        this.touchend();
+      } else {
+        this.animation(this.distance);
+      }
     },
     animation(distance, time) {
+      console.log("animation");
       const $item = this.$refs.item;
       this.distance = distance;
       $item.style.transform = `translateX(${distance}px)`;
+      $item.style.transitionProperty = `transform`;
+      $item.style.transitionTimingFunction = `cubic-bezier(0.165, 0.84, 0.44, 1)`;
       if (time === undefined || time === null) {
-        $item.style.transition = ``;
+        $item.style.transitionDuration = ``;
       } else {
-        $item.style.transition = `all ${time}s`;
+        $item.style.transitionDuration = `${time}s`;
       }
+    },
+    over(x, dom) {
+      //判断是否出界
+      console.log("over");
+      const width = dom.offsetWidth;
+      const leftBorder = dom.offsetLeft;
+      const rightBorder = width + leftBorder;
+      return x < leftBorder || x > rightBorder;
     },
     looping(offset = 0) {
       // 负责将出界的滑动 重新定位到对应的index上
@@ -107,76 +112,70 @@ export default {
       }
     },
     //修改左右滑的判断逻辑   根据distance的增长值判断
-    // outdoor() {
-    //   if (
-    //     this.distance > 0 ||
-    //     this.distance < (this.length - 1) * -this.windowWidth
-    //   ) {
-    //     this.moveLock = true;
-    //     this.looping(this.distance % (this.index * this.windowWidth));
-    //   }
-    // },
     hack(distance) {
-      //   console.log(distance, this.distanceCopy);
+      console.log("hack");
       if (distance > this.distanceCopy) {
+        this.matchDistance(0.3, "left");
         console.log("左滑");
-        if (distance > 0) {
-          console.log("左划出界");
-          //   this.moveLock = true;
-          //   this.looping(this.distance % (this.index * this.windowWidth));
-        } else {
-          this.matchDistance(0.3, "left");
-          console.log("左花没出界");
-        }
-        // 向左划 且向左出界了 应该变成最后一个item元素
       } else {
-        if (distance < (this.length - 1) * -this.windowWidth) {
-          // 出界了 转换到第一个元素
-          //   this.moveLock = true;
-          //   console.log(this.distance, this.index);
-          //   this.looping(this.distance % (this.index * this.windowWidth));
-          console.log("又话出界");
-        } else {
-          this.matchDistance(0.3, "right");
-          console.log("又话没出界");
-          //向右滑 如果大于临界值 则变成第一个item元素
-        }
+        this.matchDistance(0.3, "right");
+        console.log("右滑");
       }
       this.distanceCopy = this.distance;
     },
     matchDistance(basic, fangxiang) {
+      console.log("match");
       const P = fangxiang === "right" ? -1 : 1;
-      if (this.distance * P > this.windowWidth * (basic + this.index - 1)) {
+      if (
+        this.distance - this.distanceCopy >
+        this.windowWidth * (basic + this.index - 1)
+      ) {
         this.distance = this.distanceCopy + P * this.windowWidth;
-        this.animation(this.distance, 0.3);
-        // 正常又话
-        console.log("正常又话");
+        this.animation(this.distance, 0.2);
+        console.log("正常右滑");
       } else if (
         (this.distanceCopy - this.distance) * P <
         -(this.windowWidth * basic)
       ) {
         this.distance = this.distanceCopy + P * this.windowWidth;
-        this.animation(this.distance, 0.3);
+        this.animation(this.distance, 0.2);
         console.log("正常左滑");
-        //  正常左滑
       } else {
         this.distance = this.distanceCopy;
-        this.animation(this.distance, 0.3);
+        this.animation(this.distance, 0.2);
       }
     }
   },
-  // 参数  data 图片地址
-  // 组件捕获点击事件后向上传递  父组件判断事件并执行
-  // 图片绑定的方法
-  // 图片大小根据叶面宽度保持100%页面宽度
-  // autoplay 是否支持自动播放
-  // 是否有选择器
-  // 一定循环播放
+  //开发日志
+  /*
+   @@@@@@@@ 功能列表 @@@@@@@@
+
+  ------------------
+
+   参数  data 图片地址
+   组件捕获点击事件后向上传递  父组件判断事件并执行
+   图片绑定的方法
+   图片大小根据叶面宽度保持100%页面宽度
+   autoplay 是否支持自动播放
+   是否有选择器
+   一定循环播放
+  ------------------
+
+   ((((((Venus))))))
+
+  ------------------
+    2.11 beta3 解决循环出界问题  准备添加autoloop功能
+
+    beta4 准备添加autoloop功能
+    beta5 动态控制轮播元素
+    beta6 解决item事件在父组件中的监听问题
+
+  ------------------
+  */
   props: {},
-  created() {
-    this.windowWidth = window.innerWidth;
-  },
+  created() {},
   mounted() {
+    this.windowWidth = this.$refs.box.clientWidth;
     this.length = this.$refs.item.children.length; //改成 props中data的长度
     this.init();
   }
@@ -191,10 +190,15 @@ export default {
   position: relative;
   overflow-x: hidden;
 }
+.v-slide {
+  //   padding: 0 40px;
+}
+
 .slide-pannel {
   height: 100%;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 
   .slide-a {
     height: 100%;
