@@ -162,7 +162,7 @@ export default {
         this.animation(this.distance, 0.2);
       }
     },
-    pageIsOnviewing() {
+    pageIsOnLooking() {
       var hiddenProperty =
         "hidden" in document
           ? "hidden"
@@ -233,7 +233,7 @@ export default {
     this.length = this.$refs.item.children.length; //改成 props中data的长度
     this.init();
     this.createTimeout(3000);
-    this.pageIsOnviewing();
+    this.pageIsOnLooking();
   }
 };
 </script>
