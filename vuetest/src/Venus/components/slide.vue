@@ -21,7 +21,8 @@ export default {
       end: { endX: "", endY: "" },
       distance: 0,
       distanceCopy: 0,
-      index: 1
+      index: 1,
+      timeout: ""
     };
   },
   methods: {
@@ -31,15 +32,6 @@ export default {
       this.distance = this.distanceCopy = -this.windowWidth;
       this.animation(-this.windowWidth);
       this.$refs.item.addEventListener("touchstart", this.touchstart);
-      this.$refs.item.addEventListener("transitionend", e => {
-        if (this.index === 0 || this.index === this.length - 1) {
-          console.log("animationend");
-          this.looping();
-        }
-        this.index = -parseInt(this.distance / this.windowWidth);
-        //回传给父组件 当前index值 用于父组件获取事件
-        console.log(`第${this.index}个`);
-      });
     },
     setWidth(dom, width) {
       if (Object.prototype.toString.call(dom) === "[object HTMLDivElement]") {
@@ -50,18 +42,37 @@ export default {
         }
       }
     },
+    getWidth(dom) {
+      return dom.clientWidth;
+    },
+    transitionend(evt) {
+      if (this.index <= 0 || this.index >= this.length - 1) {
+        console.log("animationend");
+        this.looping();
+      }
+      this.index = -parseInt(this.distance / this.windowWidth);
+      //回传给父组件 当前index值 用于父组件获取事件
+      console.log(`第${this.index}个`, this.distanceCopy);
+    },
+
     touchstart(evt) {
       this.end.endX = evt.changedTouches[0].clientX;
+      clearTimeout(this.timeout);
+      this.timeout = "";
       this.$refs.item.addEventListener("touchmove", this.touchmove);
+      this.$refs.item.addEventListener("transitionend", this.transitionend);
       evt && evt.preventDefault() && evt.stopPropagation();
     },
     touchend(evt) {
       //负责校对位置
       console.log("end");
       this.$refs.item.removeEventListener("touchmove", this.touchmove);
-      this.hack(this.distance);
+      if (!this.timeout) {
+        this.hack(this.distance);
+      }
       this.index = -parseInt(this.distance / this.windowWidth);
       evt && evt.preventDefault() && evt.stopPropagation();
+      this.createTimeout(3000);
     },
     touchmove(evt) {
       console.log("move");
@@ -82,6 +93,7 @@ export default {
       console.log("animation");
       const $item = this.$refs.item;
       this.distance = distance;
+      console.log(this.distance);
       $item.style.transform = `translateX(${distance}px)`;
       $item.style.transitionProperty = `transform`;
       $item.style.transitionTimingFunction = `cubic-bezier(0.165, 0.84, 0.44, 1)`;
@@ -90,6 +102,7 @@ export default {
       } else {
         $item.style.transitionDuration = `${time}s`;
       }
+      // this.distanceCopy = this.distance;
     },
     over(x, dom) {
       //判断是否出界
@@ -101,12 +114,12 @@ export default {
     },
     looping(offset = 0) {
       // 负责将出界的滑动 重新定位到对应的index上
-      if (this.index === 0) {
+      if (this.index <= 0) {
         console.log("左划出界,即将开始修正");
         this.animation((-this.windowWidth + offset) * 3, 0);
         this.distanceCopy = this.distance;
       }
-      if (this.index === this.length - 1) {
+      if (this.index >= this.length - 1) {
         this.animation((-this.windowWidth + offset) * 1, 0);
         this.distanceCopy = this.distance;
         console.log("右划出界,即将开始修正");
@@ -138,6 +151,7 @@ export default {
         (this.distanceCopy - this.distance) * P <
         -(this.windowWidth * basic)
       ) {
+        console.log(this.distanceCopy, P * this.windowWidth, "copy");
         this.distance = this.distanceCopy + P * this.windowWidth;
         this.animation(this.distance, 0.2);
         console.log("正常左滑");
@@ -145,6 +159,22 @@ export default {
         this.distance = this.distanceCopy;
         this.animation(this.distance, 0.2);
       }
+    },
+    createTimeout(time) {
+      const animaTime = 1;
+      this.$refs.item.removeEventListener("touchmove", this.touchmove);
+      this.$refs.item.removeEventListener("touchend", this.touchend);
+      this.$refs.item.removeEventListener("transitionend", this.transitionend);
+      this.timeout = setTimeout(() => {
+        this.animation(this.distance - this.windowWidth, animaTime);
+        this.distanceCopy = this.distance;
+        this.index = -parseInt(this.distance / this.windowWidth);
+        setTimeout(() => {
+          this.transitionend();
+        }, animaTime * 1000);
+        clearTimeout(this.timeout);
+        this.createTimeout(3000);
+      }, time);
     }
   },
   //开发日志
@@ -167,7 +197,7 @@ export default {
   ------------------
     2.11 beta3 解决循环出界问题  准备添加autoloop功能
 
-    beta4 准备添加autoloop功能
+    2.22 beta4 准备添加autoloop功能
     beta5 动态控制轮播元素
     beta6 解决item事件在父组件中的监听问题
     *********额外的函数 新建一个单例定时器  remove掉所有的触发事件  固定移动到相应的distance 
@@ -183,6 +213,7 @@ export default {
     this.windowWidth = this.$refs.box.clientWidth;
     this.length = this.$refs.item.children.length; //改成 props中data的长度
     this.init();
+    this.createTimeout(3000);
   }
 };
 </script>
@@ -196,7 +227,7 @@ export default {
   overflow-x: hidden;
 }
 .v-slide {
-  //   padding: 0 40px;
+  padding: 0 40px;
 }
 
 .slide-pannel {
