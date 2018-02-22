@@ -170,7 +170,11 @@ export default {
     beta4 准备添加autoloop功能
     beta5 动态控制轮播元素
     beta6 解决item事件在父组件中的监听问题
-
+    *********额外的函数 新建一个单例定时器  remove掉所有的触发事件  固定移动到相应的distance 
+    （使用animation）  touchstart中移除定时器  touchend后自动触发
+    定时器
+    *********监听data数据 
+    *********
   ------------------
   */
   props: {},
