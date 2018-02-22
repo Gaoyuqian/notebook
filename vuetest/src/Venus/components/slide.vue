@@ -32,6 +32,7 @@ export default {
       this.distance = this.distanceCopy = -this.windowWidth;
       this.animation(-this.windowWidth);
       this.$refs.item.addEventListener("touchstart", this.touchstart);
+      this.$refs.item.addEventListener("transitionend", this.transitionend);
     },
     setWidth(dom, width) {
       if (Object.prototype.toString.call(dom) === "[object HTMLDivElement]") {
@@ -60,7 +61,6 @@ export default {
       clearTimeout(this.timeout);
       this.timeout = "";
       this.$refs.item.addEventListener("touchmove", this.touchmove);
-      this.$refs.item.addEventListener("transitionend", this.transitionend);
       evt && evt.preventDefault() && evt.stopPropagation();
     },
     touchend(evt) {
@@ -69,6 +69,8 @@ export default {
       this.$refs.item.removeEventListener("touchmove", this.touchmove);
       if (!this.timeout) {
         this.hack(this.distance);
+      } else {
+        this.distanceCopy = this.distance;
       }
       this.index = -parseInt(this.distance / this.windowWidth);
       evt && evt.preventDefault() && evt.stopPropagation();
@@ -160,18 +162,35 @@ export default {
         this.animation(this.distance, 0.2);
       }
     },
+    pageIsOnviewing() {
+      var hiddenProperty =
+        "hidden" in document
+          ? "hidden"
+          : "webkitHidden" in document
+            ? "webkitHidden"
+            : "mozHidden" in document ? "mozHidden" : null;
+      var visibilityChangeEvent = hiddenProperty.replace(
+        /hidden/i,
+        "visibilitychange"
+      );
+      var onVisibilityChange = () => {
+        if (!document[hiddenProperty]) {
+          //页面切换回来了
+          this.createTimeout(3000);
+        } else {
+          clearTimeout(this.timeout);
+          //页面切走了
+        }
+      };
+      document.addEventListener(visibilityChangeEvent, onVisibilityChange);
+    },
     createTimeout(time) {
       const animaTime = 1;
       this.$refs.item.removeEventListener("touchmove", this.touchmove);
       this.$refs.item.removeEventListener("touchend", this.touchend);
-      this.$refs.item.removeEventListener("transitionend", this.transitionend);
       this.timeout = setTimeout(() => {
         this.animation(this.distance - this.windowWidth, animaTime);
-        this.distanceCopy = this.distance;
-        this.index = -parseInt(this.distance / this.windowWidth);
-        setTimeout(() => {
-          this.transitionend();
-        }, animaTime * 1000);
+        this.touchend();
         clearTimeout(this.timeout);
         this.createTimeout(3000);
       }, time);
@@ -214,6 +233,7 @@ export default {
     this.length = this.$refs.item.children.length; //改成 props中data的长度
     this.init();
     this.createTimeout(3000);
+    this.pageIsOnviewing();
   }
 };
 </script>
