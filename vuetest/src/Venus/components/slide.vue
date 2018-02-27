@@ -2,11 +2,12 @@
     <div class="v-slide">
         <div class="slide-box" ref='box'>
             <div class="slide-pannel" ref='item'>
-                <div class="slide-c">第三瓶</div>                 
+              <img class="slide" :src='item' v-for='item in data' :alt='item' :key='item'>
+                <!-- <div class="slide-c">第三瓶</div>                 
                 <div class="slide-a">ad</div>
                 <div class="slide-b">dfs</div>   
                 <div class="slide-c">第三瓶</div> 
-                <div class="slide-a">ad</div>                    
+                <div class="slide-a">ad</div>                     -->
             </div>
         </div>
     </div>
@@ -95,7 +96,6 @@ export default {
       console.log("animation");
       const $item = this.$refs.item;
       this.distance = distance;
-      console.log(this.distance);
       $item.style.transform = `translateX(${distance}px)`;
       $item.style.transitionProperty = `transform`;
       $item.style.transitionTimingFunction = `cubic-bezier(0.165, 0.84, 0.44, 1)`;
@@ -118,7 +118,11 @@ export default {
       // 负责将出界的滑动 重新定位到对应的index上
       if (this.index <= 0) {
         console.log("左划出界,即将开始修正");
-        this.animation((-this.windowWidth + offset) * 3, 0);
+        console.log((-this.windowWidth + offset) * (this.data.length - 2));
+        this.animation(
+          (-this.windowWidth + offset) * (this.data.length - 2),
+          0
+        );
         this.distanceCopy = this.distance;
       }
       if (this.index >= this.length - 1) {
@@ -186,8 +190,10 @@ export default {
     },
     createTimeout(time) {
       const animaTime = 1;
-      this.$refs.item.removeEventListener("touchmove", this.touchmove);
-      this.$refs.item.removeEventListener("touchend", this.touchend);
+      this.$refs.item &&
+        this.$refs.item.removeEventListener("touchmove", this.touchmove);
+      this.$refs.item &&
+        this.$refs.item.removeEventListener("touchend", this.touchend);
       this.timeout = setTimeout(() => {
         this.animation(this.distance - this.windowWidth, animaTime);
         this.touchend();
@@ -226,13 +232,19 @@ export default {
     *********
   ------------------
   */
-  props: {},
-  created() {},
+  props: { data: { default: [] } },
+  created() {
+    this.data.push(this.data[0]);
+    this.data.unshift(this.data[this.data.length - 2]);
+  },
+
   mounted() {
     this.windowWidth = this.$refs.box.clientWidth;
     this.length = this.$refs.item.children.length; //改成 props中data的长度
     this.init();
-    this.createTimeout(3000);
+    this.$nextTick(() => {
+      this.createTimeout(3000);
+    });
     this.pageIsOnLooking();
   }
 };
@@ -255,20 +267,12 @@ export default {
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-
-  .slide-a {
-    height: 100%;
-    background: red;
-    float: left;
-  }
-  .slide-b {
-    height: 100%;
-    background: green;
-    float: left;
-  }
-  .slide-c {
-    height: 100%;
-    background: yellow;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .slide {
+    font-size: 40px;
+    font-weight: 800;
     float: left;
   }
 }

@@ -48,7 +48,7 @@
     <loading size='middle'></loading>
     <loading size='large'></loading>    -->
 
-    <slide></slide>
+    <slide :data='sildeData'></slide>
      
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
     <!--
@@ -114,6 +114,13 @@ export default {
       textinfo: "input文案",
       modelShow: false,
       showTest: true,
+      sildeData: [
+        "http://pic11.photophoto.cn/20090518/0034034856584245_b.jpg",
+        "http://pic20.nipic.com/20120423/9448607_112237329000_2.jpg",
+        "http://pic39.nipic.com/20140325/6947145_150220631172_2.jpg",
+        "http://imgsrc.baidu.com/imgad/pic/item/b90e7bec54e736d1a24f53dc91504fc2d4626982.jpg",
+        "asdfasfasdf"
+      ],
       pickertest: [
         {
           data: [
