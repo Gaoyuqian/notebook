@@ -3,11 +3,6 @@
         <div class="slide-box" ref='box'>
             <div class="slide-pannel" ref='item'>
               <img class="slide" :src='item' v-for='item in data' :alt='item' :key='item'>
-                <!-- <div class="slide-c">第三瓶</div>                 
-                <div class="slide-a">ad</div>
-                <div class="slide-b">dfs</div>   
-                <div class="slide-c">第三瓶</div> 
-                <div class="slide-a">ad</div>                     -->
             </div>
         </div>
     </div>
@@ -33,6 +28,7 @@ export default {
       this.distance = this.distanceCopy = -this.windowWidth;
       this.animation(-this.windowWidth);
       this.$refs.item.addEventListener("touchstart", this.touchstart);
+      this.$refs.item.addEventListener("click", this.click);
       this.$refs.item.addEventListener("transitionend", this.transitionend);
     },
     setWidth(dom, width) {
@@ -54,15 +50,22 @@ export default {
       }
       this.index = -parseInt(this.distance / this.windowWidth);
       //回传给父组件 当前index值 用于父组件获取事件
-      console.log(`第${this.index}个`, this.distanceCopy);
+      console.log(`第${this.index}个`, new Date());
     },
 
+    click(evt) {
+      console.log("click", this.index);
+      this.$emit("click", this.index);
+      evt && evt.preventDefault() && evt.stopPropagation();
+      this.createTimeout(3000);
+    },
     touchstart(evt) {
+      console.log("start");
       this.end.endX = evt.changedTouches[0].clientX;
       clearTimeout(this.timeout);
       this.timeout = "";
       this.$refs.item.addEventListener("touchmove", this.touchmove);
-      evt && evt.preventDefault() && evt.stopPropagation();
+      evt && evt.stopPropagation();
     },
     touchend(evt) {
       //负责校对位置
@@ -223,7 +226,7 @@ export default {
     2.11 beta3 解决循环出界问题  准备添加autoloop功能
 
     2.22 beta4 准备添加autoloop功能
-    beta5 动态控制轮播元素
+    2.27 beta5 动态控制轮播元素
     beta6 解决item事件在父组件中的监听问题
     *********额外的函数 新建一个单例定时器  remove掉所有的触发事件  固定移动到相应的distance 
     （使用animation）  touchstart中移除定时器  touchend后自动触发
@@ -271,9 +274,11 @@ export default {
   justify-content: center;
   align-items: center;
   .slide {
+    // height: 100%;
     font-size: 40px;
     font-weight: 800;
     float: left;
+    object-fit: cover;
   }
 }
 </style>

@@ -48,7 +48,7 @@
     <loading size='middle'></loading>
     <loading size='large'></loading>    -->
 
-    <slide :data='sildeData'></slide>
+    <slide :data='sildeData' @click='click'></slide>
      
     <!--picker 返回的时候 model和data均已修改 default为索引值 可以根据索引从data中获取对应返回值 pickerdata为返回具体值的数组-->
     <!--
@@ -119,7 +119,8 @@ export default {
         "http://pic20.nipic.com/20120423/9448607_112237329000_2.jpg",
         "http://pic39.nipic.com/20140325/6947145_150220631172_2.jpg",
         "http://imgsrc.baidu.com/imgad/pic/item/b90e7bec54e736d1a24f53dc91504fc2d4626982.jpg",
-        "asdfasfasdf"
+        "asdfasfasdf",
+        "http://f.hiphotos.baidu.com/image/pic/item/503d269759ee3d6db032f61b48166d224e4ade6e.jpg"
       ],
       pickertest: [
         {
@@ -164,6 +165,9 @@ export default {
     }
   },
   methods: {
+    click(e) {
+      console.log(e);
+    },
     clickHandle: function(a) {
       this.showTest = !this.showTest;
       // this.ccc.show = !this.ccc.show;
