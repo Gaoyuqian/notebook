@@ -1,9 +1,12 @@
 <template>
     <div class="v-slide">
-        <div class="slide-box" ref='box'>
+        <div class="slide-box"  ref='box'>
             <div class="slide-pannel" ref='item'>
-              <img class="slide" :src='item' v-for='item in data' :alt='item' :key='item'>
+              <img class="slide" :src='item' v-for='item in data' :alt='item' title='item' :key='item'>
             </div>
+        </div>
+        <div class="selectBox">
+          <div class="num" v-for='i in data.length-2'></div>
         </div>
     </div>
 </template>
@@ -30,7 +33,14 @@ export default {
       this.$refs.item.addEventListener("touchstart", this.touchstart);
       this.$refs.item.addEventListener("click", this.click);
       this.$refs.item.addEventListener("transitionend", this.transitionend);
+      this.$refs.box.addEventListener("touchstart", function(ev) {
+        event.preventDefault();
+      });
+      this.$refs.box.addEventListener("touchmove", function(ev) {
+        event.preventDefault();
+      });
     },
+
     setWidth(dom, width) {
       if (Object.prototype.toString.call(dom) === "[object HTMLDivElement]") {
         dom.style.width = `${width}px`;
@@ -227,12 +237,14 @@ export default {
 
     2.22 beta4 准备添加autoloop功能
     2.27 beta5 动态控制轮播元素
-    beta6 解决item事件在父组件中的监听问题
+    2.27 beta6 解决item事件在父组件中的监听问题
     *********额外的函数 新建一个单例定时器  remove掉所有的触发事件  固定移动到相应的distance 
     （使用animation）  touchstart中移除定时器  touchend后自动触发
     定时器
     *********监听data数据 
     *********
+
+    beta7 添加选择功能 
   ------------------
   */
   props: { data: { default: [] } },
@@ -264,7 +276,23 @@ export default {
 .v-slide {
   padding: 0 40px;
 }
-
+.selectBox {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  top: 85%;
+  transform: translate(-50%, 0);
+  div {
+    background: red;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-left: 10px;
+  }
+  .num:first-child {
+    margin-left: 0;
+  }
+}
 .slide-pannel {
   height: 100%;
   position: relative;
