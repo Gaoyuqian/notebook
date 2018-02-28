@@ -67,6 +67,11 @@ export default {
           ) {
             this.$refs.select.childNodes[0].classList.add("selected");
           } else {
+            console.log(
+              this.$refs.select.childNodes[0].classList,
+              this.distance,
+              Math.round(this.distance / -this.windowWidth) - 1
+            );
             this.$refs.select.childNodes[
               Math.round(this.distance / -this.windowWidth) - 1
             ].classList.add("selected");
@@ -75,7 +80,6 @@ export default {
       }
     },
     selectSlide(e) {
-      console.log("clear", 6);
       clearTimeout(this.timeout);
       this.removeEvent();
       for (let i of e.path[0].attributes) {
@@ -103,7 +107,6 @@ export default {
     },
 
     click(evt) {
-      console.log("clear", 2);
       clearTimeout(this.timeout);
       this.$emit("click", this.index);
       evt && evt.preventDefault() && evt.stopPropagation();
@@ -111,8 +114,6 @@ export default {
     },
     touchstart(evt) {
       this.end.endX = evt.changedTouches[0].clientX;
-      console.log("clear", 3);
-
       clearTimeout(this.timeout);
       this.timeout = "";
       this.$refs.item.addEventListener("touchmove", this.touchmove);
@@ -120,7 +121,6 @@ export default {
     },
     touchend(evt) {
       //负责校对位置
-      console.log("clear", 1);
       clearTimeout(this.timeout);
       console.log("end", this.timeout);
       this.removeEvent();
@@ -145,7 +145,7 @@ export default {
         this.$refs.item.removeEventListener("touchend", this.touchend);
         this.touchend();
       } else {
-        this.animation(1, this.distance);
+        this.animation(this.distance, 0.3);
       }
     },
     animation(distance, time) {
