@@ -66,9 +66,12 @@ export default {
             this.$refs.select.childNodes.length
           ) {
             this.$refs.select.childNodes[0].classList.add("selected");
+          } else if (Math.round(this.distance / -this.windowWidth) - 1 < 0) {
+            this.$refs.select.childNodes[
+              this.$refs.select.childNodes.length - 1
+            ].classList.add("selected");
           } else {
             console.log(
-              this.$refs.select.childNodes[0].classList,
               this.distance,
               Math.round(this.distance / -this.windowWidth) - 1
             );
