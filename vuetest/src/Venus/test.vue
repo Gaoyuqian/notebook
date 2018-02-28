@@ -124,7 +124,8 @@ export default {
         "http://picm.photophoto.cn/022/058/003/0580030423.jpg",
         "http://pic44.photophoto.cn/20170803/0010023501941788_b.jpg",
         "asdfasfasdf",
-        "http://pic44.photophoto.cn/20170728/0010023169047393_b.jpg"
+        "http://pic44.photophoto.cn/20170728/0010023169047393_b.jpg",
+        "http://pic44.photophoto.cn/20170728/0010023169047393_b.jpg",
       ],
       pickertest: [
         {

@@ -54,25 +54,28 @@ export default {
       return dom.clientWidth;
     },
     changeSelect(e) {
-      for (let j of this.$refs.select.childNodes) {
-        j.classList.remove("selected");
-      }
-      if (e) {
-        e.path[0].classList.add("selected");
-      } else {
-        if (
-          Math.round(this.distance / -this.windowWidth) - 1 >=
-          this.$refs.select.childNodes.length
-        ) {
-          this.$refs.select.childNodes[0].classList.add("selected");
+      if (this.$refs.select) {
+        for (let j of this.$refs.select.childNodes) {
+          j.classList.remove("selected");
+        }
+        if (e) {
+          e.path[0].classList.add("selected");
         } else {
-          this.$refs.select.childNodes[
-            Math.round(this.distance / -this.windowWidth) - 1
-          ].classList.add("selected");
+          if (
+            Math.round(this.distance / -this.windowWidth) - 1 >=
+            this.$refs.select.childNodes.length
+          ) {
+            this.$refs.select.childNodes[0].classList.add("selected");
+          } else {
+            this.$refs.select.childNodes[
+              Math.round(this.distance / -this.windowWidth) - 1
+            ].classList.add("selected");
+          }
         }
       }
     },
     selectSlide(e) {
+      console.log("clear", 6);
       clearTimeout(this.timeout);
       this.removeEvent();
       for (let i of e.path[0].attributes) {
@@ -100,13 +103,16 @@ export default {
     },
 
     click(evt) {
+      console.log("clear", 2);
+      clearTimeout(this.timeout);
       this.$emit("click", this.index);
       evt && evt.preventDefault() && evt.stopPropagation();
       this.createTimeout(3000);
     },
     touchstart(evt) {
-      console.log("start");
       this.end.endX = evt.changedTouches[0].clientX;
+      console.log("clear", 3);
+
       clearTimeout(this.timeout);
       this.timeout = "";
       this.$refs.item.addEventListener("touchmove", this.touchmove);
@@ -114,16 +120,18 @@ export default {
     },
     touchend(evt) {
       //负责校对位置
-      console.log("end");
-      this.$refs.item.removeEventListener("touchmove", this.touchmove);
+      console.log("clear", 1);
+      clearTimeout(this.timeout);
+      console.log("end", this.timeout);
+      this.removeEvent();
       if (!this.timeout) {
         this.hack(this.distance);
+        this.createTimeout(3000);
       } else {
         this.distanceCopy = this.distance;
       }
       this.index = -parseInt(this.distance / this.windowWidth);
       evt && evt.preventDefault() && evt.stopPropagation();
-      this.createTimeout(3000);
     },
     touchmove(evt) {
       console.log("move");
@@ -137,7 +145,7 @@ export default {
         this.$refs.item.removeEventListener("touchend", this.touchend);
         this.touchend();
       } else {
-        this.animation(this.distance);
+        this.animation(1, this.distance);
       }
     },
     animation(distance, time) {
@@ -145,13 +153,15 @@ export default {
       const $item = this.$refs.item;
       this.distance = distance;
       this.changeSelect();
-      $item.style.transform = `translateX(${distance}px)`;
-      $item.style.transitionProperty = `transform`;
-      $item.style.transitionTimingFunction = `cubic-bezier(0.165, 0.84, 0.44, 1)`;
-      if (time === undefined || time === null) {
-        $item.style.transitionDuration = ``;
-      } else {
-        $item.style.transitionDuration = `${time}s`;
+      if ($item) {
+        $item.style.transform = `translateX(${distance}px)`;
+        $item.style.transitionProperty = `transform`;
+        $item.style.transitionTimingFunction = `cubic-bezier(0.165, 0.84, 0.44, 1)`;
+        if (time === undefined || time === null) {
+          $item.style.transitionDuration = ``;
+        } else {
+          $item.style.transitionDuration = `${time}s`;
+        }
       }
     },
     over(x, dom) {
@@ -166,7 +176,6 @@ export default {
       // 负责将出界的滑动 重新定位到对应的index上
       if (this.index <= 0) {
         console.log("左划出界,即将开始修正");
-        console.log((-this.windowWidth + offset) * (this.data.length - 2));
         this.animation(
           (-this.windowWidth + offset) * (this.data.length - 2),
           0
@@ -234,14 +243,16 @@ export default {
       document.addEventListener(visibilityChangeEvent, onVisibilityChange);
     },
     createTimeout(time) {
+      console.log("create");
       const animaTime = 1;
       this.removeEvent();
-      this.timeout = setTimeout(() => {
-        this.animation(this.distance - this.windowWidth, animaTime);
-        this.touchend();
-        clearTimeout(this.timeout);
-        this.createTimeout(3000);
-      }, time);
+      if (!this._isBeingDestroyed) {
+        this.timeout = setTimeout(() => {
+          this.animation(this.distance - this.windowWidth, animaTime);
+          this.touchend();
+          this.createTimeout(time);
+        }, time);
+      }
     }
   },
   //开发日志
@@ -273,7 +284,7 @@ export default {
     *********监听data数据 
     *********
 
-    beta7 添加选择功能 
+    2.28 beta7 添加选择功能 
   ------------------
   */
   props: { data: { default: [] } },
@@ -281,12 +292,18 @@ export default {
     this.data.push(this.data[0]);
     this.data.unshift(this.data[this.data.length - 2]);
   },
+  beforeDestroy() {
+    clearTimeout(this.timeout);
+    this.timeout = "";
+  },
 
   mounted() {
+    console.log("mounted", this.timeout, 1);
     this.windowWidth = this.$refs.box.clientWidth;
     this.length = this.$refs.item.children.length; //改成 props中data的长度
     this.init();
     this.$nextTick(() => {
+      clearTimeout(this.timeout);
       this.createTimeout(3000);
     });
     this.pageIsOnLooking();
