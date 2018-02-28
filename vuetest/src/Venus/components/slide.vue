@@ -5,8 +5,8 @@
               <img class="slide" :src='item' v-for='item in data' :alt='item' title='item' :key='item'>
             </div>
         </div>
-        <div class="selectBox">
-          <div class="num" v-for='i in data.length-2'></div>
+        <div class="selectBox" @click='selectSlide' ref='select'>
+          <div class="num" v-for='i in data.length-2' :key='i' :data='i'></div>
         </div>
     </div>
 </template>
@@ -53,6 +53,42 @@ export default {
     getWidth(dom) {
       return dom.clientWidth;
     },
+    changeSelect(e) {
+      for (let j of this.$refs.select.childNodes) {
+        j.classList.remove("selected");
+      }
+      if (e) {
+        e.path[0].classList.add("selected");
+      } else {
+        if (
+          Math.round(this.distance / -this.windowWidth) - 1 >=
+          this.$refs.select.childNodes.length
+        ) {
+          this.$refs.select.childNodes[0].classList.add("selected");
+        } else {
+          this.$refs.select.childNodes[
+            Math.round(this.distance / -this.windowWidth) - 1
+          ].classList.add("selected");
+        }
+      }
+    },
+    selectSlide(e) {
+      clearTimeout(this.timeout);
+      this.removeEvent();
+      for (let i of e.path[0].attributes) {
+        if (i.name === "data") {
+          this.changeSelect(e);
+          this.animation(i.value * -this.windowWidth, 0.3);
+        }
+      }
+      this.createTimeout(3000);
+    },
+    removeEvent() {
+      this.$refs.item &&
+        this.$refs.item.removeEventListener("touchmove", this.touchmove);
+      this.$refs.item &&
+        this.$refs.item.removeEventListener("touchend", this.touchend);
+    },
     transitionend(evt) {
       if (this.index <= 0 || this.index >= this.length - 1) {
         console.log("animationend");
@@ -64,7 +100,6 @@ export default {
     },
 
     click(evt) {
-      console.log("click", this.index);
       this.$emit("click", this.index);
       evt && evt.preventDefault() && evt.stopPropagation();
       this.createTimeout(3000);
@@ -109,6 +144,7 @@ export default {
       console.log("animation");
       const $item = this.$refs.item;
       this.distance = distance;
+      this.changeSelect();
       $item.style.transform = `translateX(${distance}px)`;
       $item.style.transitionProperty = `transform`;
       $item.style.transitionTimingFunction = `cubic-bezier(0.165, 0.84, 0.44, 1)`;
@@ -117,7 +153,6 @@ export default {
       } else {
         $item.style.transitionDuration = `${time}s`;
       }
-      // this.distanceCopy = this.distance;
     },
     over(x, dom) {
       //判断是否出界
@@ -164,20 +199,17 @@ export default {
         this.windowWidth * (basic + this.index - 1)
       ) {
         this.distance = this.distanceCopy + P * this.windowWidth;
-        this.animation(this.distance, 0.2);
         console.log("正常右滑");
       } else if (
         (this.distanceCopy - this.distance) * P <
         -(this.windowWidth * basic)
       ) {
-        console.log(this.distanceCopy, P * this.windowWidth, "copy");
         this.distance = this.distanceCopy + P * this.windowWidth;
-        this.animation(this.distance, 0.2);
         console.log("正常左滑");
       } else {
         this.distance = this.distanceCopy;
-        this.animation(this.distance, 0.2);
       }
+      this.animation(this.distance, 0.2);
     },
     pageIsOnLooking() {
       var hiddenProperty =
@@ -203,10 +235,7 @@ export default {
     },
     createTimeout(time) {
       const animaTime = 1;
-      this.$refs.item &&
-        this.$refs.item.removeEventListener("touchmove", this.touchmove);
-      this.$refs.item &&
-        this.$refs.item.removeEventListener("touchend", this.touchend);
+      this.removeEvent();
       this.timeout = setTimeout(() => {
         this.animation(this.distance - this.windowWidth, animaTime);
         this.touchend();
@@ -288,9 +317,14 @@ export default {
     width: 20px;
     border-radius: 50%;
     margin-left: 10px;
+    transition: all 0.3s;
   }
   .num:first-child {
     margin-left: 0;
+  }
+
+  .selected {
+    background: green;
   }
 }
 .slide-pannel {
