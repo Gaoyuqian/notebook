@@ -48,7 +48,7 @@
     <loading size='middle'></loading>
     <loading size='large'></loading>    -->
 
-    <slide :data='sildeData' @click='click'></slide>
+    <slide :data='sildeData' @click='click' autoloop checktime='300'></slide>
     
     
 

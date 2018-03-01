@@ -91,7 +91,7 @@ export default {
           this.animation(i.value * -this.windowWidth, 0.3);
         }
       }
-      this.createTimeout(3000);
+      this.createTimeout(this.checktime < 3000 ? 3000 : this.checktime);
     },
     removeEvent() {
       this.$refs.item &&
@@ -113,7 +113,7 @@ export default {
       clearTimeout(this.timeout);
       this.$emit("click", this.index);
       evt && evt.preventDefault() && evt.stopPropagation();
-      this.createTimeout(3000);
+      this.createTimeout(this.checktime < 3000 ? 3000 : this.checktime);
     },
     touchstart(evt) {
       this.end.endX = evt.changedTouches[0].clientX;
@@ -129,7 +129,7 @@ export default {
       this.removeEvent();
       if (!this.timeout) {
         this.hack(this.distance);
-        this.createTimeout(3000);
+        this.createTimeout(this.checktime < 3000 ? 3000 : this.checktime);
       } else {
         this.distanceCopy = this.distance;
       }
@@ -237,7 +237,7 @@ export default {
       var onVisibilityChange = () => {
         if (!document[hiddenProperty]) {
           //页面切换回来了
-          this.createTimeout(3000);
+          this.createTimeout(this.checktime < 3000 ? 3000 : this.checktime);
         } else {
           clearTimeout(this.timeout);
           //页面切走了
@@ -246,15 +246,17 @@ export default {
       document.addEventListener(visibilityChangeEvent, onVisibilityChange);
     },
     createTimeout(time) {
-      console.log("create");
-      const animaTime = 1;
-      this.removeEvent();
-      if (!this._isBeingDestroyed) {
-        this.timeout = setTimeout(() => {
-          this.animation(this.distance - this.windowWidth, animaTime);
-          this.touchend();
-          this.createTimeout(time);
-        }, time);
+      if ((this.autoloop && this.autoloop != "false") || this.autoloop === "") {
+        console.log("create");
+        const animaTime = 1;
+        this.removeEvent();
+        if (!this._isBeingDestroyed) {
+          this.timeout = setTimeout(() => {
+            this.animation(this.distance - this.windowWidth, animaTime);
+            this.touchend();
+            this.createTimeout(time);
+          }, time);
+        }
       }
     }
   },
@@ -290,7 +292,11 @@ export default {
     2.28 beta7 添加选择功能 
   ------------------
   */
-  props: { data: { default: [] } },
+  props: {
+    data: { default: [] },
+    autoloop: { default: true },
+    checktime: { default: 3000 }
+  },
   created() {
     this.data.push(this.data[0]);
     this.data.unshift(this.data[this.data.length - 2]);
@@ -307,13 +313,14 @@ export default {
     this.init();
     this.$nextTick(() => {
       clearTimeout(this.timeout);
-      this.createTimeout(3000);
+      this.createTimeout(this.checktime < 3000 ? 3000 : this.checktime);
     });
     this.pageIsOnLooking();
+    console.log(this.autoloop, this.checktime);
   }
 };
 </script>
-
+·
 <style lang="scss" scoped>
 .v-slide,
 .slide-box {
