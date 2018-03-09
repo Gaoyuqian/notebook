@@ -2,53 +2,60 @@
 <div class='main' >
   <!-- button -->
     <div class='a'>
-    <btna @click="clickHandle('小号按钮')" size='half' radius='small'>小号按钮</btna>
+    <VButton @click="clickHandle('小号按钮')" size='half' radius='small'>小号按钮</VButton>
     </div>
     <div class='a'>
-    <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna> 
+    <VButton @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</VButton> 
     </div>
     <div class='a'>
-    <btna @click="clickHandle('不可用按钮')" disabled size='full' radius='small'>不可用按钮</btna> 
+    <VButton @click="clickHandle('不可用按钮')" disabled size='full' radius='small'>不可用按钮</VButton> 
     </div>
     <!-- radio -->
     <div class='radius a'>
         <!--单个的radiu 只负责改变v-model的布尔值-->
         <!--应该没有需求会两个按钮同时控制一个变量  已完成目标--> 
         <!-- <radiu class='1' @click="clickHandleRadiu"></radiu> -->
-        <radiu v-model='aaa' >{{open}}</radiu>
+        <VRadiu v-model='aaa' >{{open}}</VRadiu>
         <!-- <radiu v-model='aaa' @click="clickHandleRadiu">{{open}}</radiu> -->
     </div>
     <!-- input -->
     <div class="a">
-      <inputInfo type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <VInput type='tel' label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></VInput>
     </div>
      <div class="a">
-      <inputInfo type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <VInput type='num'  options label='家庭地址' v-model='textinfo' placeholder='请输入' underline begin='right' ></VInput>
     </div>
       <div class="a">
-      <inputInfo type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></inputInfo>
+      <VInput type='num' label='家庭地址'  v-model='textinfo' placeholder='请输入' underline begin='right' ></VInput>
     </div>
       <!-- <picker :show='showTest' :data='pickertest' v-model='pickerdata'></picker> -->
-      <datepicker v-model='dataTest' :show='showTest' type='year'></datepicker>
+      <VDate v-model='dataTest' :show='showTest' type='day' :def='dateDefault'></VDate>
+      <!-- <dapi v-model='dataTest' :show='showTest' type='month'></dapi>       -->
       <!-- datepicker 需要重写成css3控制的滚动效果 年后 -->
-        <model v-model='modelShow' marginTop='20'>
-            <btna @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</btna>    
+        <VModel v-model='modelShow' marginTop='20'>
+            <VButton @click="clickHandle('大号按钮')" size='full' radius='small'>大号按钮</VButton>    
             <div slot='footer'>
-              <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>确定</btna>     
-              <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>取消</btna>                                      
+              <!-- <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>确定</btna>     
+              <btna @click="clickHandle('大号按钮')" size='mini' inline radius='small'>取消</btna>                                       -->
             </div>                        
-        </model>
-    <!-- <div>
-      <lineBox line='both' type='title' size='middle'>我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案</lineBox>
+        </VModel>
+    <div>
+      <VLinebox line='both' type='title' size='middle'>我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案我是文案</VLineBox>
     </div>
-    <lineBoxGroup>我是文案|文案</lineBoxGroup>
-    <lineBoxGroup>我是文案我是文案我是文案我是文案我是文案|文案</lineBoxGroup>  -->
+    <VLineboxGroup>我是文案|文案</VLineboxGroup>
+    <VLineboxGroup>我是文案我是文案我是文案我是文案我是文案|文案</VLineboxGroup>  
 
-    <!-- <loading size='small'></loading>
-    <loading size='middle'></loading>
-    <loading size='large'></loading>    -->
+    <VLoading size='small'></VLoading>
+    <VLoading size='middle'></VLoading>
+    <VLoading size='large'></VLoading>   
 
-    <slide :data='sildeData' @click='click' autoloop checktime='300'></slide>
+
+ <div class='maina'>
+           <div class="mid">asdfasfasdfasdfasfasdfasdfasfasdfasdfasfasdfasdfasfasdfa12321</div>            
+           <div class="left"></div>
+           <div class="right"></div>
+        </div>
+    <!-- <VSlide :data='sildeData' @click='click' autoloop checktime='300'></VSlide> -->
     
     
 
@@ -81,33 +88,14 @@
 </template>
 
 <script>
-import btna from "./components/button";
-import radiu from "./components/radiu";
-import alertInfo from "./components/alertInfo";
-import inputInfo from "./components/input";
-import message from "./components/message";
+// import btna from "./components/button";
 import picker from "./components/picker/picker";
-import datepicker from "./components/datePicker/datepickerbox";
-import model from "./components/modelPanel";
-import lineBox from "./components/lineBox";
-import lineBoxGroup from "./components/lineBoxGroup";
-import loading from "./components/loading";
-import slide from "./components/slide";
+import dapi from "./components/datePicker/datepickerbox";
 
 export default {
   components: {
-    model,
-    btna,
-    radiu,
-    alertInfo,
-    inputInfo,
-    message,
     picker,
-    datepicker,
-    lineBox,
-    lineBoxGroup,
-    loading,
-    slide
+    dapi
   },
   data() {
     return {
@@ -125,7 +113,7 @@ export default {
         "http://pic44.photophoto.cn/20170803/0010023501941788_b.jpg",
         "asdfasfasdf",
         "http://pic44.photophoto.cn/20170728/0010023169047393_b.jpg",
-        "http://pic44.photophoto.cn/20170728/0010023169047393_b.jpg",
+        "http://pic44.photophoto.cn/20170728/0010023169047393_b.jpg"
       ],
       pickertest: [
         {
@@ -151,12 +139,13 @@ export default {
         { data: ["1", 2, 3, 4, 5, 6], default: "1" }
       ],
       pickerdata: "",
-      dataTest: ""
+      dataTest: "",
+      dateDefault: 0
     };
   },
   watch: {
     dataTest: function(newVal) {
-      console.log(newVal);
+      console.log(newVal, 123);
     },
     aaa: function(newVal) {
       this.open = newVal ? "开启蓝牙" : "关闭蓝牙";
@@ -174,9 +163,9 @@ export default {
       console.log(e);
     },
     clickHandle: function(a) {
-      this.showTest = !this.showTest;
+      // this.showTest = !this.showTest;
       // this.ccc.show = !this.ccc.show;
-      // this.$message({ text: "消息体", type: "error" });
+      this.$message({ text: "消息体", type: "info" });
       // this.modelShow = !this.modelShow;
     }
   },
@@ -184,6 +173,37 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.maina {
+  height: 400px;
+  width: 100%;
+  padding: 0 200px;
+  //   overflow: hidden;
+  .left {
+    float: left;
+    height: 400px;
+    width: 200px;
+    background: red;
+    margin-left: -200px;
+    position: relative;
+    right: -200px;
+  }
+  .mid {
+    float: left;
+    width: 100%;
+    height: 400px;
+    background: yellow;
+  }
+  .right {
+    width: 200px;
+    float: left;
+    height: 400px;
+    margin-left: -100%;
+    background: green;
+    position: relative;
+    left: -200px;
+    top: 0;
+  }
+}
 .a {
   margin: 0px 10px 20px;
 }

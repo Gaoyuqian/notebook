@@ -8,7 +8,7 @@
             </div>
             <div class="box">
               <!-- <div @getdate='getdate' v-for='item in data' :data='data[item]'>{{item}}</div> -->
-               <pickerbody v-model='data' :getdata='getdata' @getdate='getdate' :key='val' v-for='(item,val) in data' :data='item' type='asdfa'></pickerbody>       
+               <pickerbody :def='def' :uid='_uid' v-model='data' :getdata='getdata' @getdate='getdate' :key='val' v-for='(item,val) in data' :data='item' type='asdfa'></pickerbody>       
             </div>
         </div>  
     </div>
@@ -37,7 +37,7 @@ export default {
           // console.log(this.callBackData);
           this.pushDataLock = false;
           sessionStorage.setItem(
-            "v_datepickerinfo",
+            "v_datepickerinfo" + this._uid,
             JSON.stringify(this.callBackData)
           );
           this.$emit("input", this.callBackData);
@@ -51,6 +51,7 @@ export default {
       for (let item = start; item <= now; item++) {
         year.push(item);
       }
+      console.log(this.default, now);
       this.data.push({ year: year.reverse() });
     },
     setMonth() {
@@ -124,7 +125,7 @@ export default {
         this.setDay();
         break;
     }
-
+    console.log(this._uid);
     this.popup = !this.popup ? this.$refs.popup : this.popup;
   },
   props: {
@@ -132,7 +133,8 @@ export default {
     show: { default: "" },
     part: {
       default: 5
-    }
+    },
+    def: {}
   },
   components: { popup, pickerbody }
 };

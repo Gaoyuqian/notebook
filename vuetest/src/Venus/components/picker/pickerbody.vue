@@ -22,18 +22,15 @@
 .prev-2 {
   color: #777;
   transform: rotateX(-50deg);
-  
 }
 .prev-3 {
   color: #666;
   transform: rotateX(-75deg);
-  
 }
 .prev-4 {
   font-size: 35px;
   color: #555;
   transform: rotateX(-100deg);
-  
 }
 .prev-0 {
   font-size: 38px;
